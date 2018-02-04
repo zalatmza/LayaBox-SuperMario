@@ -4,6 +4,9 @@
 import 'src/libs/laya.core.js'
 import 'src/libs/laya.ani.js'
 import 'src/libs/laya.webgl.js'
+
+import { Pipe } from './components/block/index'
+
 // 程序入口
 class GameMain {
   constructor () {
@@ -12,7 +15,8 @@ class GameMain {
     txt.color = '#fff'
     txt.text = 'test Text Text Text Text'
     txt.fontSize = 20
+    new Pipe(1,1,2)
     Laya.stage.addChild(txt)
   }
 }
-export default new GameMain()
+new GameMain()
