@@ -1,0 +1,27 @@
+# Mac.
+.DS_Store
+
+# Node modules.
+node_modules/
+
+# Dist.
+dist/
+
+# Testfile.
+test/unit/coverage
+test/e2e/reports
+.coverage-report/
+
+# Debug log.
+npm-debug.log
+selenium-debug.log
+
+# IDEs.
+.idea/
+.vscode/
+
+# Cache-Loader.
+.cache-loader/
+
+# laya
+.laya

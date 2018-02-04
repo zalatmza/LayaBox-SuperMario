@@ -1,0 +1,37 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "jsRules": {},
+  "rules": {
+    "arrow-parens": false,
+    "array-type": false,
+    "comment-format": [true, "check-space"],
+    "completed-docs": [false, "classes", "functions", "enums", "interfaces", "namespaces"],
+    "member-access": false,
+    "member-ordering": false,
+    "no-angle-bracket-type-assertion": false,
+    "no-console": false,
+    "no-shadowed-variable": false,
+    "no-string-literal": false,
+    "no-unused-expression": [true, "allow-fast-null-checks"],
+    "object-literal-sort-keys": false,
+    "object-literal-key-quotes": false,
+    "only-arrow-functions": false,
+    "ordered-imports": false,
+    "radix": false,
+    "quotemark": [true, "single"],
+    "semicolon": [true, "never"],
+    "space-before-function-paren": true,
+    "whitespace": [true, "check-module"],
+    "trailing-comma": false,
+    "variable-name": false
+  },
+  "rulesDirectory": [],
+  "linterOptions": {
+    "exclude": [
+      "**/*.d.ts"
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+html
+  head
+    meta(charset="utf-8")
+    title #{APPNAME}
+    //- 当未开启注入模式时, 将在此引入 CSS 文件.
+    if !INJECT
+      each css in htmlWebpackPlugin.files.css
+        link(href=css, rel="stylesheet")
+
+  body
+    //- 当未开启注入模式时，在此引入 JS 文件.
+    if !INJECT
+      div.script-requirement
+        each chunk in htmlWebpackPlugin.files.chunks
+          script(src=chunk.entry)
