@@ -1,14 +1,15 @@
 /**
  * Created by wconisan on 2018/2/1.
  */
-import 'src/libs/laya.core.js'
-// import 'src/libs/laya.ani.js'
-import 'src/libs/laya.webgl.js'
-
+import Player from './enginer/object/player'
+// 桢率
+const FPS = 60
 // 程序入口
 class GameMain {
   constructor () {
-    Laya.init(600, 400)
+    Laya.init(1000, 600)
+    const player = new Player(150, 100, 50, 50, '#FFF')
+    Laya.stage.addChild(player)
   }
 }
 new GameMain()

@@ -11,5 +11,6 @@ html
     //- 当未开启注入模式时，在此引入 JS 文件.
     if !INJECT
       div.script-requirement
+        script(src="/static/laya.core.min.js")
         each chunk in htmlWebpackPlugin.files.chunks
           script(src=chunk.entry)
