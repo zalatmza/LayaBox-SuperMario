@@ -3,11 +3,15 @@
  */
 import Base from './base'
 import render from '../render'
+import { stageSize } from '../../enginer/const'
+
 const key = {
   left: 37,
   up: 38,
   right: 39
 }
+
+const floorLevel = 400
 
 export default class Player extends Base {
   // 移动方向1 往右， -1 往左
@@ -17,9 +21,9 @@ export default class Player extends Base {
   // 跳跃中
   private jumping: boolean = false
   // 跳跃速度 = 下落速度
-  private speedY: number = -100
+  private speedY: number = -33
   // 重力加速度
-  private acce: number = 10
+  private acce: number = 2
   // 当前帧
   private currentFrameIndex: number = 0
 
@@ -49,17 +53,31 @@ export default class Player extends Base {
       this.jumping = true
     }
 
+    if (this.jumping) {
+      const newSpeedY = this.speedY + this.acce
+      this.y = Math.round(this.y + (this.speedY + newSpeedY)/2)
+      this.speedY = newSpeedY
+      // floor需要加入碰撞检测
+      this.y = Math.max(0 ,Math.min(this.y, floorLevel))
+      if (this.y === floorLevel) {
+        this.jumping = false
+        this.speedY = -33
+      }
+    }
+
     if (left && right || !left && !right) {
       this.initAction()
     } else if (right) {
       this.graphics.clear()
       this.x += this.speedX
+      this.x = Math.min(this.x, stageSize.width / 2)
       this.runDir = 1
       this.loadImage(this.rightFrameList[this.currentFrameIndex % this.rightFrameList.length])
       this.currentFrameIndex ++
     } else if (left) {
       this.graphics.clear()
       this.x -= this.speedX
+      this.x = Math.max(this.x, 0)
       this.runDir = -1
       this.loadImage(this.leftFrameList[this.currentFrameIndex % this.leftFrameList.length])
       this.currentFrameIndex ++
@@ -73,9 +91,7 @@ export default class Player extends Base {
     })
 
     document.addEventListener('keyup', e => {
-      if (e.keyCode === key.left || e.keyCode === key.right) {
-        this.keyState[e.keyCode] = false
-      }
+      this.keyState[e.keyCode] = false
       this.currentFrameIndex = 0
       this.initAction()
     })
