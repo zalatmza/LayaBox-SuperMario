@@ -8,7 +8,7 @@ const FPS = 60
 class GameMain {
   constructor () {
     Laya.init(1000, 600)
-    const player = new Player(150, 100, 50, 50, '#FFF')
+    const player = new Player(150, 400)
     Laya.stage.addChild(player)
   }
 }

@@ -10,16 +10,16 @@ class Block extends Base {
 }
 // 水管
 export class Pipe extends Block {
-  constructor (x, y, w, h, img) {
-    super(x, y, w, h, img)
+  constructor (x, y, w, h) {
+    super(x, y, w, h, require(''))
     console.log('这是个水管')
   }
 }
 
 // 地板
 export class Floor extends Block {
-  constructor (x, y, w, h, img) {
-    super(x, y, w, h, img)
+  constructor (x, y, w, h) {
+    super(x, y, w, h, require(''))
     console.log('这是个土块')
   }
 }

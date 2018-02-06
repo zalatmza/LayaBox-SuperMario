@@ -12,5 +12,6 @@ export default abstract class Base extends Laya.Sprite {
     this.width = w
     this.height = h
     this.img = img
+    // this.loadImage(img)
   }
 }
