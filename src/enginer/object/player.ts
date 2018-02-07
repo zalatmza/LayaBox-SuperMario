@@ -2,8 +2,8 @@
  * Created by wconisan on 2018/2/5.
  */
 import Base from './base'
-import render from '../render'
-import { stageSize } from '../../enginer/const'
+import { stageSize, gameSize } from '../../enginer/const'
+import { render } from '../render'
 
 const key = {
   left: 37,
@@ -11,9 +11,16 @@ const key = {
   right: 39
 }
 
+const imgSize = {
+  width: 50,
+  height: 30
+}
+
 const floorLevel = 400
 
 export default class Player extends Base {
+  // 相对舞台的位置
+  private stageX: number = stageSize.width
   // 移动方向1 往右， -1 往左
   private runDir: 1 | -1 = 1
   // 移动速度
@@ -44,7 +51,7 @@ export default class Player extends Base {
   private keyState = Object.create(null)
 
   // 每帧动作
-  private action (): void {
+  public action (): void {
     const left: boolean = this.keyState[key.left]
     const right: boolean = this.keyState[key.right]
     const up: boolean = this.keyState[key.up]
@@ -69,8 +76,16 @@ export default class Player extends Base {
       this.initAction()
     } else if (right) {
       this.graphics.clear()
-      this.x += this.speedX
-      this.x = Math.min(this.x, stageSize.width / 2)
+
+      if (this.stageX >= gameSize.width - stageSize.width / 2) {
+        this.stageX = Math.min(this.stageX, gameSize.width - stageSize.width / 2)
+        this.x = Math.min(this.x + this.speedX, stageSize.width - imgSize.width)
+      } else {
+        this.x = Math.min(this.x + this.speedX, stageSize.width / 2)
+        if (this.x === stageSize.width / 2) {
+          this.stageX += this.speedX
+        }
+      }
       this.runDir = 1
       this.loadImage(this.rightFrameList[this.currentFrameIndex % this.rightFrameList.length])
       this.currentFrameIndex ++
@@ -82,6 +97,7 @@ export default class Player extends Base {
       this.loadImage(this.leftFrameList[this.currentFrameIndex % this.leftFrameList.length])
       this.currentFrameIndex ++
     }
+    render(this.stageX)
   }
 
   // 初始化键盘事件
@@ -89,7 +105,6 @@ export default class Player extends Base {
     document.addEventListener('keydown', e => {
       this.keyState[e.keyCode] = true
     })
-
     document.addEventListener('keyup', e => {
       this.keyState[e.keyCode] = false
       this.currentFrameIndex = 0
@@ -108,9 +123,8 @@ export default class Player extends Base {
   }
 
   constructor (x, y) {
-    super(x, y, 50, 30, require('./assets/player0.png'))
+    super(x, y, imgSize.width, imgSize.height, require('./assets/player0.png'))
     this.loadImage(this.rightFrameList[3])
     this.initEvent()
-    render(1, this, this.action)
   }
 }

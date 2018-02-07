@@ -1,14 +1,22 @@
 /**
  * Created by wconisan on 2018/2/6.
  */
-abstract class Bgbase extends Laya.Sprite {
+import { stageSize } from '../const'
+
+export abstract class Bgbase extends Laya.Sprite {
+  private img
+  public preX: number = stageSize.width
   constructor (x, y, w, h, img) {
     super()
     this.x = x
     this.y = y
     this.width = w
     this.height = h
-    this.loadImage(img)
+    this.img = img
+    this.visible = false
+  }
+  public loadBg () {
+    this.loadImage(this.img)
   }
 }
 
