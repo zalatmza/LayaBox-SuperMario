@@ -1,7 +1,6 @@
 /**
  * Created by wconisan on 2018/2/5.
  */
-import { BStar } from '../background'
 import { Floor } from '../object/block'
 import { blockSize } from '../const'
 // 背景
@@ -15,15 +14,7 @@ function generateBgRenderList () {
     new Floor(blockSize.floorSize.width * 6, 460),
     new Floor(blockSize.floorSize.width * 7, 460),
     new Floor(blockSize.floorSize.width * 8, 460),
-    new Floor(blockSize.floorSize.width * 9, 460),
-    new BStar(100,100),
-    new BStar(500,200),
-    new BStar(1200,100),
-    new BStar(1400,200),
-    new BStar(2000,100),
-    new BStar(2600,200),
-    new BStar(2700,100),
-    new BStar(3000,200)
+    new Floor(blockSize.floorSize.width * 9, 460)
   ]
 }
 

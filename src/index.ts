@@ -4,7 +4,7 @@
 import { Background } from './enginer/background'
 import Player from './enginer/object/player'
 import { stageSize } from './enginer/const'
-import { preRender } from './enginer/render'
+import { preRender, render } from './enginer/render'
 
 // 桢率
 const FPS = 60
@@ -33,11 +33,11 @@ class GameMain {
   }
   // 游戏主循环
   private onLoop () {
-    this.player.action()
-    this.background.x -= 10
-    if (this.background.x <= -4000) {
-      this.background.x = -4000
-    }
+    render(this.player.getStageX())
+    // this.background.x -= 10
+    // if (this.background.x <= -4000) {
+    //   this.background.x = -4000
+    // }
   }
 }
 // 启动游戏

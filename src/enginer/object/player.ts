@@ -3,7 +3,6 @@
  */
 import Base from './base'
 import { stageSize, gameSize, playerSize } from '../../enginer/const'
-import { render } from '../render'
 
 const key = {
   left: Laya.Keyboard.LEFT,
@@ -33,7 +32,7 @@ export default class Player extends Base {
   private keyState = Object.create(null)
 
   // 每帧动作
-  public action (): void {
+  public getStageX (): number {
     const left: boolean = this.keyState[key.left]
     const right: boolean = this.keyState[key.right]
     const up: boolean = this.keyState[key.up]
@@ -78,7 +77,7 @@ export default class Player extends Base {
         this.playAnimation('moveLeft')
       }
     }
-    render(this.stageX)
+    return this.stageX
   }
 
   // 初始化键盘事件
