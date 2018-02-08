@@ -1,27 +1,19 @@
 /**
  * Created by wconisan on 2018/2/6.
+ * Modified by Harry on 2018/2/8.
  */
-import { stageSize } from '../const'
+import { stageSize, gameSize } from '../const'
 
-export abstract class Bgbase extends Laya.Sprite {
-  private img
-  public preX: number = stageSize.width
-  constructor (x, y, w, h, img) {
+export class Background extends Laya.Sprite {
+  private skySrc: string = '../../../static/res/bg_sky.png'
+  constructor () {
     super()
-    this.x = x
-    this.y = y
-    this.width = w
-    this.height = h
-    this.img = img
-    this.visible = false
+    this.init()
   }
-  public loadBg () {
-    this.loadImage(this.img)
+  init (): void {
+    Laya.loader.load(this.skySrc, Laya.Handler.create(this, this.fillBackground))
   }
-}
-
-export class BStar extends Bgbase {
-  constructor (x, y) {
-    super (x, y, 128, 128, require('./assets/star.png'))
+  fillBackground (): void {
+    this.graphics.drawTexture(Laya.loader.getRes(this.skySrc), 0, 0, gameSize.width, gameSize.height)
   }
 }
