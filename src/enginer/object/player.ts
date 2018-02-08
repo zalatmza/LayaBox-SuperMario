@@ -6,9 +6,9 @@ import { stageSize, gameSize } from '../../enginer/const'
 import { render } from '../render'
 
 const key = {
-  left: 37,
-  up: 38,
-  right: 39
+  left: Laya.Keyboard.LEFT,
+  up: Laya.Keyboard.UP,
+  right: Laya.Keyboard.RIGHT
 }
 
 const imgSize = {
@@ -19,6 +19,8 @@ const imgSize = {
 const floorLevel = 400
 
 export default class Player extends Base {
+  //
+  private body: Laya.Animation
   // 相对舞台的位置
   private stageX: number = stageSize.width
   // 移动方向1 往右， -1 往左
@@ -32,7 +34,7 @@ export default class Player extends Base {
   // 重力加速度
   private acce: number = 2
   // 当前帧
-  private currentFrameIndex: number = 0
+  // private currentFrameIndex: number = 0
 
   private rightFrameList = [
     require('./assets/player1.png'),
@@ -87,15 +89,17 @@ export default class Player extends Base {
         }
       }
       this.runDir = 1
-      this.loadImage(this.rightFrameList[this.currentFrameIndex % this.rightFrameList.length])
-      this.currentFrameIndex ++
+      this.playAnimation('moveRight')
+      // this.loadImage(this.rightFrameList[this.currentFrameIndex % this.rightFrameList.length])
+      // this.currentFrameIndex ++
     } else if (left) {
       this.graphics.clear()
       this.x -= this.speedX
       this.x = Math.max(this.x, 0)
       this.runDir = -1
-      this.loadImage(this.leftFrameList[this.currentFrameIndex % this.leftFrameList.length])
-      this.currentFrameIndex ++
+      this.playAnimation('moveLeft')
+      // this.loadImage(this.leftFrameList[this.currentFrameIndex % this.leftFrameList.length])
+      // this.currentFrameIndex ++
     }
     render(this.stageX)
   }
@@ -107,13 +111,15 @@ export default class Player extends Base {
     })
     document.addEventListener('keyup', e => {
       this.keyState[e.keyCode] = false
-      this.currentFrameIndex = 0
+      // this.body.clear()
+      // this.currentFrameIndex = 0
       this.initAction()
     })
   }
 
   // 初始化角色动作
   private initAction (): void {
+    this.body.stop()
     this.graphics.clear()
     if (this.runDir === 1) {
       this.loadImage(this.rightFrameList[3])
@@ -122,9 +128,23 @@ export default class Player extends Base {
     }
   }
 
+  private initAnimation (): void {
+    Laya.Animation.createFrames(['player/player0.png', 'player/player1.png', 'player/player2.png'], 'moveRight')
+    Laya.Animation.createFrames(['player/player3.png', 'player/player4.png', 'player/player5.png'], 'moveLeft')
+    this.body = new Laya.Animation()
+    this.addChild(this.body)
+  }
+
+  private playAnimation (actionName) {
+    this.graphics.clear()
+    this.body.play(0, true, actionName)
+    this.body.pos(0, 0)
+  }
+
   constructor (x, y) {
     super(x, y, imgSize.width, imgSize.height, require('./assets/player0.png'))
     this.loadImage(this.rightFrameList[3])
+    this.initAnimation()
     this.initEvent()
   }
 }

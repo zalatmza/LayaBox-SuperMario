@@ -2,7 +2,6 @@
  * Created by wconisan on 2018/2/5.
  */
 import { BStar, Bgbase } from '../background'
-import { stageSize } from '../../enginer/const'
 
 function generateRenderList () {
   return [

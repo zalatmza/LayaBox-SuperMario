@@ -10,8 +10,3 @@ export const gameSize = {
   width: 3500,
   height: stageSize.height
 }
-
-export const renderSize = {
-  width: stageSize.width * 2,
-  height: stageSize.height
-}
