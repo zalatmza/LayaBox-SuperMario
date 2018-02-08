@@ -8,19 +8,22 @@ import { preRender } from './enginer/render'
 const FPS = 60
 // 程序入口
 class GameMain {
-  private init (): void {
-    const player: Player = new Player(0, 400)
-    Laya.stage.addChild(player)
-    preRender()
-    Laya.timer.frameLoop(1, player, player.action)
-  }
-
+  private player: Player
   constructor () {
     Laya.init(stageSize.width, stageSize.height)
     Laya.loader.load('./static/res/player.json',
-                    Laya.Handler.create(this, this.init),
+                    Laya.Handler.create(this, this.onLoaded),
                     null,
                     Laya.Loader.ATLAS)
+  }
+  private onLoaded (): void {
+    this.player = new Player(0, 400)
+    Laya.stage.addChild(this.player)
+    // preRender()
+    Laya.timer.frameLoop(1, this, this.onLoop)
+  }
+  private onLoop () {
+    this.player.action()
   }
 }
 new GameMain()
