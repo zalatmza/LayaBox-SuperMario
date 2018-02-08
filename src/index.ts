@@ -1,7 +1,7 @@
 /**
  * Created by wconisan on 2018/2/1.
  */
-import { Background } from './enginer/background'
+import Background from './enginer/background'
 import Player from './enginer/object/player'
 import { stageSize } from './enginer/const'
 import { preRender, render } from './enginer/render'
@@ -34,10 +34,10 @@ class GameMain {
   // 游戏主循环
   private onLoop () {
     render(this.player.getStageX())
-    // this.background.x -= 10
-    // if (this.background.x <= -4000) {
-    //   this.background.x = -4000
-    // }
+    this.background.x -= 5
+    if (this.background.x <= -4000) {
+      this.background.x = -4000
+    }
   }
 }
 // 启动游戏
