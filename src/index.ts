@@ -62,9 +62,9 @@ class GameMain {
       this.player.initAction()
     } else if (right) {
       // 在stage中的位置
-      if (this.stageX >= gameSize.width - stageSize.width / 2) {
-        this.stageX = Math.min(this.stageX, gameSize.width - stageSize.width / 2)
-        this.player.x = Math.min(this.player.x + this.player.speedX, stageSize.width - playerSize.width)
+      if (this.stageX >= gameSize.width) {
+        this.stageX = Math.min(this.stageX, gameSize.width)
+        this.player.x = Math.min(this.player.x + this.player.speedX, stageSize.width - this.player.width)
       } else {
         this.player.x = Math.min(this.player.x + this.player.speedX, stageSize.width / 2)
         if (this.player.x === stageSize.width / 2) {
@@ -83,6 +83,7 @@ class GameMain {
         this.player.playAnimation(playerProp.action.left)
       }
     }
+    console.log(this.stageX)
   }
   // 游戏主循环
   private onLoop () {
