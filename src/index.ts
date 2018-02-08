@@ -35,16 +35,30 @@ class GameMain {
 
   private checkCrash () {
     const blockList: Block[] = getBlockRenderList()
+    blockList.forEach(item => {
+      if (item.visible === true) {
+        const { x, y, width, height } = this.player
+        const nextX = x + this.player.runDir * this.player.speedX
+        const nextY = y + this.player.speedY
+        if (nextX + width > item.x ||
+            nextX < item.x + item.width ||
+            nextY + height < item.y ||
+            nextY < item.y + item.height) {
+          return false
+        }
+      }
+    })
   }
 
   private playerMove () {
     const left: boolean = this.player.keyState[key.left]
     const right: boolean = this.player.keyState[key.right]
     const up: boolean = this.player.keyState[key.up]
-
     if (up && !this.player.jumping) {
       this.player.jumping = true
     }
+
+    this.checkCrash()
 
     if (this.player.jumping) {
       const newSpeedY = this.player.speedY + this.player.acce
@@ -83,7 +97,6 @@ class GameMain {
         this.player.playAnimation(playerProp.action.left)
       }
     }
-    console.log(this.stageX)
   }
   // 游戏主循环
   private onLoop () {
