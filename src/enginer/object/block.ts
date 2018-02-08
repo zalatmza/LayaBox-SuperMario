@@ -5,18 +5,23 @@ import Base from './base'
 import { stageSize, blockSize } from '../const'
 
 // 障碍物基类
-class Block extends Base {
+export abstract class Block extends Base {
   public preX: number = stageSize.width
   constructor (x, y, w, h) {
     super(x, y, w, h)
     this.visible = false
   }
+  abstract loadBg (): void
 }
 // 水管
 export class Pipe extends Block {
-  constructor (x, y, w, h) {
-    super(x, y, w, h)
-    console.log('这是个水管')
+  private h: number
+  constructor (x, y, h) {
+    super(x, y, blockSize.pipeSize.width, h)
+    this.h = h
+  }
+  public loadBg () {
+    this.graphics.drawRect(0, 0, blockSize.pipeSize.width, this.h, '#DDD')
   }
 }
 
@@ -24,7 +29,6 @@ export class Pipe extends Block {
 export class Floor extends Block {
   constructor (x, y) {
     super(x, y, blockSize.floorSize.width, blockSize.floorSize.height)
-    console.log('这是个土块')
   }
   public loadBg () {
     this.graphics.drawRect(0, 0, blockSize.floorSize.width, blockSize.floorSize.height, '#f00')

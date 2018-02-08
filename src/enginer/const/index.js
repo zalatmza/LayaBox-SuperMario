@@ -20,5 +20,8 @@ export const blockSize = {
   floorSize: {
     width: playerSize.width,
     height: 140
+  },
+  pipeSize: {
+    width: 70
   }
 }

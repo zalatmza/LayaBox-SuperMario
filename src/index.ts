@@ -34,10 +34,6 @@ class GameMain {
   // 游戏主循环
   private onLoop () {
     render(this.player.getStageX())
-    // this.background.x -= 10
-    // if (this.background.x <= -4000) {
-    //   this.background.x = -4000
-    // }
   }
 }
 // 启动游戏

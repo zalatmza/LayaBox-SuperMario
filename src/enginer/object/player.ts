@@ -27,7 +27,6 @@ export default class Player extends Base {
   private speedY: number = -33
   // 重力加速度
   private acce: number = 2
-
   // 键盘事件状态
   private keyState = Object.create(null)
 
@@ -118,6 +117,7 @@ export default class Player extends Base {
 
   constructor (x, y) {
     super(x, y, playerSize.width, playerSize.height)
+    this.zOrder = 11
     this.initAnimation()
     this.loadImage('player/player0.png')
     this.initEvent()
