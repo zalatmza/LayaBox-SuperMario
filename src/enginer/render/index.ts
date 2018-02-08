@@ -21,6 +21,10 @@ function generateBlockRenderList () {
 
 let blockRenderList: Block[] = []
 
+export function getBlockRenderList (): Block[] {
+  return blockRenderList
+}
+
 export function preRender () {
   blockRenderList = generateBlockRenderList()
   blockRenderList.forEach(item => {
