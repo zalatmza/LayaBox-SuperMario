@@ -14900,7 +14900,7 @@ declare module laya.display {
         protected _labels: any;
         protected _isReverse: boolean;
         protected _frameRateChanged: boolean;
-        protected _actionName: string;
+        public _actionName: string;
         /**
          * 可以继承此类，但不要直接实例化此类，因为有些方法需要由子类实现。
          */

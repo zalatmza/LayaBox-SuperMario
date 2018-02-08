@@ -19,7 +19,7 @@ const imgSize = {
 const floorLevel = 400
 
 export default class Player extends Base {
-  //
+  // 身体动画
   private body: Laya.Animation
   // 相对舞台的位置
   private stageX: number = stageSize.width
@@ -33,21 +33,6 @@ export default class Player extends Base {
   private speedY: number = -33
   // 重力加速度
   private acce: number = 2
-  // 当前帧
-  // private currentFrameIndex: number = 0
-
-  private rightFrameList = [
-    require('./assets/player1.png'),
-    require('./assets/player2.png'),
-    require('./assets/player1.png'),
-    require('./assets/player0.png')
-  ]
-  private leftFrameList = [
-    require('./assets/player4.png'),
-    require('./assets/player5.png'),
-    require('./assets/player4.png'),
-    require('./assets/player3.png')
-  ]
 
   // 键盘事件状态
   private keyState = Object.create(null)
@@ -77,8 +62,6 @@ export default class Player extends Base {
     if (left && right || !left && !right) {
       this.initAction()
     } else if (right) {
-      this.graphics.clear()
-
       if (this.stageX >= gameSize.width - stageSize.width / 2) {
         this.stageX = Math.min(this.stageX, gameSize.width - stageSize.width / 2)
         this.x = Math.min(this.x + this.speedX, stageSize.width - imgSize.width)
@@ -89,17 +72,16 @@ export default class Player extends Base {
         }
       }
       this.runDir = 1
-      this.playAnimation('moveRight')
-      // this.loadImage(this.rightFrameList[this.currentFrameIndex % this.rightFrameList.length])
-      // this.currentFrameIndex ++
+      if (!(this.body.isPlaying && this.body._actionName === 'moveRight')) {
+        this.playAnimation('moveRight')
+      }
     } else if (left) {
-      this.graphics.clear()
       this.x -= this.speedX
       this.x = Math.max(this.x, 0)
       this.runDir = -1
-      this.playAnimation('moveLeft')
-      // this.loadImage(this.leftFrameList[this.currentFrameIndex % this.leftFrameList.length])
-      // this.currentFrameIndex ++
+      if (!(this.body.isPlaying && this.body._actionName === 'moveLeft')) {
+        this.playAnimation('moveLeft')
+      }
     }
     render(this.stageX)
   }
@@ -111,20 +93,18 @@ export default class Player extends Base {
     })
     document.addEventListener('keyup', e => {
       this.keyState[e.keyCode] = false
-      // this.body.clear()
-      // this.currentFrameIndex = 0
       this.initAction()
     })
   }
 
   // 初始化角色动作
   private initAction (): void {
-    this.body.stop()
+    this.body.clear()
     this.graphics.clear()
     if (this.runDir === 1) {
-      this.loadImage(this.rightFrameList[3])
+      this.loadImage('player/player0.png')
     } else if (this.runDir === -1) {
-      this.loadImage(this.leftFrameList[3])
+      this.loadImage('player/player3.png')
     }
   }
 
@@ -137,14 +117,15 @@ export default class Player extends Base {
 
   private playAnimation (actionName) {
     this.graphics.clear()
+    this.body.clear()
     this.body.play(0, true, actionName)
     this.body.pos(0, 0)
   }
 
   constructor (x, y) {
-    super(x, y, imgSize.width, imgSize.height, require('./assets/player0.png'))
-    this.loadImage(this.rightFrameList[3])
+    super(x, y, imgSize.width, imgSize.height, 'player/player0.png')
     this.initAnimation()
+    this.loadImage('player/player0.png')
     this.initEvent()
   }
 }
