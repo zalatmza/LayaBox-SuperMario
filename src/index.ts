@@ -3,13 +3,13 @@
  */
 import Background from './enginer/background'
 import Player from './enginer/object/player'
-import { stageSize } from './enginer/const'
+import { stageSize, gameSize, playerSize, playerProp, key } from './enginer/const'
 import { preRender, render } from './enginer/render'
 
-// 桢率
-const FPS = 60
+const floorLevel = 400
 // 程序入口
 class GameMain {
+  private stageX: number = stageSize.width
   // 主角
   private player: Player
   // 背景
@@ -33,10 +33,55 @@ class GameMain {
   }
   // 游戏主循环
   private onLoop () {
-    render(this.player.getStageX())
-    this.background.x -= 5
-    if (this.background.x <= -4000) {
-      this.background.x = -4000
+    this.setStageX()
+    render(this.stageX)
+  }
+
+  private setStageX () {
+    const left: boolean = this.player.keyState[key.left]
+    const right: boolean = this.player.keyState[key.right]
+    const up: boolean = this.player.keyState[key.up]
+
+    if (up && !this.player.jumping) {
+      this.player.jumping = true
+    }
+
+    if (this.player.jumping) {
+      const newSpeedY = this.player.speedY + this.player.acce
+      this.player.y = Math.round(this.player.y + (this.player.speedY + newSpeedY)/2)
+      this.player.speedY = newSpeedY
+      // floor需要加入碰撞检测
+      this.player.y = Math.max(0 ,Math.min(this.player.y, floorLevel))
+      if (this.player.y === floorLevel) {
+        this.player.jumping = false
+        this.player.speedY = playerProp.speedY
+      }
+    }
+
+    if (left && right || !left && !right) {
+      this.player.initAction()
+    } else if (right) {
+      // 在stage中的位置
+      if (this.stageX >= gameSize.width - stageSize.width / 2) {
+        this.stageX = Math.min(this.stageX, gameSize.width - stageSize.width / 2)
+        this.player.x = Math.min(this.player.x + this.player.speedX, stageSize.width - playerSize.width)
+      } else {
+        this.player.x = Math.min(this.player.x + this.player.speedX, stageSize.width / 2)
+        if (this.player.x === stageSize.width / 2) {
+          this.stageX += this.player.speedX
+        }
+      }
+      this.player.runDir = 1
+      if (!(this.player.body.isPlaying && this.player.body._actionName === playerProp.action.right)) {
+        this.player.playAnimation(playerProp.action.right)
+      }
+    } else if (left) {
+      this.player.x -= this.player.speedX
+      this.player.x = Math.max(this.player.x, 0)
+      this.player.runDir = -1
+      if (!(this.player.body.isPlaying && this.player.body._actionName === playerProp.action.left)) {
+        this.player.playAnimation(playerProp.action.left)
+      }
     }
   }
 }
