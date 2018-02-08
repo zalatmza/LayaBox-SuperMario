@@ -1,10 +1,21 @@
 /**
  * Created by wconisan on 2018/2/5.
  */
-import { BStar, Bgbase } from '../background'
-
-function generateRenderList () {
+import { BStar } from '../background'
+import { Floor } from '../object/block'
+import { blockSize } from '../const'
+// 背景
+function generateBgRenderList () {
   return [
+    new Floor(0, 460),
+    new Floor(blockSize.floorSize.width * 1, 460),
+    new Floor(blockSize.floorSize.width * 2, 460),
+    new Floor(blockSize.floorSize.width * 3, 460),
+    new Floor(blockSize.floorSize.width * 5, 460),
+    new Floor(blockSize.floorSize.width * 6, 460),
+    new Floor(blockSize.floorSize.width * 7, 460),
+    new Floor(blockSize.floorSize.width * 8, 460),
+    new Floor(blockSize.floorSize.width * 9, 460),
     new BStar(100,100),
     new BStar(500,200),
     new BStar(1200,100),
@@ -16,10 +27,10 @@ function generateRenderList () {
   ]
 }
 
-let renderList: Bgbase[] = []
+let renderList = []
 
 export function preRender () {
-  renderList = generateRenderList()
+  renderList = generateBgRenderList()
   renderList.forEach(item => {
     Laya.stage.addChild(item)
     item.loadBg()

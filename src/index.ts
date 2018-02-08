@@ -19,7 +19,7 @@ class GameMain {
   private onLoaded (): void {
     this.player = new Player(0, 400)
     Laya.stage.addChild(this.player)
-    // preRender()
+    preRender()
     Laya.timer.frameLoop(1, this, this.onLoop)
   }
   private onLoop () {

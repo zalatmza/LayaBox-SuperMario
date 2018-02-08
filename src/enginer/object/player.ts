@@ -2,18 +2,13 @@
  * Created by wconisan on 2018/2/5.
  */
 import Base from './base'
-import { stageSize, gameSize } from '../../enginer/const'
+import { stageSize, gameSize, playerSize } from '../../enginer/const'
 import { render } from '../render'
 
 const key = {
   left: Laya.Keyboard.LEFT,
   up: Laya.Keyboard.UP,
   right: Laya.Keyboard.RIGHT
-}
-
-const imgSize = {
-  width: 50,
-  height: 30
 }
 
 const floorLevel = 400
@@ -64,7 +59,7 @@ export default class Player extends Base {
     } else if (right) {
       if (this.stageX >= gameSize.width - stageSize.width / 2) {
         this.stageX = Math.min(this.stageX, gameSize.width - stageSize.width / 2)
-        this.x = Math.min(this.x + this.speedX, stageSize.width - imgSize.width)
+        this.x = Math.min(this.x + this.speedX, stageSize.width - playerSize.width)
       } else {
         this.x = Math.min(this.x + this.speedX, stageSize.width / 2)
         if (this.x === stageSize.width / 2) {
@@ -123,7 +118,7 @@ export default class Player extends Base {
   }
 
   constructor (x, y) {
-    super(x, y, imgSize.width, imgSize.height, 'player/player0.png')
+    super(x, y, playerSize.width, playerSize.height)
     this.initAnimation()
     this.loadImage('player/player0.png')
     this.initEvent()
