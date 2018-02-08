@@ -1,7 +1,7 @@
 /**
  * Created by wconisan on 2018/2/1.
  */
-import { Background } from './enginer/background'
+import Background from './enginer/background'
 import Player from './enginer/object/player'
 import { stageSize, gameSize, playerSize, playerProp, key } from './enginer/const'
 import { preRender, render, getBlockRenderList } from './enginer/render'
