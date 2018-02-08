@@ -6,7 +6,7 @@ import { gameSize } from '../const'
 
 export default class Background extends Laya.Sprite {
   private gradient
-  private imgSrc: Array<string> = ['../../../static/res/mountain_1.png', '../../../static/res/mountain_2.png']
+  private imgSrc: Array<string> = ['../../../static/res/background1.png']
   constructor () {
     super()
     this.init()
@@ -25,15 +25,15 @@ export default class Background extends Laya.Sprite {
     for (let i = 0; i < this.imgSrc.length; i++) {
       let loaded = null
       if (i === this.imgSrc.length - 1) {
-        loaded = Laya.Handler.create(this, this.fillMountain)
+        loaded = Laya.Handler.create(this, this.fillBackground)
       }
       Laya.loader.load(this.imgSrc[i], loaded)
     }
   }
-  fillMountain (): void {
+  fillBackground (): void {
     // 绘制山脉
     for (const img of this.imgSrc) {
-      this.graphics.fillTexture(Laya.loader.getRes(img), 0, 370, gameSize.width, 96)
+      this.graphics.fillTexture(Laya.loader.getRes(img), 0, 0, gameSize.width, 600)
     }
   }
 }

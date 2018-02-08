@@ -87,7 +87,7 @@ class GameMain {
   // 游戏主循环
   private onLoop () {
     // 获取舞台相对于背景的x坐标
-    this.playerMove()   
+    this.playerMove()
     // 背景移动
     this.background.x = -(this.stageX - stageSize.width)
     render(this.stageX)

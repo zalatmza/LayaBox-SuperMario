@@ -34,8 +34,8 @@ export const playerSize = {
 // 障碍物尺寸
 export const blockSize = {
   floorSize: {
-    width: playerSize.width,
-    height: 140
+    width: 60,
+    height: 60
   },
   pipeSize: {
     width: 70
