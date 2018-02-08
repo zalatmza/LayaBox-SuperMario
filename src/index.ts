@@ -4,7 +4,8 @@
 import { Background } from './enginer/background'
 import Player from './enginer/object/player'
 import { stageSize, gameSize, playerSize, playerProp, key } from './enginer/const'
-import { preRender, render } from './enginer/render'
+import { preRender, render, getBlockRenderList } from './enginer/render'
+import { Block } from './enginer/object/block'
 
 const floorLevel = 400
 // 程序入口
@@ -31,13 +32,12 @@ class GameMain {
     preRender()
     Laya.timer.frameLoop(1, this, this.onLoop)
   }
-  // 游戏主循环
-  private onLoop () {
-    this.setStageX()
-    render(this.stageX)
+
+  private checkCrash () {
+    const blockList: Block[] = getBlockRenderList()
   }
 
-  private setStageX () {
+  private playerMove () {
     const left: boolean = this.player.keyState[key.left]
     const right: boolean = this.player.keyState[key.right]
     const up: boolean = this.player.keyState[key.up]
@@ -83,6 +83,11 @@ class GameMain {
         this.player.playAnimation(playerProp.action.left)
       }
     }
+  }
+  // 游戏主循环
+  private onLoop () {
+    this.playerMove()
+    render(this.stageX)
   }
 }
 // 启动游戏
