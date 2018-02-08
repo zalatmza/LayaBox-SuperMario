@@ -68,7 +68,7 @@ class GameMain {
       } else {
         this.player.x = Math.min(this.player.x + this.player.speedX, stageSize.width / 2)
         if (this.player.x === stageSize.width / 2) {
-          this.stageX += this.player.speedX
+          this.stageX = Math.min(this.stageX + this.player.speedX, gameSize.width)
         }
       }
       this.player.runDir = 1
@@ -88,7 +88,7 @@ class GameMain {
   // 游戏主循环
   private onLoop () {
     // 获取舞台相对于背景的x坐标
-    this.playerMove()   
+    this.playerMove()
     // 背景移动
     this.background.x = -(this.stageX - stageSize.width)
     render(this.stageX)
