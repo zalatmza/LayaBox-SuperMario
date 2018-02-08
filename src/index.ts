@@ -35,16 +35,30 @@ class GameMain {
 
   private checkCrash () {
     const blockList: Block[] = getBlockRenderList()
+    blockList.forEach(item => {
+      if (item.visible === true) {
+        const { x, y, width, height } = this.player
+        const nextX = x + this.player.runDir * this.player.speedX
+        const nextY = y + this.player.speedY
+        if (nextX + width > item.x ||
+            nextX < item.x + item.width ||
+            nextY + height < item.y ||
+            nextY < item.y + item.height) {
+          return false
+        }
+      }
+    })
   }
 
   private playerMove () {
     const left: boolean = this.player.keyState[key.left]
     const right: boolean = this.player.keyState[key.right]
     const up: boolean = this.player.keyState[key.up]
-
     if (up && !this.player.jumping) {
       this.player.jumping = true
     }
+
+    this.checkCrash()
 
     if (this.player.jumping) {
       const newSpeedY = this.player.speedY + this.player.acce
@@ -62,13 +76,13 @@ class GameMain {
       this.player.initAction()
     } else if (right) {
       // 在stage中的位置
-      if (this.stageX >= gameSize.width - stageSize.width / 2) {
-        this.stageX = Math.min(this.stageX, gameSize.width - stageSize.width / 2)
-        this.player.x = Math.min(this.player.x + this.player.speedX, stageSize.width - playerSize.width)
+      if (this.stageX >= gameSize.width) {
+        this.stageX = Math.min(this.stageX, gameSize.width)
+        this.player.x = Math.min(this.player.x + this.player.speedX, stageSize.width - this.player.width)
       } else {
         this.player.x = Math.min(this.player.x + this.player.speedX, stageSize.width / 2)
         if (this.player.x === stageSize.width / 2) {
-          this.stageX += this.player.speedX
+          this.stageX = Math.min(this.stageX + this.player.speedX, gameSize.width)
         }
       }
       this.player.runDir = 1

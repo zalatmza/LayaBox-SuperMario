@@ -7,7 +7,7 @@ export const stageSize = {
 }
 
 export const gameSize = {
-  width: 5000,
+  width: 3500,
   height: stageSize.height
 }
 
