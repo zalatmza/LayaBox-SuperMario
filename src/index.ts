@@ -4,7 +4,8 @@
 import Background from './enginer/background'
 import Player from './enginer/object/player'
 import { stageSize, gameSize, playerSize, playerProp, key } from './enginer/const'
-import { preRender, render, getBlockRenderList } from './enginer/render'
+import { render } from './enginer/render'
+import { initGameContent } from './enginer/game-setting'
 import { Block } from './enginer/object/block'
 
 const floorLevel = 400
@@ -15,6 +16,8 @@ class GameMain {
   private player: Player
   // 背景
   private background: Background
+  // 其他碰撞体
+  private blockRenderList: Block[]
   // 游戏入口类构造函数
   constructor () {
     Laya.init(stageSize.width, stageSize.height)
@@ -29,13 +32,12 @@ class GameMain {
     Laya.stage.addChild(this.background)
     this.player = new Player(0, 400)
     Laya.stage.addChild(this.player)
-    preRender()
+    this.blockRenderList = initGameContent()
     Laya.timer.frameLoop(1, this, this.onLoop)
   }
-
+  // 碰撞检测
   private checkCrash () {
-    const blockList: Block[] = getBlockRenderList()
-    blockList.forEach(item => {
+    this.blockRenderList.forEach(item => {
       if (item.visible === true) {
         const { x, y, width, height } = this.player
         const nextX = x + this.player.runDir * this.player.speedX
@@ -100,11 +102,19 @@ class GameMain {
   }
   // 游戏主循环
   private onLoop () {
+    const preStageX = this.stageX
     // 获取舞台相对于背景的x坐标
     this.playerMove()
+    // 获取x方向位移
+    const xOffset = this.stageX - preStageX
     // 背景移动
-    this.background.x = -(this.stageX - stageSize.width)
-    render(this.stageX)
+    if (xOffset > 0) {
+      this.background.x -= xOffset
+    }
+    // 处理其他碰撞体的渲染
+    this.blockRenderList.forEach((item, index) => {
+      render(item, xOffset, this.stageX)
+    })  
   }
 }
 // 启动游戏
