@@ -38,13 +38,26 @@ class GameMain {
     blockList.forEach(item => {
       if (item.visible === true) {
         const { x, y, width, height } = this.player
-        const nextX = x + this.player.runDir * this.player.speedX
-        const nextY = y + this.player.speedY
-        if (nextX + width > item.x ||
-            nextX < item.x + item.width ||
-            nextY + height < item.y ||
-            nextY < item.y + item.height) {
-          return false
+        const nextX: number = x + this.player.runDir * this.player.speedX
+        const nextY: number = y + this.player.speedY
+        // 下一帧y轴是否碰到
+        const nextCrashY = nextY + height > item. y || nextY < item.y + item.height
+        // 当前帧y轴是否碰到
+        const currentCrashY = y + height > item. y || y < item.y + item.height
+        // 下一帧x轴是否碰到
+        const nextCrashX = nextX + width > item.x || nextX < item.x + item.width
+        // 当前帧y轴是否碰到
+        const currentCrashX = x + width > item.x || x < item.x + item.width
+        // y上是否碰撞
+        const top = y + height < item.y && nextY + height > item.y
+        // y下是否碰撞
+        const down = y > item.y + item.height && nextY < item.y + item.height
+        const left = x + width < item.x && nextX + width > item.x
+        const right = x > item.x + item.width && nextX < item.x + item.width
+        if (left && !nextCrashY) {
+          this.player.x =  item.x - width
+        } else if (right && !nextCrashY) {
+          this.player.x =  item.x + item.width
         }
       }
     })
@@ -57,8 +70,6 @@ class GameMain {
     if (up && !this.player.jumping) {
       this.player.jumping = true
     }
-
-    this.checkCrash()
 
     if (this.player.jumping) {
       const newSpeedY = this.player.speedY + this.player.acce
@@ -78,8 +89,12 @@ class GameMain {
       // 在stage中的位置
       if (this.stageX >= gameSize.width) {
         this.stageX = Math.min(this.stageX, gameSize.width)
+        // this.checkCrash()
         this.player.x = Math.min(this.player.x + this.player.speedX, stageSize.width - this.player.width)
+        this.player.x = Math.min(this.player.x, stageSize.width - this.player.width)
       } else {
+        // this.checkCrash()
+        // this.player.x = Math.min(this.player.x, stageSize.width / 2)
         this.player.x = Math.min(this.player.x + this.player.speedX, stageSize.width / 2)
         if (this.player.x === stageSize.width / 2) {
           this.stageX = Math.min(this.stageX + this.player.speedX, gameSize.width)
@@ -91,6 +106,7 @@ class GameMain {
       }
     } else if (left) {
       this.player.x -= this.player.speedX
+      // this.checkCrash()
       this.player.x = Math.max(this.player.x, 0)
       this.player.runDir = -1
       if (!(this.player.body.isPlaying && this.player.body._actionName === playerProp.action.left)) {
