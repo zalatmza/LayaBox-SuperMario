@@ -1,7 +1,6 @@
 /**
  * Created by wconisan on 2018/2/5.
  */
-import { Floor, Block } from '../object/block'
 import { blockSize, stageSize } from '../const'
 
 export function render (item, xOffset, stageX) {

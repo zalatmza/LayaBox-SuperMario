@@ -1,11 +1,18 @@
-import { Floor, Block } from '../object/block'
+/**
+ * Created by Harry on 2018/2/9.
+ */
+import { Floor } from '../object/block'
 import { blockSize, gameSize } from '../const'
 
 function initFloorArray (): Array<Floor> {
   const fnum = Math.floor(gameSize.width / blockSize.floorSize.width) + 1
   const fArray = []
   for (let i = 0; i < fnum; i++) {
-    fArray.push(new Floor(blockSize.floorSize.width * i, 460))
+    if (i === 5) {
+      fArray.push(new Floor(blockSize.floorSize.width * i, 300))
+    } else {
+      fArray.push(new Floor(blockSize.floorSize.width * i, 460))
+    }
   }
   return fArray
 }

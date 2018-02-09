@@ -38,7 +38,7 @@ export class Floor extends Block {
     // 加载并显示图
     this.ftop.loadImage('../../../static/res/land2.png')
     this.ftop.pos(0, 0)
-    // 把背景图显示在容器内
+    // 把图显示在容器内
     this.addChild(this.ftop)
     // 创建土地内部
     this.fbody = new Laya.Sprite()
