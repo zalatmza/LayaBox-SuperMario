@@ -69,7 +69,7 @@ class GameMain {
               break
             case 2:
               console.log('down')
-              // this.player.crashHandle(crashDir.down, item)
+              this.player.crashHandle(crashDir.down, item)
               break
             case 3:
               console.log('right')

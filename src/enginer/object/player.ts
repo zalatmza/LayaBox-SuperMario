@@ -57,7 +57,12 @@ export default class Player extends Base {
   }
 
   private crashDown (item) {
-    this.y = item.y - this.height
+    const newHeight = item.y - this.height
+    this.y = Math.max(0, Math.min(this.y, newHeight))
+    if (this.y === newHeight) {
+      this.jumping = false
+      this.speedY = playerProp.speedY
+    }
   }
 
   private crashUp (item) {
@@ -77,11 +82,11 @@ export default class Player extends Base {
       this.y = Math.round(this.y + (this.speedY + newSpeedY)/2)
       this.speedY = newSpeedY
       // floor需要加入碰撞检测
-      this.y = Math.max(0, Math.min(this.y, floorLevel))
-      if (this.y === floorLevel) {
-        this.jumping = false
-        this.speedY = playerProp.speedY
-      }
+      // this.y = Math.max(0, Math.min(this.y, floorLevel))
+      // if (this.y === floorLevel) {
+      //   this.jumping = false
+      //   this.speedY = playerProp.speedY
+      // }
     }
 
     if (left && right || !left && !right) {
