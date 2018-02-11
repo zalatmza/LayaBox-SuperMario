@@ -13,7 +13,7 @@ export default class Player extends Base {
   public speedX: number = playerProp.speedX
   // 跳跃中
   public jumping: boolean = false
-  // 跳跃速度 = 下落速度
+  // 跳跃速度
   public speedY: number = playerProp.speedY
   // 重力加速度
   public acce: number = playerProp.acce
