@@ -68,7 +68,6 @@ class GameMain {
               break
             case 0:
               this.player.crashHandle(crashDir.right, item)
-              bgXOffset = 0
               break
           }
         }
