@@ -88,7 +88,7 @@ export default class Player extends Base {
     if (this.y >= stageSize.height) {
       console.log('gameover')
     }
-    if (this.speedX !== 0) {
+    if (this.speedY !== 0) {
       this.jumping = true
     }
 
