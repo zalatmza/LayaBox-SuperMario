@@ -9,9 +9,6 @@ import { initGameContent } from './enginer/game-setting'
 import { collisionCheck } from './enginer/common/utils'
 import { render } from './enginer/render'
 import { Block } from './enginer/object/block'
-import { checkCrash } from './enginer/utils'
-
-const floorLevel = 400
 
 // 程序入口
 class GameMain {
@@ -60,11 +57,11 @@ class GameMain {
           const cType = collisionCheck(this.player, item)
           switch (cType) {
             case 3:
-              console.log('down')
+              // console.log('down')
               this.player.crashHandle(crashDir.down, item)
               break
             case 2:
-              console.log('top')
+              this.player.crashHandle(crashDir.up, item)
               break
             case 1:
               console.log('left', index)

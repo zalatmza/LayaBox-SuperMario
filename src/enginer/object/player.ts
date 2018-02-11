@@ -66,7 +66,9 @@ export default class Player extends Base {
   }
 
   private crashUp (item) {
-    console.log('up')
+    console.log(111)
+    this.y = item.y + item.height
+    this.speedY = 0
   }
 
   public playerMove () {
