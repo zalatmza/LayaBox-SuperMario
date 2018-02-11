@@ -29,19 +29,34 @@ export class Brick extends Block {
 }
 
 // 水管
-// export class Pipe extends Block {
-//   private pipeSrc = '../../../static/res/pipe.png'
-//   constructor (x, y, h) {
-//     super(x, y, blockSize.pipeSize.width, h)
-//   }
-//   public loadBg () {
-//     Laya.loader.load(this.brickSrc, Laya.Handler.create(this, this.onLoaded))
-//   }
-//   onLoaded () {
-//     const bimg = Laya.loader.getRes(this.brickSrc)
-//     this.graphics.fillTexture(bimg, 0, 0, this.width, this.height)
-//   }
-// }
+export class Pipe extends Block {
+  private ptop: Laya.Sprite
+  private pbody: Laya.Sprite
+  private ptsrc = '../../../static/res/pipe1.png'
+  private pbsrc = '../../../static/res/pipe2.png'
+  constructor (x, y, h) {
+    super(x, y, blockSize.pipeSize.width1, h)
+  }
+  public loadBg () {
+    // 创建水管顶部
+    this.ptop = new Laya.Sprite()
+    // 加载并显示图
+    this.ptop.loadImage(this.ptsrc)
+    this.ptop.pos(0, 0)
+    // 把图显示在容器内
+    this.addChild(this.ptop)
+    // 创建水管底部
+    this.pbody = new Laya.Sprite()
+    Laya.loader.load(this.pbsrc, Laya.Handler.create(this, this.onLoaded))
+  }
+  onLoaded () {
+    const pbimg = Laya.loader.getRes(this.pbsrc)
+    this.pbody.graphics.fillTexture(pbimg, 4, 0,
+                                    blockSize.pipeSize.width2, this.height - blockSize.pipeSize.height)
+    this.pbody.pos(0, blockSize.pipeSize.height)
+    this.addChild(this.pbody)
+  }
+}
 
 // 地板
 export class Floor extends Block {
@@ -59,7 +74,7 @@ export class Floor extends Block {
     this.ftop.pos(0, 0)
     // 把图显示在容器内
     this.addChild(this.ftop)
-    // 创建土地内部
+    // 创建土地底部
     this.fbody = new Laya.Sprite()
     Laya.loader.load(this.fbsrc, Laya.Handler.create(this, this.onLoaded))
   }

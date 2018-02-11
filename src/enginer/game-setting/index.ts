@@ -1,7 +1,7 @@
 /**
  * Created by Harry on 2018/2/9.
  */
-import { Floor, Brick } from '../object/block'
+import { Floor, Brick, Pipe } from '../object/block'
 import { blockSize, gameSize } from '../const'
 
 function initFloorArray (): Array<Floor> {
@@ -24,16 +24,22 @@ function initFloorArray (): Array<Floor> {
 
 function initBrickArray (): Array<Brick> {
   const bArray = []
-  for (let i = 0; i < 6; i++) {
-    bArray.push(new Brick(500, 200, 300, 60))
-  }
+  bArray.push(new Brick(500, 200, 300, 60))
   return bArray
+}
+
+function initPipeArray (): Array<Pipe> {
+  const pArray = []
+  pArray.push(new Pipe(930, 260, 200))
+  pArray.push(new Pipe(1130, 210, 150))
+  return pArray
 }
 
 export function initGameContent (): Array<any> {
   let objArray = []
   const fArray = initFloorArray()
   const bArray = initBrickArray()
-  objArray = objArray.concat(fArray, bArray)
+  const pArray = initPipeArray()
+  objArray = objArray.concat(fArray, bArray, pArray)
   return objArray
 }
