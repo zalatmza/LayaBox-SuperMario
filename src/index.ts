@@ -57,19 +57,16 @@ class GameMain {
           const cType = collisionCheck(this.player, item)
           switch (cType) {
             case 3:
-              // console.log('down')
               this.player.crashHandle(crashDir.down, item)
               break
             case 2:
               this.player.crashHandle(crashDir.up, item)
               break
             case 1:
-              console.log('left', index)
               this.player.crashHandle(crashDir.left, item)
               bgXOffset = 0
               break
             case 0:
-              console.log('right')
               this.player.crashHandle(crashDir.right, item)
               bgXOffset = 0
               break
