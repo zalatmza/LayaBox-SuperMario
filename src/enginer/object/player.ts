@@ -57,8 +57,9 @@ export default class Player extends Base {
   }
 
   private crashDown (item) {
-    this.y = Math.max(0, Math.min(this.y, item.y - this.height))
-    if (this.y === floorLevel) {
+    const newHeight = item.y - this.height
+    this.y = Math.max(0, Math.min(this.y, newHeight))
+    if (this.y === newHeight) {
       this.jumping = false
       this.speedY = playerProp.speedY
     }
