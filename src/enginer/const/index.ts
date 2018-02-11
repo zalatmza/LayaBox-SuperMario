@@ -47,3 +47,10 @@ export const key = {
   up: Laya.Keyboard.UP,
   right: Laya.Keyboard.RIGHT
 }
+
+export const crashDir = {
+  left: 'LEFT',
+  right: 'RIGHT',
+  up: 'UP',
+  down: 'DOWN'
+}
