@@ -34,18 +34,6 @@ export default class Player extends Base {
     })
   }
 
-  private stageMove () {
-    if (gameMain.stageX >= gameSize.width) {
-      gameMain.stageX = Math.min(gameMain.stageX, gameSize.width)
-      this.x = Math.min(this.x + this.speedX, stageSize.width - this.width)
-    } else {
-      if (this.x === stageSize.width / 2) {
-        gameMain.stageX = Math.min(gameMain.stageX + this.speedX, gameSize.width)
-      }
-      this.x = Math.min(this.x + this.speedX, stageSize.width / 2)
-    }
-  }
-
   public crashHandle (type, item) {
     if (type === crashDir.left) {
       this.crashLeft(item)
@@ -69,7 +57,7 @@ export default class Player extends Base {
   }
 
   private crashDown (item) {
-    console.log('down')
+    this.y = item.y - this.height
   }
 
   private crashUp (item) {
@@ -100,8 +88,17 @@ export default class Player extends Base {
       this.initAction()
     } else if (right) {
       // 在stage中的位置
-      this.stageMove()
+      if (gameMain.stageX >= gameSize.width) {
+        gameMain.stageX = Math.min(gameMain.stageX, gameSize.width)
+        this.x = Math.min(this.x + this.speedX, stageSize.width - this.width)
+      } else {
+        if (this.x === stageSize.width / 2) {
+          gameMain.stageX = Math.min(gameMain.stageX + this.speedX, gameSize.width)
+        }
+        this.x = Math.min(this.x + this.speedX, stageSize.width / 2)
+      }
       this.runDir = 1
+      // 播放动画
       if (!(this.body.isPlaying && this.body._actionName === playerProp.action.right)) {
         this.playAnimation(playerProp.action.right)
       }
@@ -109,6 +106,7 @@ export default class Player extends Base {
       this.x -= this.speedX
       this.x = Math.max(this.x, 0)
       this.runDir = -1
+      // 播放动画
       if (!(this.body.isPlaying && this.body._actionName === playerProp.action.left)) {
         this.playAnimation(playerProp.action.left)
       }
