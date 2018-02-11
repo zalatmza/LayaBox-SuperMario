@@ -12,15 +12,34 @@ export abstract class Block extends Base {
   }
   abstract loadBg (): void
 }
+
+// 砖块
+export class Brick extends Block {
+  private brickSrc = '../../../static/res/brick1.png'
+  constructor (x, y, w, h) {
+    super(x, y, w, h)
+  }
+  public loadBg () {
+    Laya.loader.load(this.brickSrc, Laya.Handler.create(this, this.onLoaded))
+  }
+  onLoaded () {
+    const bimg = Laya.loader.getRes(this.brickSrc)
+    this.graphics.fillTexture(bimg, 0, 0, this.width, this.height)
+  }
+}
+
 // 水管
 // export class Pipe extends Block {
-//   private h: number
+//   private pipeSrc = '../../../static/res/pipe.png'
 //   constructor (x, y, h) {
 //     super(x, y, blockSize.pipeSize.width, h)
-//     this.h = h
 //   }
 //   public loadBg () {
-//     this.graphics.drawRect(0, 0, blockSize.pipeSize.width, this.h, '#DDD')
+//     Laya.loader.load(this.brickSrc, Laya.Handler.create(this, this.onLoaded))
+//   }
+//   onLoaded () {
+//     const bimg = Laya.loader.getRes(this.brickSrc)
+//     this.graphics.fillTexture(bimg, 0, 0, this.width, this.height)
 //   }
 // }
 

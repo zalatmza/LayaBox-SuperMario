@@ -38,7 +38,7 @@ export const blockSize = {
     height: 60
   },
   pipeSize: {
-    width: 70
+    width: 113
   }
 }
 

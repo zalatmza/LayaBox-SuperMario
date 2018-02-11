@@ -59,7 +59,11 @@ class GameMain {
         if (item.visible) {
           const cType = collisionCheck(this.player, item)
           switch (cType) {
-            case 0:
+            case 3:
+              console.log('down')
+              this.player.crashHandle(crashDir.down, item)
+              break
+            case 2:
               console.log('top')
               break
             case 1:
@@ -67,11 +71,7 @@ class GameMain {
               this.player.crashHandle(crashDir.left, item)
               bgXOffset = 0
               break
-            case 2:
-              console.log('down')
-              this.player.crashHandle(crashDir.down, item)
-              break
-            case 3:
+            case 0:
               console.log('right')
               this.player.crashHandle(crashDir.right, item)
               bgXOffset = 0
