@@ -1,7 +1,7 @@
 /**
  * Created by Harry on 2018/2/9.
  */
-import { Floor } from '../object/block'
+import { Floor, Brick } from '../object/block'
 import { blockSize, gameSize } from '../const'
 
 function initFloorArray (): Array<Floor> {
@@ -22,9 +22,18 @@ function initFloorArray (): Array<Floor> {
   return fArray
 }
 
+function initBrickArray (): Array<Brick> {
+  const bArray = []
+  for (let i = 0; i < 6; i++) {
+    bArray.push(new Brick(500, 200, 300, 60))
+  }
+  return bArray
+}
+
 export function initGameContent (): Array<any> {
   let objArray = []
   const fArray = initFloorArray()
-  objArray = objArray.concat(fArray)
+  const bArray = initBrickArray()
+  objArray = objArray.concat(fArray, bArray)
   return objArray
 }
