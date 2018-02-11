@@ -148,7 +148,7 @@ class GameMain {
           switch (cType) {
             case 1:
               console.log('left')
-              this.player.x -= playerXOffset
+              this.player.x = item.x - this.player.width
               bgXOffset = 0
               break
             case 2:
@@ -157,7 +157,7 @@ class GameMain {
               break
             case 3:
               console.log('right')
-              this.player.x -= playerXOffset
+              this.player.x = item.x + item.width
               bgXOffset = 0
               break
           }
