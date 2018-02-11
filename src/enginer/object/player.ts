@@ -81,6 +81,9 @@ export default class Player extends Base {
 
     this.speedY += this.acce
     this.y += this.speedY
+    if (this.y >= stageSize.height) {
+      console.log('gameover')
+    }
 
     if (left && right || !left && !right) {
       this.initAction()
