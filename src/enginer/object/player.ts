@@ -77,6 +77,7 @@ export default class Player extends Base {
     const left: boolean = this.keyState[key.left]
     const right: boolean = this.keyState[key.right]
     const up: boolean = this.keyState[key.up]
+
     if (up && !this.jumping) {
       this.jumping = true
       this.speedY = this.initSpeedY
@@ -86,6 +87,9 @@ export default class Player extends Base {
     this.y += this.speedY
     if (this.y >= stageSize.height) {
       console.log('gameover')
+    }
+    if (this.speedX !== 0) {
+      this.jumping = true
     }
 
     if (left && right || !left && !right) {
