@@ -63,7 +63,7 @@ class GameMain {
               console.log('top')
               break
             case 1:
-              console.log('left')
+              console.log('left', index)
               this.player.crashHandle(crashDir.left, item)
               bgXOffset = 0
               break

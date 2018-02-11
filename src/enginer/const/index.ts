@@ -16,7 +16,7 @@ export const playerProp = {
   // 移动速度
   speedX: 8,
   // 跳跃初速度
-  speedY: -33,
+  initSpeedY: -33,
   // （假）重力加速度
   acce: 2,
   action: {

@@ -6,22 +6,22 @@ import { playerSize, playerProp, crashDir } from '../../enginer/const'
 import { gameSize, key, stageSize } from '../const'
 import { gameMain } from '../../index'
 
-const floorLevel = 400
 export default class Player extends Base {
   // 身体动画
-  public body: Laya.Animation
+  private body: Laya.Animation
   // 移动方向1 往右， -1 往左
-  public runDir: 1 | -1 = 1
+  private runDir: 1 | -1 = 1
   // 移动速度
   public speedX: number = playerProp.speedX
   // 跳跃中
-  public jumping: boolean = false
+  private jumping: boolean = false
   // 跳跃速度
-  public speedY: number = playerProp.speedY
+  private speedY: number = 0
+  private initSpeedY = playerProp.initSpeedY
   // 重力加速度
-  public acce: number = playerProp.acce
+  private acce: number = playerProp.acce
   // 键盘事件状态
-  public keyState = Object.create(null)
+  private keyState = Object.create(null)
 
   // 初始化键盘事件
   private initEvent () {
@@ -61,7 +61,7 @@ export default class Player extends Base {
     this.y = Math.max(0, Math.min(this.y, newHeight))
     if (this.y === newHeight) {
       this.jumping = false
-      this.speedY = playerProp.speedY
+      this.speedY = 0
     }
   }
 
@@ -75,19 +75,11 @@ export default class Player extends Base {
     const up: boolean = this.keyState[key.up]
     if (up && !this.jumping) {
       this.jumping = true
+      this.speedY = this.initSpeedY
     }
 
-    if (this.jumping) {
-      const newSpeedY = this.speedY + this.acce
-      this.y = Math.round(this.y + (this.speedY + newSpeedY)/2)
-      this.speedY = newSpeedY
-      // floor需要加入碰撞检测
-      // this.y = Math.max(0, Math.min(this.y, floorLevel))
-      // if (this.y === floorLevel) {
-      //   this.jumping = false
-      //   this.speedY = playerProp.speedY
-      // }
-    }
+    this.speedY += this.acce
+    this.y += this.speedY
 
     if (left && right || !left && !right) {
       this.initAction()
