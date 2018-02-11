@@ -1,4 +1,7 @@
-import { Floor, Block } from '../object/block'
+/**
+ * Created by Harry on 2018/2/9.
+ */
+import { Floor } from '../object/block'
 import { blockSize, gameSize } from '../const'
 
 function initFloorArray (): Array<Floor> {
