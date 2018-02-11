@@ -1,17 +1,20 @@
 /**
  * Created by wconisan on 2018/2/1.
  */
-import Background from './enginer/background'
 import Player from './enginer/object/player'
+import Background from './enginer/background'
+
 import { stageSize, gameSize, playerSize, playerProp, key } from './enginer/const'
-import { render } from './enginer/render'
 import { initGameContent } from './enginer/game-setting'
+import { collisionCheck } from './enginer/common/utils'
+import { render } from './enginer/render'
 import { Block } from './enginer/object/block'
 import { checkCrash } from './enginer/utils'
 
 const floorLevel = 400
 // 程序入口
 class GameMain {
+  // 背景偏移量
   private stageX: number = stageSize.width
   // 主角
   private player: Player
@@ -90,17 +93,46 @@ class GameMain {
   // 游戏主循环
   private onLoop () {
     const preStageX = this.stageX
+    const prePlayX = this.player.x
+    const prePlayY = this.player.y
     // 获取舞台相对于背景的x坐标
     this.playerMove()
-    // 获取x方向位移
-    const xOffset = this.stageX - preStageX
+    // 获取主角x位移
+    const playerXOffset = this.player.x - prePlayX
+    const playerYOffset = this.player.y - prePlayY
+    // 获取背景x方向位移
+    let bgXOffset = this.stageX - preStageX
+    if (playerXOffset !== 0 || playerYOffset !== 0 || bgXOffset > 0) {
+      // 进行碰撞检测
+      this.blockRenderList.forEach((item, index) => {
+        if (item.visible) {
+          const cType = collisionCheck(this.player, item)
+          switch (cType) {
+            case 1:
+              console.log('left')
+              this.player.x -= playerXOffset
+              bgXOffset = 0
+              break
+            case 2:
+              console.log('top')
+              this.player.y = item.y - this.player.height
+              break
+            case 3:
+              console.log('right')
+              this.player.x -= playerXOffset
+              bgXOffset = 0
+              break
+          }
+        }
+      })
+    }
     // 背景移动
-    if (xOffset > 0) {
-      this.background.x -= xOffset
+    if (bgXOffset > 0) {
+      this.background.x -= bgXOffset
     }
     // 处理其他碰撞体的渲染
     this.blockRenderList.forEach((item, index) => {
-      render(item, xOffset, this.stageX)
+      render(item, bgXOffset, this.stageX)
     })
   }
 }
