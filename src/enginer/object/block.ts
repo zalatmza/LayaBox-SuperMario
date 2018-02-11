@@ -51,7 +51,7 @@ export class Pipe extends Block {
   }
   onLoaded () {
     const pbimg = Laya.loader.getRes(this.pbsrc)
-    this.pbody.graphics.fillTexture(pbimg, 4, 0,
+    this.pbody.graphics.fillTexture(pbimg, 4,  0,
                                     blockSize.pipeSize.width2, this.height - blockSize.pipeSize.height)
     this.pbody.pos(0, blockSize.pipeSize.height)
     this.addChild(this.pbody)
@@ -62,6 +62,7 @@ export class Pipe extends Block {
 export class Floor extends Block {
   private ftop: Laya.Sprite
   private fbody: Laya.Sprite
+  private ftsrc: string = '../../../static/res/land2.png'
   private fbsrc: string = '../../../static/res/land1.png'
   constructor (x, y) {
     super(x, y, blockSize.floorSize.width, stageSize.height - y)
@@ -70,7 +71,7 @@ export class Floor extends Block {
     // 创建土地顶部
     this.ftop = new Laya.Sprite()
     // 加载并显示图
-    this.ftop.loadImage('../../../static/res/land2.png')
+    this.ftop.loadImage(this.ftsrc)
     this.ftop.pos(0, 0)
     // 把图显示在容器内
     this.addChild(this.ftop)
