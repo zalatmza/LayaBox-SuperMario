@@ -4,7 +4,7 @@
 import Player from './enginer/object/player'
 import Background from './enginer/background'
 
-import { stageSize, gameSize, playerSize, playerProp, key } from './enginer/const'
+import { stageSize, gameSize, playerSize, playerProp, key, crashDir } from './enginer/const'
 import { initGameContent } from './enginer/game-setting'
 import { collisionCheck } from './enginer/common/utils'
 import { render } from './enginer/render'
@@ -12,10 +12,11 @@ import { Block } from './enginer/object/block'
 import { checkCrash } from './enginer/utils'
 
 const floorLevel = 400
+
 // 程序入口
 class GameMain {
   // 背景偏移量
-  private stageX: number = stageSize.width
+  public stageX: number = stageSize.width
   // 主角
   private player: Player
   // 背景
@@ -40,63 +41,13 @@ class GameMain {
     Laya.timer.frameLoop(1, this, this.onLoop)
   }
 
-  private stageMove () {
-    if (this.stageX >= gameSize.width) {
-      this.stageX = Math.min(this.stageX, gameSize.width)
-      this.player.x = Math.min(this.player.x + this.player.speedX, stageSize.width - this.player.width)
-    } else {
-      if (this.player.x === stageSize.width / 2) {
-        this.stageX = Math.min(this.stageX + this.player.speedX, gameSize.width)
-      }
-      this.player.x = Math.min(this.player.x + this.player.speedX, stageSize.width / 2)
-    }
-  }
-
-  private playerMove () {
-    const left: boolean = this.player.keyState[key.left]
-    const right: boolean = this.player.keyState[key.right]
-    const up: boolean = this.player.keyState[key.up]
-    if (up && !this.player.jumping) {
-      this.player.jumping = true
-    }
-
-    if (this.player.jumping) {
-      const newSpeedY = this.player.speedY + this.player.acce
-      this.player.y = Math.round(this.player.y + (this.player.speedY + newSpeedY)/2)
-      this.player.speedY = newSpeedY
-      // floor需要加入碰撞检测
-      this.player.y = Math.max(0, Math.min(this.player.y, floorLevel))
-      if (this.player.y === floorLevel) {
-        this.player.jumping = false
-        this.player.speedY = playerProp.speedY
-      }
-    }
-
-    if (left && right || !left && !right) {
-      this.player.initAction()
-    } else if (right) {
-      // 在stage中的位置
-      this.stageMove()
-      this.player.runDir = 1
-      if (!(this.player.body.isPlaying && this.player.body._actionName === playerProp.action.right)) {
-        this.player.playAnimation(playerProp.action.right)
-      }
-    } else if (left) {
-      this.player.x -= this.player.speedX
-      this.player.x = Math.max(this.player.x, 0)
-      this.player.runDir = -1
-      if (!(this.player.body.isPlaying && this.player.body._actionName === playerProp.action.left)) {
-        this.player.playAnimation(playerProp.action.left)
-      }
-    }
-  }
   // 游戏主循环
   private onLoop () {
     const preStageX = this.stageX
     const prePlayX = this.player.x
     const prePlayY = this.player.y
     // 获取舞台相对于背景的x坐标
-    this.playerMove()
+    this.player.playerMove()
     // 获取主角x位移
     const playerXOffset = this.player.x - prePlayX
     const playerYOffset = this.player.y - prePlayY
@@ -110,16 +61,14 @@ class GameMain {
           switch (cType) {
             case 1:
               console.log('left')
-              this.player.x -= playerXOffset
-              bgXOffset = 0
-              break
+              this.player.crashHandle(crashDir.left, item)
             case 2:
               console.log('top')
-              this.player.y = item.y - this.player.height
+              // this.player.y = item.y - this.player.height
               break
             case 3:
               console.log('right')
-              this.player.x -= playerXOffset
+              this.player.crashHandle(crashDir.right, item)
               bgXOffset = 0
               break
           }
@@ -137,4 +86,4 @@ class GameMain {
   }
 }
 // 启动游戏
-new GameMain()
+export const gameMain = new GameMain()
