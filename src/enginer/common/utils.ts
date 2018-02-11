@@ -1,3 +1,6 @@
+/**
+ * Created by Harry on 2018/2/11.
+ */
 import { stageSize } from '../const'
 /* 碰撞检测，返回碰撞类型：-1 --> 没有碰撞,
                         0 --> obj1 位于 obj2下方,
