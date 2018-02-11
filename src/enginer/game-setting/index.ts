@@ -31,7 +31,7 @@ function initBrickArray (): Array<Brick> {
 function initPipeArray (): Array<Pipe> {
   const pArray = []
   pArray.push(new Pipe(930, 260, 200))
-  pArray.push(new Pipe(1130, 210, 150))
+  pArray.push(new Pipe(1230, 210, 150))
   return pArray
 }
 
