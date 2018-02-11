@@ -20,7 +20,14 @@ function initFloorArray (): Array<Floor> {
     fArray.push(new Floor(blockSize.floorSize.width * i, 460))
   }
   for (let i = 20; i < fnum; i++) {
-    fArray.push(new Floor(blockSize.floorSize.width * i, 360))
+    if (i > 40 && i < 44) {
+      continue
+    }
+    if (i > 60) {
+      fArray.push(new Floor(blockSize.floorSize.width * i, 460))
+    } else {
+      fArray.push(new Floor(blockSize.floorSize.width * i, 360))
+    }
   }
   return fArray
 }
@@ -28,6 +35,7 @@ function initFloorArray (): Array<Floor> {
 function initBrickArray (): Array<Brick> {
   const bArray = []
   bArray.push(new Brick(500, 200, 300, 60))
+  bArray.push(new Brick(1500, 150, 700, 100))
   return bArray
 }
 
