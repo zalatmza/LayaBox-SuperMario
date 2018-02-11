@@ -59,6 +59,9 @@ export default class Player extends Base {
   private crashDown (item) {
     const newHeight = item.y - this.height
     this.y = Math.max(0, Math.min(this.y, newHeight))
+    if (this.y >= stageSize.height) {
+      console.log('gameover')
+    }
     if (this.y === newHeight) {
       this.jumping = false
       this.speedY = 0

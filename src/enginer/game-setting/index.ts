@@ -14,6 +14,9 @@ function initFloorArray (): Array<Floor> {
     fArray.push(new Floor(blockSize.floorSize.width * i, 360))
   }
   for (let i = 8; i < 20; i++) {
+    if (i > 8 && i < 11) {
+      continue
+    }
     fArray.push(new Floor(blockSize.floorSize.width * i, 460))
   }
   for (let i = 20; i < fnum; i++) {
