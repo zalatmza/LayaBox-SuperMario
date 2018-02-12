@@ -30,12 +30,18 @@ class GameMain {
   }
   // 动画资源加载完成处理函数
   private onLoaded (): void {
+    this.playMusic()
     this.background = new Background()
     Laya.stage.addChild(this.background)
     this.player = new Player(0, 400)
     Laya.stage.addChild(this.player)
     this.blockRenderList = initGameContent()
     Laya.timer.frameLoop(1, this, this.onLoop)
+  }
+
+  private playMusic () {
+    Laya.SoundManager.playMusic('./static/music/mxd1.mp3')
+    Laya.SoundManager.autoStopMusic = false
   }
 
   // 游戏主循环
