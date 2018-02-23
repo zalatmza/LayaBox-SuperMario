@@ -4,9 +4,9 @@
 import Player from './enginer/object/player'
 import Background from './enginer/background'
 
-import { stageSize, gameSize, playerSize, playerProp, key, crashDir } from './enginer/const'
+import { stageSize, gameSize, playerSize, playerProp, key, crashDir, marginDir } from './enginer/const'
 import { initGameContent } from './enginer/game-setting'
-import { collisionCheck } from './enginer/common/utils'
+import { collisionCheck, marginCheck } from './enginer/common/utils'
 import { render } from './enginer/render'
 import { Block } from './enginer/object/block'
 
@@ -19,11 +19,14 @@ class GameMain {
   // 背景
   private background: Background
   // 其他碰撞体
-  private blockRenderList: Block[]
+  private blockRenderList: any[]
   // 游戏入口类构造函数
   constructor () {
-    Laya.init(stageSize.width, stageSize.height)
-    Laya.loader.load('./static/res/player.json',
+    Laya.init(stageSize.width, stageSize.height, Laya.WebGL)
+    Laya.Stat.show(0, 0)
+    Laya.loader.load(['./static/res/pp.json',
+                          './static/res/player.json'
+                          ],
                     Laya.Handler.create(this, this.onLoaded),
                     null,
                     Laya.Loader.ATLAS)
@@ -33,7 +36,7 @@ class GameMain {
     this.playMusic()
     this.background = new Background()
     Laya.stage.addChild(this.background)
-    this.player = new Player(0, 400)
+    this.player = new Player(0, 0)
     Laya.stage.addChild(this.player)
     this.blockRenderList = initGameContent()
     Laya.timer.frameLoop(1, this, this.onLoop)
@@ -51,6 +54,11 @@ class GameMain {
     const prePlayY = this.player.y
     // 获取舞台相对于背景的x坐标
     this.player.playerMove()
+    this.blockRenderList.forEach(item => {
+      if (item.type === 'animation') {
+        item.move()
+      }
+    })
     // 获取主角x位移
     const playerXOffset = this.player.x - prePlayX
     const playerYOffset = this.player.y - prePlayY
@@ -60,8 +68,7 @@ class GameMain {
       // 进行碰撞检测
       this.blockRenderList.forEach((item, index) => {
         if (item.visible) {
-          const cType = collisionCheck(this.player, item)
-          switch (cType) {
+          switch (collisionCheck(this.player, item)) {
             case 3:
               this.player.crashHandle(crashDir.down, item)
               break
@@ -75,6 +82,35 @@ class GameMain {
             case 0:
               this.player.crashHandle(crashDir.right, item)
               break
+          }
+
+          // 怪物碰撞检测
+          if (item.type === 'animation') {
+            let isTurn = false
+            this.blockRenderList.forEach((citem, cindex) => {
+              if (item !== citem) {
+                if (marginCheck(item, citem) !== -1) {
+                  isTurn = true
+                }
+                switch (collisionCheck(item, citem)) {
+                  case 3:
+                    item.crashHandle(crashDir.down, citem)
+                    break
+                  case 2:
+                    item.crashHandle(crashDir.up, citem)
+                    break
+                  case 1:
+                    item.crashHandle(crashDir.left, citem)
+                    break
+                  case 0:
+                    item.crashHandle(crashDir.right, citem)
+                    break
+                }
+              }
+            })
+            if (isTurn === false) {
+              item.runDir *= -1
+            }
           }
         }
       })

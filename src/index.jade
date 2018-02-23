@@ -12,6 +12,7 @@ html
     if !INJECT
       div.script-requirement
         script(src="/static/laya.core.js")
+        script(src="/static/laya.webgl.min.js")
         script(src="/static/laya.ani.min.js")
         each chunk in htmlWebpackPlugin.files.chunks
           script(src=chunk.entry)

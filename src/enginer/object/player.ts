@@ -49,28 +49,39 @@ export default class Player extends Base {
   private crashLeft (item) {
     // 和固定障碍物碰撞
     this.x = item.x - this.width
+    if (item.type === 'animation') {
+      console.log('crash left with monster')
+    }
   }
 
   private crashRight (item) {
     // 和固定障碍物碰撞
     this.x = item.x + item.width
+    if (item.type === 'animation') {
+      console.log('crash right with monster')
+    }
   }
 
   private crashDown (item) {
     const newHeight = item.y - this.height
     this.y = Math.max(0, Math.min(this.y, newHeight))
-    if (this.y >= stageSize.height) {
-      console.log('gameover')
-    }
     if (this.y === newHeight) {
       this.jumping = false
       this.speedY = 0
+    }
+    if (item.type === 'animation') {
+      // 消灭怪物
+      item.x = -9999
+      console.log('crash down with monster')
     }
   }
 
   private crashUp (item) {
     this.y = item.y + item.height
     this.speedY = 0
+    if (item.type === 'animation') {
+      console.log('crash up with monster')
+    }
   }
 
   public playerMove () {
@@ -143,7 +154,6 @@ export default class Player extends Base {
 
   private playAnimation (actionName) {
     this.graphics.clear()
-    this.body.clear()
     this.body.play(0, true, actionName)
     this.body.pos(0, 0)
   }

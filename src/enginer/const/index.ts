@@ -20,8 +20,8 @@ export const playerProp = {
   // （假）重力加速度
   acce: 2,
   action: {
-    left: 'moveLeft',
-    right: 'moveRight'
+    left: 'playerMoveLeft',
+    right: 'playerMoveRight'
   }
 }
 
@@ -46,6 +46,23 @@ export const blockSize = {
   }
 }
 
+// 怪物属性
+export const monsterProperty = {
+  monster1: {
+    height: 63,
+    width: 63,
+    speedX: 1,
+    // 跳跃初速度
+    initSpeedY: -30,
+    // （假）重力加速度
+    acce: 2,
+    action: {
+      left: 'monsterMoveLeft',
+      right: 'monsterMoveRight'
+    }
+  }
+}
+
 export const key = {
   left: Laya.Keyboard.LEFT,
   up: Laya.Keyboard.UP,
@@ -53,8 +70,15 @@ export const key = {
 }
 
 export const crashDir = {
-  left: 'LEFT',
-  right: 'RIGHT',
-  up: 'UP',
-  down: 'DOWN'
+  left: 'CRASHLEFT',
+  right: 'CRASHRIGHT',
+  up: 'CRASHUP',
+  down: 'CRASHDOWN'
+}
+
+export const marginDir = {
+  left: 'MARGINLEFT',
+  right: 'MARGINRIGHT',
+  up: 'MARGINUP',
+  down: 'MARGINDOWN'
 }

@@ -1,7 +1,7 @@
 /**
  * Created by Harry on 2018/2/9.
  */
-import { Floor, Brick, Pipe } from '../object/block'
+import { Floor, Brick, Pipe, ABlock, Block, Monster1 } from '../object/block'
 import { blockSize, gameSize } from '../const'
 
 function initFloorArray (): Array<Floor> {
@@ -46,11 +46,16 @@ function initPipeArray (): Array<Pipe> {
   return pArray
 }
 
-export function initGameContent (): Array<any> {
+function initMonstersArray (): ABlock[] {
+  const monsterArray = []
+  monsterArray.push(new Monster1(550, 100))
+  monsterArray.push(new Monster1(200, 100))
+  monsterArray.push(new Monster1(1000, 100))
+  return monsterArray
+}
+
+export function initGameContent (): Block[] {
   let objArray = []
-  const fArray = initFloorArray()
-  const bArray = initBrickArray()
-  const pArray = initPipeArray()
-  objArray = objArray.concat(fArray, bArray, pArray)
+  objArray = objArray.concat(initFloorArray(), initBrickArray(), initPipeArray(), initMonstersArray())
   return objArray
 }

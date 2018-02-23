@@ -1,0 +1,110 @@
+{
+    "frames": {
+        "pp001.png": {
+            "frame": {
+                "h": 63,
+                "idx": 0,
+                "w": 63,
+                "x": 0,
+                "y": 0
+            },
+            "sourceSize": {
+                "h": 63,
+                "w": 63
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "pp002.png": {
+            "frame": {
+                "h": 63,
+                "idx": 0,
+                "w": 63,
+                "x": 0,
+                "y": 64
+            },
+            "sourceSize": {
+                "h": 63,
+                "w": 63
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "pp003.png": {
+            "frame": {
+                "h": 63,
+                "idx": 0,
+                "w": 63,
+                "x": 64,
+                "y": 0
+            },
+            "sourceSize": {
+                "h": 63,
+                "w": 63
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "pp004.png": {
+            "frame": {
+                "h": 63,
+                "idx": 0,
+                "w": 63,
+                "x": 64,
+                "y": 64
+            },
+            "sourceSize": {
+                "h": 63,
+                "w": 63
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "pp005.png": {
+            "frame": {
+                "h": 63,
+                "idx": 0,
+                "w": 63,
+                "x": 128,
+                "y": 0
+            },
+            "sourceSize": {
+                "h": 63,
+                "w": 63
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "pp006.png": {
+            "frame": {
+                "h": 63,
+                "idx": 0,
+                "w": 63,
+                "x": 128,
+                "y": 64
+            },
+            "sourceSize": {
+                "h": 63,
+                "w": 63
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        }
+    },
+    "meta": {
+        "image": "pp.png",
+        "prefix": "pp/"
+    }
+}
