@@ -66,19 +66,19 @@ export default class Player extends Base {
   }
 
   private crashDown (item) {
-    const newHeight = item.y - this.height
-    this.y = Math.max(0, Math.min(this.y, newHeight))
-    if (this.y === newHeight) {
-      this.jumping = false
-      this.speedY = 0
-    }
-    if (item.type === BlockType.animation) {
-      // 消灭怪物
-      item.remove()
-    }
-
     if (item.constructor.name === 'Coin') {
       item.remove()
+    } else {
+      const newHeight = item.y - this.height
+      this.y = Math.max(0, Math.min(this.y, newHeight))
+      if (this.y === newHeight) {
+        this.jumping = false
+        this.speedY = 0
+      }
+      if (item.type === BlockType.animation) {
+        // 消灭怪物
+        item.remove()
+      }
     }
   }
 
