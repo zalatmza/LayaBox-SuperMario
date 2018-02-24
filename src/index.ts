@@ -4,7 +4,7 @@
 import Player from './enginer/object/player'
 import Background from './enginer/background'
 
-import { stageSize, gameSize, playerSize, playerProp, key, crashDir, marginDir } from './enginer/const'
+import { stageSize, gameSize, playerProp, key, crashDir, BlockType } from './enginer/const'
 import { initGameContent } from './enginer/game-setting'
 import { collisionCheck, marginCheck } from './enginer/common/utils'
 import { render } from './enginer/render'
@@ -19,7 +19,7 @@ class GameMain {
   // 背景
   private background: Background
   // 其他碰撞体
-  private blockRenderList: any[]
+  public blockRenderList: any[]
   // 游戏入口类构造函数
   constructor () {
     Laya.init(stageSize.width, stageSize.height, Laya.WebGL)
@@ -55,9 +55,7 @@ class GameMain {
     // 获取舞台相对于背景的x坐标
     this.player.playerMove()
     this.blockRenderList.forEach(item => {
-      if (item.type === 'animation') {
-        item.move()
-      }
+        item.type === BlockType.animation && item.visible === true && item.move()
     })
     // 获取主角x位移
     const playerXOffset = this.player.x - prePlayX
@@ -85,10 +83,11 @@ class GameMain {
           }
 
           // 怪物碰撞检测
-          if (item.type === 'animation') {
+          if (item.type === BlockType.animation) {
             let isTurn = false
             this.blockRenderList.forEach((citem, cindex) => {
               if (item !== citem) {
+                // 边缘检测，到边缘就扭头
                 if (marginCheck(item, citem) !== -1) {
                   isTurn = true
                 }
@@ -108,9 +107,7 @@ class GameMain {
                 }
               }
             })
-            if (isTurn === false) {
-              item.runDir *= -1
-            }
+            item.runDir *= isTurn === false ? -1 : 1
           }
         }
       })
@@ -123,6 +120,11 @@ class GameMain {
     this.blockRenderList.forEach((item, index) => {
       render(item, bgXOffset, this.stageX)
     })
+  }
+
+  // 循环暂停
+  public loopPause () {
+    Laya.timer.clear(this, this.onLoop)
   }
 }
 // 启动游戏

@@ -2,8 +2,8 @@
  * Created by wconisan on 2018/2/5.
  */
 import Base from './base'
-import { playerSize, playerProp, crashDir } from '../../enginer/const'
-import { gameSize, key, stageSize } from '../const'
+import { playerProp, crashDir } from '../../enginer/const'
+import { BlockType, gameSize, key, stageSize } from '../const'
 import { gameMain } from '../../index'
 
 export default class Player extends Base {
@@ -34,6 +34,7 @@ export default class Player extends Base {
     })
   }
 
+  // 处理碰撞检测
   public crashHandle (type, item) {
     if (type === crashDir.left) {
       this.crashLeft(item)
@@ -47,18 +48,20 @@ export default class Player extends Base {
   }
 
   private crashLeft (item) {
-    // 和固定障碍物碰撞
-    this.x = item.x - this.width
-    if (item.type === 'animation') {
-      console.log('crash left with monster')
+    if (item.constructor.name === 'Coin') {
+      item.remove()
+    } else {
+      // 和固定障碍物碰撞
+      this.x = item.x - this.width
     }
   }
 
   private crashRight (item) {
-    // 和固定障碍物碰撞
-    this.x = item.x + item.width
-    if (item.type === 'animation') {
-      console.log('crash right with monster')
+    if (item.constructor.name === 'Coin') {
+      item.remove()
+    } else {
+      // 和固定障碍物碰撞
+      this.x = item.x + item.width
     }
   }
 
@@ -69,21 +72,28 @@ export default class Player extends Base {
       this.jumping = false
       this.speedY = 0
     }
-    if (item.type === 'animation') {
+    if (item.type === BlockType.animation) {
       // 消灭怪物
-      item.x = -9999
-      console.log('crash down with monster')
+      item.remove()
+    }
+
+    if (item.constructor.name === 'Coin') {
+      item.remove()
     }
   }
 
   private crashUp (item) {
     this.y = item.y + item.height
     this.speedY = 0
-    if (item.type === 'animation') {
-      console.log('crash up with monster')
+    if (item.constructor.name === 'Grass') {
+      item.popupCoin()
+    }
+    if (item.constructor.name === 'Coin') {
+      item.remove()
     }
   }
 
+  // 玩家动作
   public playerMove () {
     const left: boolean = this.keyState[key.left]
     const right: boolean = this.keyState[key.right]
@@ -97,6 +107,7 @@ export default class Player extends Base {
     this.speedY += this.acce
     this.y += this.speedY
     if (this.y >= stageSize.height) {
+      gameMain.loopPause()
       console.log('gameover')
     }
     if (this.speedY !== 0) {
@@ -143,6 +154,7 @@ export default class Player extends Base {
     }
   }
 
+  // 初始化动效
   private initAnimation (): void {
     Laya.Animation.createFrames(['player/player0.png', 'player/player1.png', 'player/player2.png'],
       playerProp.action.right)
@@ -152,6 +164,7 @@ export default class Player extends Base {
     this.addChild(this.body)
   }
 
+  // 播放动画
   private playAnimation (actionName) {
     this.graphics.clear()
     this.body.play(0, true, actionName)
@@ -159,7 +172,7 @@ export default class Player extends Base {
   }
 
   constructor (x, y) {
-    super(x, y, playerSize.width, playerSize.height)
+    super(x, y, playerProp.width, playerProp.height)
     this.zOrder = 11
     this.initAnimation()
     this.loadImage('player/player0.png')
