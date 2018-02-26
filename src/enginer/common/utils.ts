@@ -14,7 +14,7 @@ export function collisionCheck (obj1, obj2): number  {
     cType = 3
     return cType
   }
-  if (obj1.y > obj2.y && obj1.y - obj2.y <= obj2.height && obj1.y + obj1.height > obj2.y + obj2.height
+  if (obj1.y > obj2.y && obj1.y - obj2.y < obj2.height && obj1.y + obj1.height >= obj2.y + obj2.height
     && Math.min(obj1.x + obj1.width, obj2.x + obj2.width) - Math.max(obj1.x, obj2.x) > playerProp.width * 0.2) {
     cType = 2
     return cType

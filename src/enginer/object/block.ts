@@ -198,6 +198,7 @@ export abstract class ABlock extends Block {
   protected crashRight (item) {
     // 和固定障碍物碰撞
     this.x = item.x + item.width
+    // console.log(this.x)
     this.runDir = 1
   }
 

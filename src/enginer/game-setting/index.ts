@@ -54,7 +54,7 @@ function initPipeArray (): Array<Pipe> {
 
 function initMonstersArray (): ABlock[] {
   const monsterArray = []
-  monsterArray.push(new Monster1(550, 100))
+  // monsterArray.push(new Monster1(550, 100))
   monsterArray.push(new Monster1(1100, 100))
   return monsterArray
 }
