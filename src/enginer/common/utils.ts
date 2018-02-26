@@ -34,7 +34,6 @@ export function collisionCheck (obj1, obj2): number  {
 
 // 边缘检测
 export function marginCheck (obj1, obj2) {
-  let mType: number = -1
   const newObj1 = Object.assign({
     x: obj1.x,
     y: obj1.y,
@@ -42,6 +41,5 @@ export function marginCheck (obj1, obj2) {
     height: obj1.height
   }, obj1)
   newObj1.x += obj1.width * obj1.runDir
-  mType = collisionCheck(newObj1, obj2)
-  return mType
+  return collisionCheck(newObj1, obj2)
 }

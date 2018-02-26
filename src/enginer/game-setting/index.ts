@@ -41,7 +41,8 @@ function initBrickArray (): Array<Brick> {
 
 function initGrassArray (): Array<Grass> {
   const gArray = []
-  gArray.push(new Grass(300, 230, 50, 50))
+  gArray.push(new Grass(250, 280, 50, 50))
+  gArray.push(new Grass(200, 230, 50, 50))
   return gArray
 }
 
@@ -54,7 +55,7 @@ function initPipeArray (): Array<Pipe> {
 
 function initMonstersArray (): ABlock[] {
   const monsterArray = []
-  // monsterArray.push(new Monster1(550, 100))
+  monsterArray.push(new Monster1(550, 100))
   monsterArray.push(new Monster1(1100, 100))
   return monsterArray
 }

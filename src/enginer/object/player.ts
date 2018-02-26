@@ -49,7 +49,7 @@ export default class Player extends Base {
 
   private crashLeft (item) {
     if (item.constructor.name === 'Coin') {
-      item.remove()
+      (this.x + this.width > item.x) && item.remove()
     } else {
       // 和固定障碍物碰撞
       this.x = item.x - this.width
@@ -58,7 +58,7 @@ export default class Player extends Base {
 
   private crashRight (item) {
     if (item.constructor.name === 'Coin') {
-      item.remove()
+      (this.x < item.x + item.width) && item.remove()
     } else {
       // 和固定障碍物碰撞
       this.x = item.x + item.width
@@ -66,30 +66,33 @@ export default class Player extends Base {
   }
 
   private crashDown (item) {
+    const newHeight = item.y - this.height
+    this.y = Math.max(0, Math.min(this.y, newHeight))
+
+    if (this.y === newHeight) {
+      this.jumping = false
+      this.speedY = 0
+    }
+
+    if (item.type === BlockType.animation) {
+      // 消灭怪物
+      item.remove()
+    }
+
     if (item.constructor.name === 'Coin') {
       item.remove()
-    } else {
-      const newHeight = item.y - this.height
-      this.y = Math.max(0, Math.min(this.y, newHeight))
-      if (this.y === newHeight) {
-        this.jumping = false
-        this.speedY = 0
-      }
-      if (item.type === BlockType.animation) {
-        // 消灭怪物
-        item.remove()
-      }
     }
   }
 
   private crashUp (item) {
-    this.y = item.y + item.height
-    this.speedY = 0
-    if (item.constructor.name === 'Grass') {
-      item.popupCoin()
-    }
     if (item.constructor.name === 'Coin') {
-      item.remove()
+      (this.y > item.y + item.height) && item.remove()
+    } else {
+      this.y = item.y + item.height
+      this.speedY = 0
+      if (item.constructor.name === 'Grass') {
+        item.popupCoin()
+      }
     }
   }
 
