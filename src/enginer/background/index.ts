@@ -13,11 +13,11 @@ export default class Background extends Laya.Sprite {
   }
   init (): void {
     // 绘制渐变天空
-    this.gradient = Laya.Browser.context.createLinearGradient(0, 0, 0, gameSize.height)
-    this.gradient.addColorStop(0, '#1E90FF')
-    this.gradient.addColorStop(0.7, '#ADD8E6')
-    this.gradient.addColorStop(1, '#ffffff')
-    this.graphics.drawRect(0, 0, gameSize.width, gameSize.height, this.gradient)
+    // this.gradient = laya.utils.Browser.context.createLinearGradient(0, 0, 0, gameSize.height)
+    // this.gradient.addColorStop(0, '#1E90FF')
+    // this.gradient.addColorStop(0.7, '#ADD8E6')
+    // this.gradient.addColorStop(1, '#ffffff')
+    // this.graphics.drawRect(0, 0, gameSize.width, gameSize.height, this.gradient)
     // 加载图片资源
     this.loadRes()
   }

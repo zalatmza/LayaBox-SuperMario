@@ -16,6 +16,5 @@ export function render (item, xOffset, stageX) {
     // 从舞台上移除
     item.visible = false
     Laya.stage.removeChild(item)
-    // item.destory()
   }
 }

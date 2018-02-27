@@ -15,24 +15,14 @@ export default class Player extends Base {
   public speedX: number = playerProp.speedX
   // 跳跃中
   private jumping: boolean = false
-  // 跳跃速度
+  // 空中速度
   private speedY: number = 0
+  // 起跳初速度
   private initSpeedY = playerProp.initSpeedY
   // 重力加速度
   private acce: number = playerProp.acce
   // 键盘事件状态
-  private keyState = Object.create(null)
-
-  // 初始化键盘事件
-  private initEvent () {
-    document.addEventListener('keydown', e => {
-      this.keyState[e.keyCode] = true
-    })
-    document.addEventListener('keyup', e => {
-      this.keyState[e.keyCode] = false
-      this.initAction()
-    })
-  }
+  public keyState = Object.create(null)
 
   // 处理碰撞检测
   public crashHandle (type, item) {
@@ -47,6 +37,7 @@ export default class Player extends Base {
     }
   }
 
+  // 左边撞到障碍物
   private crashLeft (item) {
     if (item.constructor.name === 'Coin') {
       (this.x + this.width > item.x) && item.remove()
@@ -56,6 +47,7 @@ export default class Player extends Base {
     }
   }
 
+  // 右边撞到障碍物
   private crashRight (item) {
     if (item.constructor.name === 'Coin') {
       (this.x < item.x + item.width) && item.remove()
@@ -65,25 +57,27 @@ export default class Player extends Base {
     }
   }
 
+  // 下边撞到障碍物
   private crashDown (item) {
-    const newHeight = item.y - this.height
-    this.y = Math.max(0, Math.min(this.y, newHeight))
-
-    if (this.y === newHeight) {
-      this.jumping = false
-      this.speedY = 0
-    }
-
-    if (item.type === BlockType.animation) {
-      // 消灭怪物
-      item.remove()
-    }
-
     if (item.constructor.name === 'Coin') {
       item.remove()
+    } else {
+      const newHeight = item.y - this.height
+      this.y = Math.max(0, Math.min(this.y, newHeight))
+
+      if (this.y === newHeight) {
+        this.jumping = false
+        this.speedY = 0
+      }
+
+      if (item.type === BlockType.animation) {
+        // 消灭怪物
+        item.remove()
+      }
     }
   }
 
+  // 上面撞到障碍物
   private crashUp (item) {
     if (item.constructor.name === 'Coin') {
       (this.y > item.y + item.height) && item.remove()
@@ -110,8 +104,9 @@ export default class Player extends Base {
     this.speedY += this.acce
     this.y += this.speedY
     if (this.y >= stageSize.height) {
-      gameMain.loopPause()
-      console.log('gameover')
+      // gameMain.loopPause()
+      this.x = 100
+      this.y = 50
     }
     if (this.speedY !== 0) {
       this.jumping = true
@@ -120,15 +115,16 @@ export default class Player extends Base {
     if (left && right || !left && !right) {
       this.initAction()
     } else if (right) {
+      const screenWidth = Math.round(laya.utils.Browser.width * stageSize.height / laya.utils.Browser.height)
       // 在stage中的位置
       if (gameMain.stageX >= gameSize.width) {
         gameMain.stageX = Math.min(gameMain.stageX, gameSize.width)
-        this.x = Math.min(this.x + this.speedX, stageSize.width - this.width)
+        this.x = Math.min(this.x + this.speedX, screenWidth - this.width)
       } else {
-        if (this.x === stageSize.width / 2) {
+        if (this.x === screenWidth / 2) {
           gameMain.stageX = Math.min(gameMain.stageX + this.speedX, gameSize.width)
         }
-        this.x = Math.min(this.x + this.speedX, stageSize.width / 2)
+        this.x = Math.min(this.x + this.speedX, screenWidth / 2)
       }
       this.runDir = 1
       // 播放动画
@@ -147,7 +143,7 @@ export default class Player extends Base {
   }
 
   // 初始化角色动作
-  private initAction (): void {
+  public initAction (): void {
     this.body.clear()
     this.graphics.clear()
     if (this.runDir === 1) {
@@ -164,6 +160,7 @@ export default class Player extends Base {
     Laya.Animation.createFrames(['player/player3.png', 'player/player4.png', 'player/player5.png'],
       playerProp.action.left)
     this.body = new Laya.Animation()
+    this.body.interval = 120
     this.addChild(this.body)
   }
 
@@ -179,6 +176,5 @@ export default class Player extends Base {
     this.zOrder = 11
     this.initAnimation()
     this.loadImage('player/player0.png')
-    this.initEvent()
   }
 }

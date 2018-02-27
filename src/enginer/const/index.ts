@@ -3,8 +3,8 @@
  */
 // 画布尺寸
 export const stageSize = {
-  width: 1000,
-  height: 600
+  width: 1000, // laya.utils.Browser.width,
+  height: 600 // laya.utils.Browser.height
 }
 
 // 整个游戏尺寸

@@ -9,21 +9,24 @@ import { initGameContent } from './enginer/game-setting'
 import { collisionCheck, marginCheck } from './enginer/common/utils'
 import { render } from './enginer/render'
 import { Block } from './enginer/object/block'
+import initHandle from './enginer/handle'
 
 // 程序入口
 class GameMain {
   // 背景偏移量
-  public stageX: number = stageSize.width
+  public stageX: number = Math.round(laya.utils.Browser.width * stageSize.height / laya.utils.Browser.height)
   // 主角
-  private player: Player
+  public player: Player
   // 背景
   private background: Background
   // 其他碰撞体
   public blockRenderList: any[]
   // 游戏入口类构造函数
   constructor () {
-    Laya.init(stageSize.width, stageSize.height, Laya.WebGL)
-    Laya.Stat.show(0, 0)
+    Laya.init(stageSize.width, stageSize.height , Laya.WebGL)
+    initHandle()
+    this.setStageSize()
+    // Laya.Stat.show(0, 0)
     Laya.loader.load(['./static/res/pp.json',
                           './static/res/player.json'
                           ],
@@ -31,6 +34,14 @@ class GameMain {
                     null,
                     Laya.Loader.ATLAS)
   }
+
+  // 设置画布缩放对其
+  private setStageSize () {
+    Laya.stage.scaleMode = Laya.Stage.SCALE_FIXED_HEIGHT
+    Laya.stage.screenMode = Laya.Stage.SCREEN_HORIZONTAL
+    this.stageX = Math.round(laya.utils.Browser.height * stageSize.height / laya.utils.Browser.width)
+  }
+
   // 动画资源加载完成处理函数
   private onLoaded (): void {
     this.playMusic()
@@ -42,6 +53,7 @@ class GameMain {
     Laya.timer.frameLoop(1, this, this.onLoop)
   }
 
+  // BGM
   private playMusic () {
     Laya.SoundManager.playMusic('./static/music/mxd1.mp3')
     Laya.SoundManager.autoStopMusic = false
