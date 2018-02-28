@@ -38,6 +38,8 @@ const assets = [
 
 // 程序入口
 class GameMain {
+  // canvas宽度
+  private canvasWidth = 0
   // 背景偏移量
   public stageX: number = 0
   // 主角
@@ -67,10 +69,12 @@ class GameMain {
 
   // 设置画布缩放对其
   private setStage () {
-    Laya.stage.scaleMode = Laya.Stage.SCALE_FIXED_AUTO
+    Laya.stage.scaleMode = Laya.Stage.SCALE_FIXED_HEIGHT
     Laya.stage.screenMode = Laya.Stage.SCREEN_HORIZONTAL
-    this.stageX = stageSize.width
-    // Math.round(laya.utils.Browser.height * stageSize.height / laya.utils.Browser.width)
+    // this.stageX = stageSize.width
+    this.canvasWidth = Math.max(Math.round(laya.utils.Browser.height * stageSize.height / laya.utils.Browser.width),
+                                Math.round(laya.utils.Browser.width * stageSize.height / laya.utils.Browser.height))
+    this.stageX = this.canvasWidth
   }
 
   // 动画资源加载完成处理函数
@@ -200,7 +204,7 @@ class GameMain {
     this.selectLevelStage = new Laya.Sprite()
     this.selectLevelStage.width = stageSize.width
     this.selectLevelStage.height = stageSize.height
-    this.selectLevelStage.graphics.drawRect(0, 0, stageSize.width, stageSize.height, '#FF0')
+    this.selectLevelStage.graphics.drawRect(0, 0, this.canvasWidth, stageSize.height, '#FF0')
     const title = new Laya.Text()
     title.text = '选择关卡'
     title.width = stageSize.width
