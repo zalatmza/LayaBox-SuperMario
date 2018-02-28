@@ -56,12 +56,14 @@ function initPipeArray (): Array<Pipe> {
 function initMonstersArray (): ABlock[] {
   const monsterArray = []
   monsterArray.push(new Monster1(550, 100))
+  monsterArray.push(new Monster1(650, 100))
   monsterArray.push(new Monster1(1100, 100))
   return monsterArray
 }
 
-export function initGameContent (): Block[] {
-  let objArray = []
-  objArray = objArray.concat(initFloorArray(), initBrickArray(), initPipeArray(), initMonstersArray(), initGrassArray())
-  return objArray
+export function generateGameBattle (): Block[][] {
+  const battleArr = []
+  battleArr.push([].concat(initFloorArray(), initBrickArray(), initPipeArray(), initMonstersArray(), initGrassArray()))
+  battleArr.push([].concat(initFloorArray(), initBrickArray(), initMonstersArray(), initGrassArray()))
+  return battleArr
 }

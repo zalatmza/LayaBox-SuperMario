@@ -33,6 +33,7 @@ export default class Background extends Laya.Sprite {
   fillBackground (): void {
     // 绘制山脉
     for (const img of this.imgSrc) {
+      // console.log()
       this.graphics.fillTexture(Laya.loader.getRes(img), 0, 0, gameSize.width, 600)
     }
   }

@@ -23,41 +23,25 @@ abstract class SBlock extends Block {
     super(x, y, w, h)
     this.type = BlockType.static
   }
-  protected abstract loadImg (): void
-  protected abstract onLoaded (): void
 }
 
 // 金币
 export class Coin extends SBlock {
-  private src = '../../../static/res/coin.png'
+  private src = 'block/coin.png'
   private hasCoin = true
   constructor (x, y,) {
     super(x, y, blockSize.coinSize.width, blockSize.coinSize.height)
-    this.loadImg()
-  }
-  protected loadImg () {
-    Laya.loader.load(this.src, Laya.Handler.create(this, this.onLoaded, null, false))
-  }
-  protected onLoaded () {
-    const img = Laya.loader.getRes(this.src)
-    this.graphics.fillTexture(img, 0, 0, this.width, this.height)
+    this.loadImage(this.src, 0, 0, this.width, this.height)
   }
 }
 
 // 金币方块
 export class Grass extends SBlock {
-  private src = '../../../static/res/grass.jpg'
+  private src = 'block/grass.png'
   private hasCoin = true
   constructor (x, y, w, h) {
     super(x, y, w, h)
-    this.loadImg()
-  }
-  protected loadImg () {
-    Laya.loader.load(this.src, Laya.Handler.create(this, this.onLoaded, null, false))
-  }
-  protected onLoaded () {
-    const img = Laya.loader.getRes(this.src)
-    this.graphics.fillTexture(img, 0, 0, this.width, this.height)
+    this.loadImage(this.src, 0, 0, this.width, this.height)
   }
 
   public popupCoin () {
@@ -70,79 +54,54 @@ export class Grass extends SBlock {
 
 // 砖块
 export class Brick extends SBlock {
-  private brickSrc = '../../../static/res/brick1.png'
+  private src = 'block/brick1.png'
   constructor (x, y, w, h) {
     super(x, y, w, h)
-    this.loadImg()
-  }
-  protected loadImg () {
-    Laya.loader.load(this.brickSrc, Laya.Handler.create(this, this.onLoaded, null, false))
-  }
-  protected onLoaded () {
-    const img = Laya.loader.getRes(this.brickSrc)
-    this.graphics.fillTexture(img, 0, 0, this.width, this.height)
+    this.graphics.fillTexture(Laya.loader.getRes(this.src), 0, 0, this.width, this.height)
   }
 }
 
 // 水管
 export class Pipe extends SBlock {
-  private ptop: Laya.Sprite
-  private pbody: Laya.Sprite
-  private ptsrc = '../../../static/res/pipe1.png'
-  private pbsrc = '../../../static/res/pipe2.png'
+  private ptsrc = 'block/pipe1.png'
+  private pbsrc = 'block/pipe2.png'
   constructor (x, y, h) {
     super(x, y, blockSize.pipeSize.width1, h)
-    this.loadImg()
-  }
-  protected loadImg () {
     // 创建水管顶部
-    this.ptop = new Laya.Sprite()
+    const ptop = new Laya.Sprite()
     // 创建水管底部
-    this.pbody = new Laya.Sprite()
+    const pbody = new Laya.Sprite()
     // 加载并显示图
-    this.ptop.loadImage(this.ptsrc)
-    this.ptop.pos(0, 0)
+    ptop.loadImage(this.ptsrc)
+    ptop.pos(0, 0)
     // 把图显示在容器内
-    this.addChild(this.ptop)
-    Laya.loader.load(this.pbsrc, Laya.Handler.create(this, this.onLoaded))
-  }
-  protected onLoaded () {
-    const img = Laya.loader.getRes(this.pbsrc)
-    this.pbody.graphics.fillTexture(img, 4,  0,
-                                    blockSize.pipeSize.width2, this.height - blockSize.pipeSize.height)
-    this.pbody.pos(0, blockSize.pipeSize.height)
-    this.addChild(this.pbody)
+    this.addChild(ptop)
+    pbody.graphics.fillTexture(Laya.loader.getRes(this.pbsrc), 4,  0,
+      blockSize.pipeSize.width2, this.height - blockSize.pipeSize.height)
+    pbody.pos(0, blockSize.pipeSize.height)
+    this.addChild(pbody)
   }
 }
 
 // 地板
 export class Floor extends SBlock {
-  private ftop: Laya.Sprite
-  private fbody: Laya.Sprite
-  private ftsrc: string = '../../../static/res/land2.png'
-  private fbsrc: string = '../../../static/res/land1.png'
+  private ftsrc: string = 'block/land2.png'
+  private fbsrc: string = 'block/land1.png'
   constructor (x, y) {
     super(x, y, blockSize.floorSize.width, stageSize.height - y)
-    this.loadImg()
-  }
-  protected loadImg () {
     // 创建土地顶部
-    this.ftop = new Laya.Sprite()
+    const ftop = new Laya.Sprite()
     // 创建土地底部
-    this.fbody = new Laya.Sprite()
+    const fbody = new Laya.Sprite()
     // 加载并显示图
-    this.ftop.loadImage(this.ftsrc)
-    this.ftop.pos(0, 0)
+    ftop.loadImage(this.ftsrc)
+    ftop.pos(0, 0)
     // 把图显示在容器内
-    this.addChild(this.ftop)
-    Laya.loader.load(this.fbsrc, Laya.Handler.create(this, this.onLoaded))
-  }
-  protected onLoaded (): void {
-    const img = Laya.loader.getRes(this.fbsrc)
-    this.fbody.graphics.fillTexture(img, 0, 0,
-                                    blockSize.floorSize.width, this.height - blockSize.floorSize.height)
-    this.fbody.pos(0, blockSize.floorSize.height)
-    this.addChild(this.fbody)
+    this.addChild(ftop)
+    fbody.graphics.fillTexture(Laya.loader.getRes(this.fbsrc), 0, 0,
+      blockSize.floorSize.width, this.height - blockSize.floorSize.height)
+    fbody.pos(0, blockSize.floorSize.height)
+    this.addChild(fbody)
   }
 }
 
@@ -190,22 +149,28 @@ export abstract class ABlock extends Block {
   }
 
   protected crashLeft (item) {
-    // 和固定障碍物碰撞
-    this.x = item.x - this.width
-    this.runDir = -1
+    if (item.constructor.__proto__.name !== 'ABlock') {
+      // 和固定障碍物碰撞
+      this.x = item.x - this.width
+      this.runDir = -1
+    }
   }
 
   protected crashRight (item) {
-    // 和固定障碍物碰撞
-    this.x = item.x + item.width
-    this.runDir = 1
+    if (item.constructor.__proto__.name !== 'ABlock') {
+      // 和固定障碍物碰撞
+      this.x = item.x + item.width
+      this.runDir = 1
+    }
   }
 
   protected crashDown (item) {
-    const newHeight = item.y - this.height
-    this.y = Math.max(0, Math.min(this.y, newHeight))
-    if (this.y === newHeight) {
-      this.speedY = 0
+    if (item.constructor.__proto__.name !== 'ABlock') {
+      const newHeight = item.y - this.height
+      this.y = Math.max(0, Math.min(this.y, newHeight))
+      if (this.y === newHeight) {
+        this.speedY = 0
+      }
     }
   }
 

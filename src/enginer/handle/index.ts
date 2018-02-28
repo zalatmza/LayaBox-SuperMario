@@ -5,10 +5,12 @@ import { key } from '../const'
 import { gameMain } from '../../index'
 
 class HandleBtn extends Laya.Sprite {
+  private touchWidth: number = 150
+  private touchHeight: number = 200
   private r: number = 50
   private keyCode: number = 0
 
-  private unbindKeyCode (e: Laya.Event) {
+  public unbindKeyCode (e: Laya.Event) {
     gameMain.player.keyState[this.keyCode] = false
     gameMain.player.initAction()
     this.alpha = 0.5
@@ -19,8 +21,9 @@ class HandleBtn extends Laya.Sprite {
     this.x = x
     this.y = y
     this.zOrder = 20
-    this.size(this.r * 2, this.r * 2)
-    this.graphics.drawCircle(this.r, this.r, this.r, '#fff')
+    this.size(this.touchWidth, this.touchHeight)
+    // this.graphics.drawRect(0, 0, this.touchWidth, this.touchHeight, 'FF0')
+    this.graphics.drawCircle(this.touchWidth / 2, 130, this.r, '#fff')
     this.alpha = 0.5
     this.mouseEnabled = true
     this.keyCode = keyCode
@@ -34,16 +37,7 @@ class HandleBtn extends Laya.Sprite {
 }
 
 export default function initHandle () {
-  const leftBtn = new HandleBtn(25, 480, key.left)
-  const rightBtn = new HandleBtn(150, 480, key.right)
-  const upBtn = new HandleBtn(850, 480, key.up)
-  Laya.stage.on(Laya.Event.MOUSE_UP, this, () => {
-    gameMain.player.keyState[key.left] = false
-    gameMain.player.keyState[key.right] = false
-    gameMain.player.keyState[key.up] = false
-    this.alpha = 0.5
-  })
-  Laya.stage.addChild(leftBtn)
-  Laya.stage.addChild(rightBtn)
-  Laya.stage.addChild(upBtn)
+  Laya.stage.addChild(new HandleBtn(0, 400, key.left))
+  Laya.stage.addChild(new HandleBtn(150, 400, key.right))
+  Laya.stage.addChild(new HandleBtn(810, 400, key.up))
 }
