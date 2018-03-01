@@ -116,7 +116,6 @@ export abstract class ABlock extends Block {
   constructor (x, y, w, h) {
     super(x, y, w, h)
     this.type = BlockType.animation
-
   }
 
   protected abstract initAnimation (): void
@@ -124,7 +123,7 @@ export abstract class ABlock extends Block {
   protected playAnimation (actionName): void {
     this.graphics.clear()
     this.body.play(0, true, actionName)
-    this.body.pos(0, 0)
+
   }
 
   protected crashHandle (type, item) {
@@ -186,7 +185,7 @@ export class Monster1 extends ABlock {
     this.speedX = monsterProperty.monster1.speedX
     this.acce = monsterProperty.monster1.acce
     this.initAnimation()
-    this.loadImage('pp/pp001.png')
+    // this.loadImage('pp/pp001.png')
     this.playAnimation(monsterProperty.monster1.action.right)
   }
 
@@ -197,6 +196,7 @@ export class Monster1 extends ABlock {
       monsterProperty.monster1.action.left)
     this.body = new Laya.Animation()
     this.body.interval = 120
+    this.body.pos(0, 0)
     this.addChild(this.body)
   }
 }

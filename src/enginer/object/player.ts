@@ -43,7 +43,11 @@ export default class Player extends Base {
       (this.x + this.width > item.x) && item.remove()
     } else {
       // 和固定障碍物碰撞
-      this.x = item.x - this.width
+      if (item.constructor.__proto__.name === 'ABlock') {
+        this.playDie()
+      } else {
+        this.x = item.x - this.width
+      }
     }
   }
 
@@ -53,7 +57,11 @@ export default class Player extends Base {
       (this.x < item.x + item.width) && item.remove()
     } else {
       // 和固定障碍物碰撞
-      this.x = item.x + item.width
+      if (item.constructor.__proto__.name === 'ABlock') {
+        this.playDie()
+      } else {
+        this.x = item.x + item.width
+      }
     }
   }
 
@@ -90,6 +98,11 @@ export default class Player extends Base {
     }
   }
 
+  private playDie () {
+    this.x = 100
+    this.y = 50
+  }
+
   // 玩家动作
   public playerMove () {
     const left: boolean = this.keyState[key.left]
@@ -105,8 +118,7 @@ export default class Player extends Base {
     this.y += this.speedY
     if (this.y >= stageSize.height) {
       // gameMain.loopPause()
-      this.x = 100
-      this.y = 50
+      this.playDie()
     }
     if (this.speedY !== 0) {
       this.jumping = true
