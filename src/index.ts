@@ -9,7 +9,7 @@ import { generateGameBattle } from './enginer/game-setting'
 import { collisionCheck, marginCheck } from './enginer/common/utils'
 import { render } from './enginer/render'
 import { Block } from './enginer/object/block'
-import initHandle from './enginer/handle'
+import OperateBtns from './enginer/handle'
 
 // 带加载的资源
 const Loader = Laya.Loader
@@ -40,6 +40,17 @@ const assets = [
 class GameMain {
   // canvas宽度
   private canvasWidth = 0
+  /*
+  * 资源加载
+  *
+  */
+  // 加载进度
+  private loadingText: Laya.Text
+
+  /*
+  * 游戏中
+  *
+  */
   // 背景偏移量
   public stageX: number = 0
   // 主角
@@ -48,17 +59,26 @@ class GameMain {
   private background: Background
   // 其他碰撞体
   public blockRenderList: any[]
-  // 加载进度
-  private loadingText: Laya.Text
+  /*
+  * 所有按钮
+  * */
+  // 工具条
+  private operationBtns: OperateBtns
+
+  /*
+  * 关卡界面
+  *
+  */
   // 选择关卡界面
   private selectLevelStage: Laya.Sprite
   // 关卡信息
   private battleList: any[]
   // 当前关卡
   private currentBattleIndex: number = 0
+
   // 游戏入口类构造函数
   constructor () {
-    Laya.init(stageSize.width, stageSize.height , Laya.WebGL)
+    Laya.init(stageSize.width, stageSize.height, Laya.WebGL)
     this.setStage()
     this.initLoadingProgess()
     Laya.Stat.show(200, 0)
@@ -92,7 +112,8 @@ class GameMain {
     Laya.stage.addChild(this.background)
     this.player = new Player(0, 0)
     Laya.stage.addChild(this.player)
-    initHandle()
+    this.operationBtns = new OperateBtns()
+    Laya.stage.addChild(this.operationBtns)
     Laya.timer.frameLoop(1, this, this.onLoop)
   }
 
@@ -182,6 +203,11 @@ class GameMain {
     Laya.timer.clear(this, this.onLoop)
   }
 
+  // 循环继续
+  public loopContinue () {
+    Laya.timer.frameLoop(1, this, this.onLoop)
+  }
+
   // 初始化加载进度条
   private initLoadingProgess () {
     this.loadingText = new Laya.Text()
@@ -200,6 +226,7 @@ class GameMain {
     }
   }
 
+  // 选择关卡界面
   private initSelectBattle () {
     this.selectLevelStage = new Laya.Sprite()
     this.selectLevelStage.width = stageSize.width

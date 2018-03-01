@@ -1,43 +1,106 @@
 /**
  * Created by wconisan on 2018/2/26.
  */
-import { key } from '../const'
+import { handleSize, key, gameToolBarConfig, stageSize } from '../const'
 import { gameMain } from '../../index'
 
-class HandleBtn extends Laya.Sprite {
-  private touchWidth: number = 150
-  private touchHeight: number = 200
-  private r: number = 50
-  private keyCode: number = 0
-
-  public unbindKeyCode (e: Laya.Event) {
-    gameMain.player.keyState[this.keyCode] = false
-    gameMain.player.initAction()
+abstract class BaseBtn extends Laya.Sprite {
+  protected touchWidth: number = 0
+  protected touchHeight: number = 0
+  protected r: number = 0
+  constructor () {
+    super()
+    this.zOrder = 20
+    this.mouseEnabled = true
     this.alpha = 0.5
-    e.stopPropagation()
   }
+}
+
+class ToolBtn extends BaseBtn {
+  public isClick: boolean = false
+  constructor () {
+    super()
+    this.touchWidth = gameToolBarConfig.btnSize.touchWidth
+    this.touchHeight = gameToolBarConfig.btnSize.touchHeight
+    this.r = gameToolBarConfig.btnSize.radius
+    this.size(this.touchWidth, this.touchHeight)
+    this.graphics.drawCircle(this.touchWidth / 2, this.touchHeight / 2, this.r, '#000')
+  }
+}
+
+class HandleBtn extends BaseBtn {
+  private keyCode: number = 0
   constructor (x, y, keyCode) {
     super()
-    this.x = x
-    this.y = y
-    this.zOrder = 20
-    this.size(this.touchWidth, this.touchHeight)
+    this.touchWidth = handleSize.touchWidth
+    this.touchHeight = handleSize.touchHeight
+    this.r = handleSize.radius
+    this.pos(x, y)
+    this.size(handleSize.touchWidth, handleSize.touchHeight)
     // this.graphics.drawRect(0, 0, this.touchWidth, this.touchHeight, 'FF0')
     this.graphics.drawCircle(this.touchWidth / 2, 130, this.r, '#fff')
-    this.alpha = 0.5
-    this.mouseEnabled = true
     this.keyCode = keyCode
     this.on(Laya.Event.MOUSE_DOWN, this, () => {
       gameMain.player.keyState[keyCode] = true
       this.alpha = 0.75
     })
-    this.on(Laya.Event.MOUSE_UP, this, this.unbindKeyCode)
-    this.on(Laya.Event.MOUSE_OUT, this, this.unbindKeyCode)
+    this.on(Laya.Event.MOUSE_UP, this, this.bindKeyCode)
+    this.on(Laya.Event.MOUSE_OUT, this, this.bindKeyCode)
+  }
+  public bindKeyCode (e: Laya.Event) {
+    gameMain.player.keyState[this.keyCode] = false
+    gameMain.player.initAction()
+    this.alpha = 0.5
+    e.stopPropagation()
   }
 }
 
-export default function initHandle () {
-  Laya.stage.addChild(new HandleBtn(0, 400, key.left))
-  Laya.stage.addChild(new HandleBtn(150, 400, key.right))
-  Laya.stage.addChild(new HandleBtn(810, 400, key.up))
+class OperateBtns extends  Laya.Sprite {
+  private exitBtn: ToolBtn
+  private pauseBtn: ToolBtn
+  constructor () {
+    super()
+    this.zOrder = 20
+    this.init()
+    this.pos(0, 0)
+  }
+  // 退出按钮
+  private initExitBtn () {
+    this.exitBtn = new ToolBtn()
+    this.exitBtn.pos(0, 0)
+    this.exitBtn.on(Laya.Event.MOUSE_UP, this, e => {
+      // gameMain
+    })
+    this.addChild(this.exitBtn)
+  }
+  // 暂停按钮
+  private initPauseBtn () {
+    this.pauseBtn = new ToolBtn()
+    this.pauseBtn.pos(gameToolBarConfig.btnSize.touchWidth, 0)
+
+    this.pauseBtn.on(Laya.Event.MOUSE_UP, this, e => {
+      if (!this.pauseBtn.isClick) {
+        gameMain.loopPause()
+        this.pauseBtn.isClick = true
+      } else {
+        gameMain.loopContinue()
+        this.pauseBtn.isClick = false
+      }
+      e.stopPropagation()
+    })
+    this.addChild(this.pauseBtn)
+  }
+  // 操作按钮
+  private initHandleBtn () {
+    this.addChild(new HandleBtn(0, 400, key.left))
+    this.addChild(new HandleBtn(150, 400, key.right))
+    this.addChild(new HandleBtn(810, 400, key.up))
+  }
+  public init () {
+    this.initExitBtn()
+    this.initPauseBtn()
+    this.initHandleBtn()
+  }
 }
+
+export default OperateBtns

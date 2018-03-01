@@ -81,7 +81,24 @@ export const crashDir = {
   down: 'CRASHDOWN'
 }
 
+// 障碍物类型
 export const BlockType = {
   animation: 'ANIMATION',
   static: 'STATIC'
+}
+
+// 操作按钮
+export const handleSize = {
+  touchWidth: 150,
+  touchHeight: 200,
+  radius: 50
+}
+
+// 游戏工具栏
+export const gameToolBarConfig = {
+  btnSize: {
+    touchWidth: 60,
+    touchHeight: 60,
+    radius: 20
+  }
 }
