@@ -185,7 +185,6 @@ export class Monster1 extends ABlock {
     this.speedX = monsterProperty.monster1.speedX
     this.acce = monsterProperty.monster1.acce
     this.initAnimation()
-    // this.loadImage('pp/pp001.png')
     this.playAnimation(monsterProperty.monster1.action.right)
   }
 

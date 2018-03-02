@@ -23,6 +23,16 @@ export default class Player extends Base {
   private acce: number = playerProp.acce
   // 键盘事件状态
   public keyState = Object.create(null)
+  // 初始化键盘事件
+  private initEvent () {
+    document.addEventListener('keydown', e => {
+      this.keyState[e.keyCode] = true
+    })
+    document.addEventListener('keyup', e => {
+      this.keyState[e.keyCode] = false
+      this.initAction()
+    })
+  }
 
   // 处理碰撞检测
   public crashHandle (type, item) {
@@ -117,7 +127,7 @@ export default class Player extends Base {
     this.speedY += this.acce
     this.y += this.speedY
     if (this.y >= stageSize.height) {
-      // gameMain.loopPause()
+      // gameMain.gamePause()
       this.playDie()
     }
     if (this.speedY !== 0) {
@@ -187,6 +197,7 @@ export default class Player extends Base {
     super(x, y, playerProp.width, playerProp.height)
     this.zOrder = 11
     this.initAnimation()
+    this.initEvent()
     this.loadImage('player/player0.png')
   }
 }

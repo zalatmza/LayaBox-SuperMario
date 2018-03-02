@@ -10,7 +10,6 @@ abstract class BaseBtn extends Laya.Sprite {
   protected r: number = 0
   constructor () {
     super()
-    this.zOrder = 20
     this.mouseEnabled = true
     this.alpha = 0.5
   }
@@ -60,7 +59,7 @@ class OperateBtns extends  Laya.Sprite {
   private pauseBtn: ToolBtn
   constructor () {
     super()
-    this.zOrder = 20
+    this.zOrder = 12
     this.init()
     this.pos(0, 0)
   }
@@ -69,7 +68,10 @@ class OperateBtns extends  Laya.Sprite {
     this.exitBtn = new ToolBtn()
     this.exitBtn.pos(0, 0)
     this.exitBtn.on(Laya.Event.MOUSE_UP, this, e => {
-      // gameMain
+      gameMain.gamePause()
+      gameMain.battleSprite.visible = false
+      gameMain.battleSprite = null
+      gameMain.selectLevelSprite.visible = true
     })
     this.addChild(this.exitBtn)
   }
@@ -80,10 +82,10 @@ class OperateBtns extends  Laya.Sprite {
 
     this.pauseBtn.on(Laya.Event.MOUSE_UP, this, e => {
       if (!this.pauseBtn.isClick) {
-        gameMain.loopPause()
+        gameMain.gamePause()
         this.pauseBtn.isClick = true
       } else {
-        gameMain.loopContinue()
+        gameMain.gameContinue()
         this.pauseBtn.isClick = false
       }
       e.stopPropagation()
