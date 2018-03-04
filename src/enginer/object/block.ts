@@ -123,10 +123,9 @@ export abstract class ABlock extends Block {
   protected playAnimation (actionName): void {
     this.graphics.clear()
     this.body.play(0, true, actionName)
-
   }
 
-  protected crashHandle (type, item) {
+  public crashHandle (type, item) {
     if (type === crashDir.left) {
       this.crashLeft(item)
     } else if (type === crashDir.right) {

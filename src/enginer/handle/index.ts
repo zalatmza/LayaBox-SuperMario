@@ -36,7 +36,6 @@ class HandleBtn extends BaseBtn {
     this.r = handleSize.radius
     this.pos(x, y)
     this.size(handleSize.touchWidth, handleSize.touchHeight)
-    // this.graphics.drawRect(0, 0, this.touchWidth, this.touchHeight, 'FF0')
     this.graphics.drawCircle(this.touchWidth / 2, 130, this.r, '#fff')
     this.keyCode = keyCode
     this.on(Laya.Event.MOUSE_DOWN, this, () => {
@@ -70,8 +69,8 @@ class OperateBtns extends  Laya.Sprite {
     this.exitBtn.on(Laya.Event.MOUSE_UP, this, e => {
       gameMain.gamePause()
       gameMain.battleSprite.visible = false
-      gameMain.battleSprite = null
-      gameMain.selectLevelSprite.visible = true
+      gameMain.battleSprite.destroy()
+      gameMain.selectionSprite.visible = true
     })
     this.addChild(this.exitBtn)
   }

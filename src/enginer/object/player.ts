@@ -54,7 +54,7 @@ export default class Player extends Base {
     } else {
       // 和固定障碍物碰撞
       if (item.constructor.__proto__.name === 'ABlock') {
-        this.playDie()
+        this.playerDie()
       } else {
         this.x = item.x - this.width
       }
@@ -68,7 +68,7 @@ export default class Player extends Base {
     } else {
       // 和固定障碍物碰撞
       if (item.constructor.__proto__.name === 'ABlock') {
-        this.playDie()
+        this.playerDie()
       } else {
         this.x = item.x + item.width
       }
@@ -108,7 +108,7 @@ export default class Player extends Base {
     }
   }
 
-  private playDie () {
+  private playerDie () {
     this.x = 100
     this.y = 50
   }
@@ -128,7 +128,7 @@ export default class Player extends Base {
     this.y += this.speedY
     if (this.y >= stageSize.height) {
       // gameMain.gamePause()
-      this.playDie()
+      this.playerDie()
     }
     if (this.speedY !== 0) {
       this.jumping = true

@@ -4,10 +4,10 @@
 import Player from './enginer/object/player'
 import Background from './enginer/background'
 import { stageSize, gameSize, playerProp, key, crashDir, BlockType } from './enginer/const'
-import { generateGameBattle } from './enginer/game-setting'
+import generateGameBattle from './enginer/game-setting'
 import { collisionCheck, marginCheck } from './enginer/common/utils'
 import { render } from './enginer/render'
-import { Block } from './enginer/object/block'
+import { Block, ABlock } from './enginer/object/block'
 import OperateBtns from './enginer/handle'
 
 // 带加载的资源
@@ -66,15 +66,15 @@ class GameMain {
 
   /*
   * 关卡界面
-  *
+  *`
   */
   public battleSprite: Laya.Sprite
   // 选择关卡界面
-  public selectLevelSprite: Laya.Sprite
+  public selectionSprite: Laya.Sprite
   // 关卡信息
   private battleList: any[]
   // 当前关卡
-  private currentBattleIndex: number = 0
+  private currentSelectionIndex: number = 0
 
   // 游戏入口类构造函数
   constructor () {
@@ -93,19 +93,19 @@ class GameMain {
     Laya.stage.screenMode = Laya.Stage.SCREEN_HORIZONTAL
     this.canvasWidth = Math.max(Math.round(laya.utils.Browser.height * stageSize.height / laya.utils.Browser.width),
                                 Math.round(laya.utils.Browser.width * stageSize.height / laya.utils.Browser.height))
-    this.stageX = this.canvasWidth
   }
 
   // 动画资源加载完成处理函数
   private onLoaded () {
     this.playMusic()
     this.battleList = generateGameBattle()
-    this.initSelectBattle()
+    this.initSelection()
   }
 
   // 游戏开始
   private gameStart (index) {
-    this.currentBattleIndex = index
+    this.stageX = this.canvasWidth
+    this.currentSelectionIndex = index
     // 新建关卡实例
     this.battleSprite = new Laya.Sprite()
     this.battleSprite.zOrder = 20
@@ -113,9 +113,12 @@ class GameMain {
     this.operationBtnsSprite = new OperateBtns()
     this.battleSprite.addChild(this.operationBtnsSprite)
     // 障碍物
-    this.blockRenderList = this.battleList[index]
+    this.blockRenderList = this.battleList[index].init()
+    this.battleSprite.addChild(this.battleList[index].body)
+    // 背景
     this.background = new Background()
     this.battleSprite.addChild(this.background)
+    // 玩家
     this.player = new Player(0, 0)
     this.battleSprite.addChild(this.player)
 
@@ -233,19 +236,19 @@ class GameMain {
   }
 
   // 选择关卡界面
-  private initSelectBattle () {
-    this.selectLevelSprite = new Laya.Sprite()
-    this.selectLevelSprite.width = stageSize.width
-    this.selectLevelSprite.height = stageSize.height
-    this.selectLevelSprite.graphics.drawRect(0, 0, this.canvasWidth, stageSize.height, '#FF0')
+  private initSelection () {
+    this.selectionSprite = new Laya.Sprite()
+    this.selectionSprite.width = stageSize.width
+    this.selectionSprite.height = stageSize.height
+    this.selectionSprite.graphics.drawRect(0, 0, this.canvasWidth, stageSize.height, '#FF0')
     const title = new Laya.Text()
     title.text = '选择关卡'
     title.width = stageSize.width
     title.align = 'center'
     title.color = '#000'
     title.fontSize = 36
-    this.selectLevelSprite.addChild(title)
-    Laya.stage.addChild(this.selectLevelSprite)
+    this.selectionSprite.addChild(title)
+    Laya.stage.addChild(this.selectionSprite)
 
     this.battleList.forEach((item, index) => {
       const battle = new Laya.Text()
@@ -263,9 +266,9 @@ class GameMain {
       battle.on(Laya.Event.MOUSE_UP, this, () => {
         battle.color = '#000'
         this.gameStart(index)
-        this.selectLevelSprite.visible = false
+        this.selectionSprite.visible = false
       })
-      this.selectLevelSprite.addChild(battle)
+      this.selectionSprite.addChild(battle)
     })
   }
 }
