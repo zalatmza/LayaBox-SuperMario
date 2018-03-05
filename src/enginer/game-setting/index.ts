@@ -46,7 +46,11 @@ function map1 () {
   pArray.push(new Pipe(930, 260, 200))
   pArray.push(new Pipe(1230, 210, 150))
 
-  return [...fArray, ...bArray, ...pArray, ...gArray]
+  const monsterArray = []
+  monsterArray.push(new Monster1(600, 100))
+  monsterArray.push(new Monster1(1110, 100))
+
+  return [...fArray, ...bArray, ...pArray, ...gArray, ...monsterArray]
 }
 function map2 () {
   // 地板
@@ -98,11 +102,11 @@ const map = {
 }
 
 class Battle {
-  private _map // function
   constructor (map) {
     this._map = map
   }
   public body: Laya.Sprite
+  private _map // function
   public init () {
     this.body = new Laya.Sprite()
     this.body.zOrder = 10
