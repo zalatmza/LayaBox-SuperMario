@@ -166,15 +166,14 @@ class GameMain {
               this.player.crashHandle(crashDir.right, item)
               break
           }
-
           // 怪物碰撞检测
           if (item.type === BlockType.animation) {
-            let isTurn = false
+            let isTurn = true
             this.blockRenderList.forEach((citem, cindex) => {
-              if (item !== citem) {
+              if (index !== cindex) {
                 // 边缘检测，到边缘就扭头
-                if (marginCheck(item, citem) !== -1) {
-                  isTurn = true
+                if (marginCheck(item, citem) === 3) {
+                  isTurn = false
                 }
                 switch (collisionCheck(item, citem)) {
                   case 3:
@@ -192,7 +191,7 @@ class GameMain {
                 }
               }
             })
-            item.runDir *= isTurn === false ? -1 : 1
+            item.runDir *= isTurn ? -1 : 1
           }
         }
       })
@@ -238,11 +237,12 @@ class GameMain {
   // 选择关卡界面
   private initSelection () {
     this.selectionSprite = new Laya.Sprite()
-    this.selectionSprite.width = stageSize.width
+    this.selectionSprite.width = this.canvasWidth
     this.selectionSprite.height = stageSize.height
     this.selectionSprite.graphics.drawRect(0, 0, this.canvasWidth, stageSize.height, '#FF0')
     const title = new Laya.Text()
     title.text = '选择关卡'
+    title.y = 100
     title.width = stageSize.width
     title.align = 'center'
     title.color = '#000'
@@ -255,7 +255,7 @@ class GameMain {
       battle.text = '第' + (index + 1) + '关'
       battle.height = 100
       battle.width = stageSize.width
-      battle.y = 50 + (index + 1) * 100
+      battle.y = 100 + (index + 1) * 100
       battle.align = 'center'
       battle.valign = 'middle'
       battle.color = '#000'
@@ -272,5 +272,6 @@ class GameMain {
     })
   }
 }
+
 // 启动游戏
 export const gameMain = new GameMain()
