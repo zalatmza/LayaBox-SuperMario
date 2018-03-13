@@ -89,10 +89,11 @@ class GameMain {
 
   // 设置画布缩放对其
   private initStage () {
-    Laya.stage.scaleMode = Laya.Stage.SCALE_FIXED_HEIGHT
-    Laya.stage.screenMode = Laya.Stage.SCREEN_HORIZONTAL
-    this.canvasWidth = Math.max(Math.round(laya.utils.Browser.height * stageSize.height / laya.utils.Browser.width),
-                                Math.round(laya.utils.Browser.width * stageSize.height / laya.utils.Browser.height))
+    // Laya.stage.scaleMode = Laya.Stage.SCALE_FIXED_HEIGHT
+    // Laya.stage.screenMode = Laya.Stage.SCREEN_HORIZONTAL
+    this.canvasWidth = stageSize.width
+      // Math.max(Math.round(laya.utils.Browser.height * stageSize.height / laya.utils.Browser.width),
+      // Math.round(laya.utils.Browser.width * stageSize.height / laya.utils.Browser.height))
   }
 
   // 动画资源加载完成处理函数
@@ -104,7 +105,6 @@ class GameMain {
 
   // 游戏开始
   private gameStart (index) {
-    this.stageX = this.canvasWidth
     this.currentSelectionIndex = index
     // 新建关卡实例
     this.battleSprite = new Laya.Sprite()
@@ -134,75 +134,71 @@ class GameMain {
 
   // 游戏主循环
   private gameLoop () {
-    const preStageX = this.stageX
-    const prePlayX = this.player.x
-    const prePlayY = this.player.y
+    const prePlayerX = this.player.x
     // 获取舞台相对于背景的x坐标
     this.player.playerMove()
     this.blockRenderList.forEach(item => {
         item.type === BlockType.animation && item.visible === true && item.move()
     })
-    // 获取主角x位移
-    const playerXOffset = this.player.x - prePlayX
-    const playerYOffset = this.player.y - prePlayY
-    // 获取背景x方向位移
-    let bgXOffset = this.stageX - preStageX
-    if (playerXOffset !== 0 || playerYOffset !== 0 || bgXOffset > 0) {
-      // 进行碰撞检测
-      this.blockRenderList.forEach((item, index) => {
-        if (item.visible) {
-          switch (collisionCheck(this.player, item)) {
-            case 3:
-              this.player.crashHandle(crashDir.down, item)
-              break
-            case 2:
-              this.player.crashHandle(crashDir.up, item)
-              break
-            case 1:
-              this.player.crashHandle(crashDir.left, item)
-              bgXOffset = 0
-              break
-            case 0:
-              this.player.crashHandle(crashDir.right, item)
-              break
-          }
-          // 怪物碰撞检测
-          if (item.type === BlockType.animation) {
-            let isTurn = true
-            this.blockRenderList.forEach((citem, cindex) => {
-              if (index !== cindex) {
-                // 边缘检测，到边缘就扭头
-                if (marginCheck(item, citem) === 3) {
-                  isTurn = false
-                }
-                switch (collisionCheck(item, citem)) {
-                  case 3:
-                    item.crashHandle(crashDir.down, citem)
-                    break
-                  case 2:
-                    item.crashHandle(crashDir.up, citem)
-                    break
-                  case 1:
-                    item.crashHandle(crashDir.left, citem)
-                    break
-                  case 0:
-                    item.crashHandle(crashDir.right, citem)
-                    break
-                }
-              }
-            })
-            item.runDir *= isTurn ? -1 : 1
-          }
+    // 进行碰撞检测
+    this.blockRenderList.forEach((item, index) => {
+      if (item.visible) {
+        switch (collisionCheck(this.player, item)) {
+          case 3:
+            this.player.crashHandle(crashDir.down, item)
+            break
+          case 2:
+            this.player.crashHandle(crashDir.up, item)
+            break
+          case 1:
+            this.player.crashHandle(crashDir.left, item)
+            break
+          case 0:
+            this.player.crashHandle(crashDir.right, item)
+            break
         }
-      })
-    }
-    // 背景移动
-    if (bgXOffset > 0) {
+        // 怪物碰撞检测
+        if (item.type === BlockType.animation) {
+          let isTurn = true
+          this.blockRenderList.forEach((citem, cindex) => {
+            if (index !== cindex) {
+              // 边缘检测，到边缘就扭头
+              if (marginCheck(item, citem) === 3) {
+                isTurn = false
+              }
+              switch (collisionCheck(item, citem)) {
+                case 3:
+                  item.crashHandle(crashDir.down, citem)
+                  break
+                case 2:
+                  item.crashHandle(crashDir.up, citem)
+                  break
+                case 1:
+                  item.crashHandle(crashDir.left, citem)
+                  break
+                case 0:
+                  item.crashHandle(crashDir.right, citem)
+                  break
+              }
+            }
+          })
+          item.runDir *= isTurn ? -1 : 1
+        }
+      }
+    })
+    this.gameStageMove(prePlayerX)
+  }
+
+  private gameStageMove (prePlayerX) {
+    let bgXOffset = 0
+    if (this.player.x > stageSize.width / 2) {
+      bgXOffset = Math.min(this.player.x - prePlayerX, this.player.x - stageSize.width / 2)
+      this.player.x -= bgXOffset
       this.background.x -= bgXOffset
     }
     // 处理其他碰撞体的渲染
     this.blockRenderList.forEach((item, index) => {
-      render(item, bgXOffset, this.stageX)
+      render(item, bgXOffset)
     })
   }
 

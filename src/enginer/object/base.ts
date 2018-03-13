@@ -3,7 +3,7 @@
  */
 
 // https://layaair.ldc.layabox.com/api/?category=Core&class=laya.display.Sprite
-export default abstract class Base extends Laya.Sprite {
+export abstract class Base extends Laya.Sprite {
   constructor (x, y, w, h) {
     super()
     this.x = x
@@ -12,4 +12,18 @@ export default abstract class Base extends Laya.Sprite {
     this.height = h
     this.zOrder = 10
   }
+}
+
+// 会动的东西实现这个接口
+export interface IAnimateBase {
+  runDir: 1 | -1
+  speedX: number
+  speedY: number
+  acce: number
+
+  crashHandle (type, item)
+  crashLeft (item)
+  crashRight (item)
+  crashDown (item)
+  crashUp (item)
 }

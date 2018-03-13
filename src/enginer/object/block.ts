@@ -1,7 +1,7 @@
 /**
  * Created by wconisan on 2018/2/5.
  */
-import Base from './base'
+import { Base, IAnimateBase } from './base'
 import { stageSize, blockSize, monsterProperty, playerProp, crashDir, BlockType } from '../const'
 import { gameMain } from '../../index'
 
@@ -106,12 +106,12 @@ export class Floor extends SBlock {
 }
 
 // 动态的障碍物
-export abstract class ABlock extends Block {
+export abstract class ABlock extends Block implements IAnimateBase {
   protected body: Laya.Animation
-  protected runDir: 1 | -1 = 1
-  protected speedX: number
-  protected speedY: number = 0
-  protected acce: number
+  public runDir: 1 | -1 = 1
+  public speedX: number
+  public speedY: number = 0
+  public acce: number
 
   constructor (x, y, w, h) {
     super(x, y, w, h)
@@ -146,7 +146,7 @@ export abstract class ABlock extends Block {
     }
   }
 
-  protected crashLeft (item) {
+  public crashLeft (item) {
     if (item.constructor.__proto__.name !== 'ABlock') {
       // 和固定障碍物碰撞
       this.x = item.x - this.width
@@ -154,7 +154,7 @@ export abstract class ABlock extends Block {
     }
   }
 
-  protected crashRight (item) {
+  public crashRight (item) {
     if (item.constructor.__proto__.name !== 'ABlock') {
       // 和固定障碍物碰撞
       this.x = item.x + item.width
@@ -162,7 +162,7 @@ export abstract class ABlock extends Block {
     }
   }
 
-  protected crashDown (item) {
+  public crashDown (item) {
     if (item.constructor.__proto__.name !== 'ABlock') {
       const newHeight = item.y - this.height
       this.y = Math.max(0, Math.min(this.y, newHeight))
@@ -172,7 +172,7 @@ export abstract class ABlock extends Block {
     }
   }
 
-  protected crashUp (item) {
+  public crashUp (item) {
     // console.log('MONSTER1 up')
   }
 }
