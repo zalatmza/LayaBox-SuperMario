@@ -96,9 +96,19 @@ function map2 () {
 
   return [...fArray, ...bArray, ...pArray, ...gArray]
 }
-const map = {
-  map1,
-  map2
+function map3 () {
+  // 地板
+  const fnum = Math.floor(gameSize.width / blockSize.floorSize.width) + 1
+  const fArray = []
+  for (let i = 0; i < 30; i++) {
+    fArray.push(new Floor(blockSize.floorSize.width * i, 460))
+  }
+
+  // 砖块
+  const bArray = []
+  bArray.push(new Brick(500, 200, 150, 150))
+
+  return [...fArray, ...bArray]
 }
 
 class Battle {
@@ -119,7 +129,8 @@ class Battle {
 
 export default function generateGameBattle (): Battle[] {
   return [
-    new Battle(map.map1),
-    new Battle(map.map2)
+    new Battle(map1),
+    new Battle(map2),
+    new Battle(map3)
   ]
 }

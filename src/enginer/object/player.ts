@@ -1,28 +1,36 @@
 /**
  * Created by wconisan on 2018/2/5.
  */
-import Base from './base'
+import { Base, IAnimateBase } from './base'
 import { playerProp, crashDir } from '../../enginer/const'
 import { BlockType, gameSize, key, stageSize } from '../const'
 import { gameMain } from '../../index'
 
-export default class Player extends Base {
+export default class Player extends Base implements IAnimateBase {
   // 身体动画
   private body: Laya.Animation
+
   // 移动方向1 往右， -1 往左
-  private runDir: 1 | -1 = 1
+  public runDir: 1 | -1 = 1
+
   // 移动速度
   public speedX: number = playerProp.speedX
+
   // 跳跃中
-  private jumping: boolean = false
+  public jumping: boolean = false
+
   // 空中速度
-  private speedY: number = 0
+  public speedY: number = 0
+
   // 起跳初速度
   private initSpeedY = playerProp.initSpeedY
+
   // 重力加速度
-  private acce: number = playerProp.acce
+  public acce: number = playerProp.acce
+
   // 键盘事件状态
   public keyState = Object.create(null)
+
   // 初始化键盘事件
   private initEvent () {
     document.addEventListener('keydown', e => {
@@ -48,7 +56,7 @@ export default class Player extends Base {
   }
 
   // 左边撞到障碍物
-  private crashLeft (item) {
+  public crashLeft (item) {
     if (item.constructor.name === 'Coin') {
       (this.x + this.width > item.x) && item.remove()
     } else {
@@ -62,7 +70,7 @@ export default class Player extends Base {
   }
 
   // 右边撞到障碍物
-  private crashRight (item) {
+  public crashRight (item) {
     if (item.constructor.name === 'Coin') {
       (this.x < item.x + item.width) && item.remove()
     } else {
@@ -76,7 +84,7 @@ export default class Player extends Base {
   }
 
   // 下边撞到障碍物
-  private crashDown (item) {
+  public crashDown (item) {
     if (item.constructor.name === 'Coin') {
       item.remove()
     } else {
@@ -96,7 +104,7 @@ export default class Player extends Base {
   }
 
   // 上面撞到障碍物
-  private crashUp (item) {
+  public crashUp (item) {
     if (item.constructor.name === 'Coin') {
       (this.y > item.y + item.height) && item.remove()
     } else {
@@ -127,7 +135,6 @@ export default class Player extends Base {
     this.speedY += this.acce
     this.y += this.speedY
     if (this.y >= stageSize.height) {
-      // gameMain.gamePause()
       this.playerDie()
     }
     if (this.speedY !== 0) {
@@ -137,25 +144,14 @@ export default class Player extends Base {
     if (left && right || !left && !right) {
       this.initAction()
     } else if (right) {
-      const screenWidth = Math.round(laya.utils.Browser.width * stageSize.height / laya.utils.Browser.height)
-      // 在stage中的位置
-      if (gameMain.stageX >= gameSize.width) {
-        gameMain.stageX = Math.min(gameMain.stageX, gameSize.width)
-        this.x = Math.min(this.x + this.speedX, screenWidth - this.width)
-      } else {
-        if (this.x === screenWidth / 2) {
-          gameMain.stageX = Math.min(gameMain.stageX + this.speedX, gameSize.width)
-        }
-        this.x = Math.min(this.x + this.speedX, screenWidth / 2)
-      }
+      this.x = Math.min(this.x + this.speedX, stageSize.width - this.width)
       this.runDir = 1
       // 播放动画
       if (!(this.body.isPlaying && this.body._actionName === playerProp.action.right)) {
         this.playAnimation(playerProp.action.right)
       }
     } else if (left) {
-      this.x -= this.speedX
-      this.x = Math.max(this.x, 0)
+      this.x = Math.max(this.x - this.speedX, 0)
       this.runDir = -1
       // 播放动画
       if (!(this.body.isPlaying && this.body._actionName === playerProp.action.left)) {
