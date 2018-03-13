@@ -102,3 +102,15 @@ export const gameToolBarConfig = {
     radius: 20
   }
 }
+
+// 碰撞位置判断
+export const colPosition = {
+  tLeft: 0,
+  top: 1,
+  tRight: 2,
+  right: 3,
+  bRight: 4,
+  bottom: 5,
+  bLeft: 6,
+  left: 7
+}

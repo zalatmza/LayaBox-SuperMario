@@ -52,6 +52,7 @@ function map1 () {
 
   return [...fArray, ...bArray, ...pArray, ...gArray, ...monsterArray]
 }
+
 function map2 () {
   // 地板
   const fnum = Math.floor(gameSize.width / blockSize.floorSize.width) + 1
@@ -96,9 +97,32 @@ function map2 () {
 
   return [...fArray, ...bArray, ...pArray, ...gArray]
 }
+
+// 用于碰撞检测测试的地图
+function map3 () {
+  // 地板
+  const fArray = []
+  for (let i = 0; i < 20; i++) {
+    fArray.push(new Floor(blockSize.floorSize.width * i, 460))
+  }
+
+  // 砖块
+  const bArray = []
+  bArray.push(new Brick(500, 200, 300, 60))
+
+  // 草地
+  const gArray = []
+
+  // 水管
+  const pArray = []
+
+  return [...fArray, ...bArray, ...pArray, ...gArray]
+}
+
 const map = {
   map1,
-  map2
+  map2,
+  map3
 }
 
 class Battle {
@@ -120,6 +144,7 @@ class Battle {
 export default function generateGameBattle (): Battle[] {
   return [
     new Battle(map.map1),
-    new Battle(map.map2)
+    new Battle(map.map2),
+    new Battle(map.map3)
   ]
 }
