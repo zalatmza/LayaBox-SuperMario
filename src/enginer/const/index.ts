@@ -20,7 +20,7 @@ export const playerProp = {
   // 移动速度
   speedX: 8,
   // 跳跃初速度
-  initSpeedY: -30,
+  initSpeedY: -25,
   // （假）重力加速度
   acce: 2,
   action: {
@@ -56,7 +56,7 @@ export const monsterProperty = {
     width: 63,
     speedX: 1,
     // 跳跃初速度
-    initSpeedY: -30,
+    initSpeedY: -25,
     // （假）重力加速度
     acce: 2,
     action: {
@@ -82,7 +82,7 @@ export const crashDir = {
 }
 
 // 障碍物类型
-export const BlockType = {
+export const blockType = {
   animation: 'ANIMATION',
   static: 'STATIC'
 }

@@ -2,7 +2,7 @@
  * Created by wconisan on 2018/2/5.
  */
 import { Base, IAnimateBase } from './base'
-import { stageSize, blockSize, monsterProperty, playerProp, crashDir, BlockType } from '../const'
+import { stageSize, blockSize, monsterProperty, playerProp, crashDir, blockType } from '../const'
 import { gameMain } from '../../index'
 
 // 障碍物基类
@@ -21,7 +21,7 @@ export abstract class Block extends Base {
 abstract class SBlock extends Block {
   constructor (x, y, w, h) {
     super(x, y, w, h)
-    this.type = BlockType.static
+    this.type = blockType.static
   }
 }
 
@@ -115,7 +115,7 @@ export abstract class ABlock extends Block implements IAnimateBase {
 
   constructor (x, y, w, h) {
     super(x, y, w, h)
-    this.type = BlockType.animation
+    this.type = blockType.animation
   }
 
   protected abstract initAnimation (): void

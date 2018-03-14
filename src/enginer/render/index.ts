@@ -1,7 +1,7 @@
 /**
  * Created by wconisan on 2018/2/5.
  */
-import { blockSize, BlockType, stageSize } from '../const'
+import { blockSize, blockType, stageSize } from '../const'
 import { gameMain } from '../../index'
 
 export function render (item, xOffset) {
