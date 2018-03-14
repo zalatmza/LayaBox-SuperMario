@@ -105,6 +105,7 @@ class GameMain {
 
   // 游戏开始
   private gameStart (index) {
+    this.stageX = stageSize.width
     this.currentSelectionIndex = index
     // 新建关卡实例
     this.battleSprite = new Laya.Sprite()
@@ -119,7 +120,7 @@ class GameMain {
     this.background = new Background()
     this.battleSprite.addChild(this.background)
     // 玩家
-    this.player = new Player(0, 0)
+    this.player = new Player(0, 200)
     this.battleSprite.addChild(this.player)
 
     Laya.stage.addChild(this.battleSprite)
@@ -135,6 +136,7 @@ class GameMain {
   // 游戏主循环
   private gameLoop () {
     const prePlayerX = this.player.x
+    const prePlayerY = this.player.y
     // 获取舞台相对于背景的x坐标
     this.player.playerMove()
     this.blockRenderList.forEach(item => {
@@ -186,19 +188,34 @@ class GameMain {
         }
       }
     })
-    this.gameStageMove(prePlayerX)
+    this.gameStageMove(prePlayerX, prePlayerY)
   }
 
-  private gameStageMove (prePlayerX) {
+  private gameStageMove (prePlayerX, prePlayerY) {
     let bgXOffset = 0
-    if (this.player.x > stageSize.width / 2) {
-      bgXOffset = Math.min(this.player.x - prePlayerX, this.player.x - stageSize.width / 2)
-      this.player.x -= bgXOffset
-      this.background.x -= bgXOffset
+    let bgYOffset = 0
+    // X轴
+    if (this.stageX >= gameSize.width) {
+      this.stageX = gameSize.width
+      this.player.x = Math.min(this.player.x, stageSize.width - this.player.width)
+    } else {
+      if (this.player.x > stageSize.width / 2) {
+        bgXOffset = Math.min(this.player.x - prePlayerX, this.player.x - stageSize.width / 2)
+        this.player.x -= bgXOffset
+        this.background.x -= bgXOffset
+        this.stageX += bgXOffset
+      }
+    }
+
+    // Y轴
+    if (this.player.y < this.player.height || this.player.y > stageSize.height * 0.75) {
+      bgYOffset = this.player.y - prePlayerY
+      this.player.y -= bgYOffset
+      this.background.y -= bgYOffset
     }
     // 处理其他碰撞体的渲染
     this.blockRenderList.forEach((item, index) => {
-      render(item, bgXOffset)
+      render(item, bgXOffset, bgYOffset)
     })
   }
 

@@ -116,7 +116,7 @@ export default class Player extends Base implements IAnimateBase {
     }
   }
 
-  private playerDie () {
+  public playerDie () {
     this.x = 0
     this.y = 50
   }

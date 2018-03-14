@@ -34,6 +34,9 @@ function map1 () {
   // 砖块
   const bArray = []
   bArray.push(new Brick(500, 200, 300, 60))
+  bArray.push(new Brick(600, 100, 300, 60))
+  bArray.push(new Brick(700, -100, 300, 60))
+  bArray.push(new Brick(800, -300, 300, 60))
   bArray.push(new Brick(1500, 150, 700, 100))
 
   // 草地
@@ -47,7 +50,7 @@ function map1 () {
   pArray.push(new Pipe(1230, 210, 150))
 
   const monsterArray = []
-  monsterArray.push(new Monster1(600, 100))
+  // monsterArray.push(new Monster1(600, 100))
   monsterArray.push(new Monster1(1110, 100))
 
   return [...fArray, ...bArray, ...pArray, ...gArray, ...monsterArray]

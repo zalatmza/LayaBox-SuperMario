@@ -4,13 +4,16 @@
 import { blockSize, blockType, stageSize } from '../const'
 import { gameMain } from '../../index'
 
-export function render (item, xOffset) {
+export function render (item, xOffset, yOffset) {
   if (item.x < stageSize.width && !item.visible) {
     item.visible = true
   }
 
   if (xOffset > 0) {
     item.x -= xOffset
+  }
+  if (yOffset) {
+    item.y -= yOffset
   }
 
   if (item.x < -item.width) {

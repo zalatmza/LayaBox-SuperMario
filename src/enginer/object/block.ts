@@ -141,9 +141,9 @@ export abstract class ABlock extends Block implements IAnimateBase {
     this.x += this.speedX * this.runDir
     this.speedY += this.acce
     this.y += this.speedY
-    if (this.y >= stageSize.height) {
-      this.remove()
-    }
+    // if (this.y >= stageSize.height) {
+    //   this.remove()
+    // }
   }
 
   public crashLeft (item) {
