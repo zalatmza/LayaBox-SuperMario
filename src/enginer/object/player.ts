@@ -165,20 +165,26 @@ export default class Player extends Base implements IAnimateBase {
     this.body.clear()
     this.graphics.clear()
     if (this.runDir === 1) {
-      this.loadImage('player/player0.png')
+      this.loadImage('character1/character1_run1_0.png')
     } else if (this.runDir === -1) {
-      this.loadImage('player/player3.png')
+      this.loadImage('character1/character1_run2_0.png')
     }
   }
 
   // 初始化动效
   private initAnimation (): void {
-    Laya.Animation.createFrames(['player/player0.png', 'player/player1.png', 'player/player2.png'],
-      playerProp.action.right)
-    Laya.Animation.createFrames(['player/player3.png', 'player/player4.png', 'player/player5.png'],
-      playerProp.action.left)
+    // Laya.Animation.createFrames(['player/player0.png', 'player/player1.png', 'player/player2.png'],
+    //   playerProp.action.right)
+    Laya.Animation.createFrames(['character1/character1_run1_1.png', 'character1/character1_run1_2.png',
+    'character1/character1_run1_3.png', 'character1/character1_run1_4.png', 'character1/character1_run1_5.png',
+    'character1/character1_run1_6.png'], playerProp.action.right)
+    // Laya.Animation.createFrames(['player/player3.png', 'player/player4.png', 'player/player5.png'],
+    //   playerProp.action.left)
+    Laya.Animation.createFrames(['character1/character1_run2_1.png', 'character1/character1_run2_2.png',
+    'character1/character1_run2_3.png', 'character1/character1_run2_4.png', 'character1/character1_run2_5.png',
+    'character1/character1_run2_6.png'], playerProp.action.left)
     this.body = new Laya.Animation()
-    this.body.interval = 120
+    this.body.interval = 70
     this.addChild(this.body)
   }
 
@@ -194,6 +200,6 @@ export default class Player extends Base implements IAnimateBase {
     this.zOrder = 11
     this.initAnimation()
     this.initEvent()
-    this.loadImage('player/player0.png')
+    this.loadImage('character1/character1_run1_0.png')
   }
 }

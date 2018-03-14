@@ -15,12 +15,12 @@ export const gameSize = {
 
 // 马里奥属性
 export const playerProp = {
-  width: 50,
-  height: 60,
+  width: 90,
+  height: 110,
   // 移动速度
   speedX: 8,
   // 跳跃初速度
-  initSpeedY: -30,
+  initSpeedY: -35,
   // （假）重力加速度
   acce: 2,
   action: {
