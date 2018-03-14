@@ -3,7 +3,7 @@
  */
 import { Base, IAnimateBase } from './base'
 import { playerProp, crashDir } from '../../enginer/const'
-import { BlockType, gameSize, key, stageSize } from '../const'
+import { blockType, gameSize, key, stageSize } from '../const'
 import { gameMain } from '../../index'
 
 export default class Player extends Base implements IAnimateBase {
@@ -96,7 +96,7 @@ export default class Player extends Base implements IAnimateBase {
         this.speedY = 0
       }
 
-      if (item.type === BlockType.animation) {
+      if (item.type === blockType.animation) {
         // 消灭怪物
         item.remove()
       }
@@ -116,8 +116,8 @@ export default class Player extends Base implements IAnimateBase {
     }
   }
 
-  private playerDie () {
-    this.x = 100
+  public playerDie () {
+    this.x = 0
     this.y = 50
   }
 

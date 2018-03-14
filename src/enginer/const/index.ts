@@ -56,7 +56,7 @@ export const monsterProperty = {
     width: 63,
     speedX: 1,
     // 跳跃初速度
-    initSpeedY: -30,
+    initSpeedY: -25,
     // （假）重力加速度
     acce: 2,
     action: {
@@ -82,7 +82,7 @@ export const crashDir = {
 }
 
 // 障碍物类型
-export const BlockType = {
+export const blockType = {
   animation: 'ANIMATION',
   static: 'STATIC'
 }
@@ -101,16 +101,4 @@ export const gameToolBarConfig = {
     touchHeight: 60,
     radius: 20
   }
-}
-
-// 碰撞位置判断
-export const colPosition = {
-  tLeft: 0,
-  top: 1,
-  tRight: 2,
-  right: 3,
-  bRight: 4,
-  bottom: 5,
-  bLeft: 6,
-  left: 7
 }

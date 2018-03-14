@@ -34,6 +34,9 @@ function map1 () {
   // 砖块
   const bArray = []
   bArray.push(new Brick(500, 200, 300, 60))
+  bArray.push(new Brick(600, 100, 300, 60))
+  bArray.push(new Brick(700, -100, 300, 60))
+  bArray.push(new Brick(800, -300, 300, 60))
   bArray.push(new Brick(1500, 150, 700, 100))
 
   // 草地
@@ -47,26 +50,16 @@ function map1 () {
   pArray.push(new Pipe(1230, 210, 150))
 
   const monsterArray = []
-  monsterArray.push(new Monster1(600, 100))
+  // monsterArray.push(new Monster1(600, 100))
   monsterArray.push(new Monster1(1110, 100))
 
   return [...fArray, ...bArray, ...pArray, ...gArray, ...monsterArray]
 }
-
 function map2 () {
   // 地板
   const fnum = Math.floor(gameSize.width / blockSize.floorSize.width) + 1
   const fArray = []
-  for (let i = 0; i < 6; i++) {
-    fArray.push(new Floor(blockSize.floorSize.width * i, 460))
-  }
-  for (let i = 6; i < 8; i++) {
-    fArray.push(new Floor(blockSize.floorSize.width * i, 360))
-  }
-  for (let i = 8; i < 20; i++) {
-    if (i > 8 && i < 11) {
-      continue
-    }
+  for (let i = 0; i < 20; i++) {
     fArray.push(new Floor(blockSize.floorSize.width * i, 460))
   }
   for (let i = 20; i < fnum; i++) {
@@ -101,7 +94,7 @@ function map3 () {
   // 地板
   const fnum = Math.floor(gameSize.width / blockSize.floorSize.width) + 1
   const fArray = []
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 1; i++) {
     fArray.push(new Floor(blockSize.floorSize.width * i, 460))
   }
 
@@ -109,7 +102,7 @@ function map3 () {
   const bArray = []
   bArray.push(new Brick(500, 200, 150, 150))
 
-  return [...fArray, ...bArray]
+  return [...fArray]
 }
 
 class Battle {
