@@ -8,13 +8,8 @@ export function render (item, xOffset, yOffset) {
   if (item.x < stageSize.width && !item.visible) {
     item.visible = true
   }
-
-  if (xOffset > 0) {
-    item.x -= xOffset
-  }
-  if (yOffset) {
-    item.y -= yOffset
-  }
+  item.x -= xOffset
+  item.y -= yOffset
 
   if (item.x < -item.width) {
     // 从舞台上移除

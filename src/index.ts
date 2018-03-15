@@ -142,7 +142,7 @@ class GameMain {
     const prePlayerX = this.player.x
     const prePlayerY = this.player.y
     // 获取舞台相对于背景的x坐标
-    this.player.playerMove()
+    this.player.move()
     this.blockRenderList.forEach(item => {
         item.type === blockType.animation && item.visible === true && item.move()
     })
