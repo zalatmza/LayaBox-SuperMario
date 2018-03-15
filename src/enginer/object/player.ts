@@ -117,7 +117,7 @@ export default class Player extends Base implements IAnimateBase {
   }
 
   private shoot () {
-
+    //
   }
 
   // 玩家死亡

@@ -46,7 +46,7 @@ export class Grass extends SBlock {
 
   public popupCoin () {
     if (this.hasCoin) {
-      gameMain.blockRenderList.push(new Coin(this.x, this.y - blockSize.coinSize.height))
+      gameMain.add(new Coin(this.x, this.y - blockSize.coinSize.height))
       this.hasCoin = false
     }
   }
@@ -119,10 +119,10 @@ export abstract class ABlock extends Block implements IAnimateBase {
   }
 
   protected abstract initAnimation (): void
-  abstract crashLeft(item)
-  abstract crashUp(item)
-  abstract crashRight(item)
-  abstract crashDown(item)
+  abstract crashLeft (item)
+  abstract crashUp (item)
+  abstract crashRight (item)
+  abstract crashDown (item)
 
   protected initBody (interval) {
     this.body = new Laya.Animation()
@@ -173,6 +173,7 @@ export class Monster1 extends ABlock {
       monsterProperty.monster1.action.right)
     Laya.Animation.createFrames(['pp/pp004.png', 'pp/pp005.png', 'pp/pp006.png'],
       monsterProperty.monster1.action.left)
+    this.initBody(120)
   }
 
   crashLeft (item) {

@@ -70,7 +70,8 @@ export const monsterProperty = {
 export const key = {
   left: Laya.Keyboard.LEFT,
   up: Laya.Keyboard.UP,
-  right: Laya.Keyboard.RIGHT
+  right: Laya.Keyboard.RIGHT,
+  shoot: Laya.Keyboard.SPACE
 }
 
 // 碰撞方向

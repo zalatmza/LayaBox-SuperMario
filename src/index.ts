@@ -131,6 +131,11 @@ class GameMain {
     Laya.timer.frameLoop(1, this, this.gameLoop)
   }
 
+  // 添加新精灵
+  public add (item) {
+    this.blockRenderList.push(item)
+  }
+
   // BGM
   private playMusic () {
     Laya.SoundManager.playMusic('./static/music/mxd1.mp3')
