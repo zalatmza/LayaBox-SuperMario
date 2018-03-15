@@ -40,7 +40,7 @@ export default class Player extends Base implements IAnimateBase {
     })
     document.addEventListener('keyup', e => {
       this.keyState[e.keyCode] = false
-      if (!this.shooting) {
+      if (!this.shooting && !this.jumping) {
         this.initAction()
       }
     })
@@ -146,6 +146,7 @@ export default class Player extends Base implements IAnimateBase {
     if (up && !this.jumping) {
       this.jumping = true
       this.speedY = this.initSpeedY
+      this.playAnimation(playerProp.action.jump, false)
     }
 
     this.speedY += this.acce
@@ -153,16 +154,13 @@ export default class Player extends Base implements IAnimateBase {
     if (this.y >= stageSize.height) {
       this.die()
     }
-    if (this.speedY !== 0) {
-      this.jumping = true
-    }
 
     if (space && !this.shooting) {
       this.shooting = true
       this.shoot()
     }
 
-    if (left && right && !this.shooting || !left && !right && !this.shooting) {
+    if ((left && right || !left && !right) && !this.shooting && !this.jumping) {
       this.initAction()
     } else if (right) {
       this.x = Math.min(this.x + this.speedX, stageSize.width - this.width)
@@ -194,12 +192,14 @@ export default class Player extends Base implements IAnimateBase {
 
   // 初始化动效
   private initAnimation (): void {
+    // 奔跑
     Laya.Animation.createFrames(['character1/character1_run1_1.png', 'character1/character1_run1_2.png',
     'character1/character1_run1_3.png', 'character1/character1_run1_4.png', 'character1/character1_run1_5.png',
     'character1/character1_run1_6.png'], playerProp.action.right)
     Laya.Animation.createFrames(['character1/character1_run2_1.png', 'character1/character1_run2_2.png',
     'character1/character1_run2_3.png', 'character1/character1_run2_4.png', 'character1/character1_run2_5.png',
     'character1/character1_run2_6.png'], playerProp.action.left)
+    // 攻击
     Laya.Animation.createFrames([
     'character1_attack/character1_attack1_1.png', 'character1_attack/character1_attack1_2.png',
     'character1_attack/character1_attack1_3.png', 'character1_attack/character1_attack1_4.png',
@@ -214,6 +214,12 @@ export default class Player extends Base implements IAnimateBase {
     'character1_attack/character1_attack2_7.png', 'character1_attack/character1_attack2_8.png',
     'character1_attack/character1_attack2_9.png', 'character1_attack/character1_attack2_10.png'],
     playerProp.action.attackLeft)
+    // 跳跃
+    Laya.Animation.createFrames([
+    'character1_jump/character1_jump1_1.png', 'character1_jump/character1_jump1_2.png',
+    'character1_jump/character1_jump1_3.png', 'character1_jump/character1_jump1_4.png',
+    'character1_jump/character1_jump1_5.png', 'character1_jump/character1_jump1_6.png',],
+    playerProp.action.jump)
     this.body = new Laya.Animation()
     this.body.on(Laya.Event.COMPLETE, this, this.afterAnimation)
     this.body.interval = 70

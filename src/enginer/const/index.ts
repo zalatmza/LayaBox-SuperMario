@@ -20,12 +20,13 @@ export const playerProp = {
   // 移动速度
   speedX: 8,
   // 跳跃初速度
-  initSpeedY: -35,
+  initSpeedY: -25,
   // （假）重力加速度
-  acce: 2,
+  acce: 1,
   action: {
     left: 'playerMoveLeft',
     right: 'playerMoveRight',
+    jump: 'playerJump',
     attackLeft: 'playerAttackLeft',
     attackRight: 'playerAttackRight'
   }

@@ -30,6 +30,10 @@ const assets = [
     type: Loader.ATLAS
   },
   {
+    url: './static/res/character1_jump.json',
+    type: Loader.ATLAS
+  },
+  {
     url: './static/res/background1.png',
     type: Loader.IMAGE
   },
