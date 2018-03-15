@@ -18,7 +18,7 @@ const assets = [
     type: Loader.ATLAS
   },
   {
-    url: './static/res/player.json',
+    url: './static/res/bullet.json',
     type: Loader.ATLAS
   },
   {
