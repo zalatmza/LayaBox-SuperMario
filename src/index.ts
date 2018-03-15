@@ -18,7 +18,7 @@ const assets = [
     type: Loader.ATLAS
   },
   {
-    url: './static/res/player.json',
+    url: './static/res/bullet.json',
     type: Loader.ATLAS
   },
   {
@@ -135,6 +135,11 @@ class GameMain {
     Laya.timer.frameLoop(1, this, this.gameLoop)
   }
 
+  // 添加新精灵
+  public add (item) {
+    this.blockRenderList.push(item)
+  }
+
   // BGM
   private playMusic () {
     Laya.SoundManager.playMusic('./static/music/mxd1.mp3')
@@ -146,7 +151,7 @@ class GameMain {
     const prePlayerX = this.player.x
     const prePlayerY = this.player.y
     // 获取舞台相对于背景的x坐标
-    this.player.playerMove()
+    this.player.move()
     this.blockRenderList.forEach(item => {
         item.type === blockType.animation && item.visible === true && item.move()
     })

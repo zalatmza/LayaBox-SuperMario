@@ -73,7 +73,7 @@ export const key = {
   left: Laya.Keyboard.LEFT,
   up: Laya.Keyboard.UP,
   right: Laya.Keyboard.RIGHT,
-  space: Laya.Keyboard.SPACE
+  shoot: Laya.Keyboard.SPACE
 }
 
 // 碰撞方向

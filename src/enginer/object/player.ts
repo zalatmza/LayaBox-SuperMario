@@ -62,7 +62,7 @@ export default class Player extends Base implements IAnimateBase {
     } else {
       // 和固定障碍物碰撞
       if (item.constructor.__proto__.name === 'ABlock') {
-        this.playerDie()
+        this.die()
       } else {
         this.x = item.x - this.width
       }
@@ -76,7 +76,7 @@ export default class Player extends Base implements IAnimateBase {
     } else {
       // 和固定障碍物碰撞
       if (item.constructor.__proto__.name === 'ABlock') {
-        this.playerDie()
+        this.die()
       } else {
         this.x = item.x + item.width
       }
@@ -116,13 +116,18 @@ export default class Player extends Base implements IAnimateBase {
     }
   }
 
-  public playerDie () {
+  private shoot () {
+    //
+  }
+
+  // 玩家死亡
+  public die () {
     this.x = 0
     this.y = 50
   }
 
   // 玩家动作
-  public playerMove () {
+  public move () {
     const left: boolean = this.keyState[key.left]
     const right: boolean = this.keyState[key.right]
     const up: boolean = this.keyState[key.up]
@@ -136,7 +141,7 @@ export default class Player extends Base implements IAnimateBase {
     this.speedY += this.acce
     this.y += this.speedY
     if (this.y >= stageSize.height) {
-      this.playerDie()
+      this.die()
     }
     if (this.speedY !== 0) {
       this.jumping = true

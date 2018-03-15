@@ -46,7 +46,7 @@ export class Grass extends SBlock {
 
   public popupCoin () {
     if (this.hasCoin) {
-      gameMain.blockRenderList.push(new Coin(this.x, this.y - blockSize.coinSize.height))
+      gameMain.add(new Coin(this.x, this.y - blockSize.coinSize.height))
       this.hasCoin = false
     }
   }
@@ -119,6 +119,17 @@ export abstract class ABlock extends Block implements IAnimateBase {
   }
 
   protected abstract initAnimation (): void
+  abstract crashLeft (item)
+  abstract crashUp (item)
+  abstract crashRight (item)
+  abstract crashDown (item)
+
+  protected initBody (interval) {
+    this.body = new Laya.Animation()
+    this.body.interval = interval
+    this.body.pos(0, 0)
+    this.addChild(this.body)
+  }
 
   protected playAnimation (actionName): void {
     this.graphics.clear()
@@ -145,36 +156,6 @@ export abstract class ABlock extends Block implements IAnimateBase {
     //   this.remove()
     // }
   }
-
-  public crashLeft (item) {
-    if (item.constructor.__proto__.name !== 'ABlock') {
-      // 和固定障碍物碰撞
-      this.x = item.x - this.width
-      this.runDir = -1
-    }
-  }
-
-  public crashRight (item) {
-    if (item.constructor.__proto__.name !== 'ABlock') {
-      // 和固定障碍物碰撞
-      this.x = item.x + item.width
-      this.runDir = 1
-    }
-  }
-
-  public crashDown (item) {
-    if (item.constructor.__proto__.name !== 'ABlock') {
-      const newHeight = item.y - this.height
-      this.y = Math.max(0, Math.min(this.y, newHeight))
-      if (this.y === newHeight) {
-        this.speedY = 0
-      }
-    }
-  }
-
-  public crashUp (item) {
-    // console.log('MONSTER1 up')
-  }
 }
 
 // 怪物1
@@ -192,9 +173,70 @@ export class Monster1 extends ABlock {
       monsterProperty.monster1.action.right)
     Laya.Animation.createFrames(['pp/pp004.png', 'pp/pp005.png', 'pp/pp006.png'],
       monsterProperty.monster1.action.left)
-    this.body = new Laya.Animation()
-    this.body.interval = 120
-    this.body.pos(0, 0)
-    this.addChild(this.body)
+    this.initBody(120)
+  }
+
+  crashLeft (item) {
+    if (item.constructor.__proto__.name !== 'ABlock') {
+      // 和固定障碍物碰撞
+      this.x = item.x - this.width
+      this.runDir = -1
+    }
+  }
+
+  crashRight (item) {
+    if (item.constructor.__proto__.name !== 'ABlock') {
+      // 和固定障碍物碰撞
+      this.x = item.x + item.width
+      this.runDir = 1
+    }
+  }
+
+  crashDown (item) {
+    if (item.constructor.__proto__.name !== 'ABlock') {
+      const newHeight = item.y - this.height
+      this.y = Math.max(0, Math.min(this.y, newHeight))
+      if (this.y === newHeight) {
+        this.speedY = 0
+      }
+    }
+  }
+
+  crashUp (item) {
+    // console.log('MONSTER1 up')
+  }
+}
+
+// 子弹
+export class Bullet extends ABlock {
+  constructor (x, y) {
+    super (x, y, 1, 1)
+    this.speedX = 1
+    this.acce = 1
+    this.initAnimation()
+    this.playAnimation('')
+  }
+  protected initAnimation () {
+    Laya.Animation.createFrames(['pp/pp001.png', 'pp/pp002.png', 'pp/pp003.png'],
+      monsterProperty.monster1.action.right)
+    Laya.Animation.createFrames(['pp/pp004.png', 'pp/pp005.png', 'pp/pp006.png'],
+      monsterProperty.monster1.action.left)
+    this.initBody(120)
+  }
+
+  crashLeft (item) {
+    //
+  }
+
+  crashRight (item) {
+    //
+  }
+
+  crashDown (item) {
+   //
+  }
+
+  crashUp (item) {
+    // console.log('MONSTER1 up')
   }
 }
