@@ -26,6 +26,10 @@ const assets = [
     type: Loader.ATLAS
   },
   {
+    url: './static/res/character1_attack.json',
+    type: Loader.ATLAS
+  },
+  {
     url: './static/res/background1.png',
     type: Loader.IMAGE
   },

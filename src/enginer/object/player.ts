@@ -126,6 +126,7 @@ export default class Player extends Base implements IAnimateBase {
     const left: boolean = this.keyState[key.left]
     const right: boolean = this.keyState[key.right]
     const up: boolean = this.keyState[key.up]
+    const space: boolean = this.keyState[key.space]
 
     if (up && !this.jumping) {
       this.jumping = true
@@ -173,16 +174,20 @@ export default class Player extends Base implements IAnimateBase {
 
   // 初始化动效
   private initAnimation (): void {
-    // Laya.Animation.createFrames(['player/player0.png', 'player/player1.png', 'player/player2.png'],
-    //   playerProp.action.right)
     Laya.Animation.createFrames(['character1/character1_run1_1.png', 'character1/character1_run1_2.png',
     'character1/character1_run1_3.png', 'character1/character1_run1_4.png', 'character1/character1_run1_5.png',
     'character1/character1_run1_6.png'], playerProp.action.right)
-    // Laya.Animation.createFrames(['player/player3.png', 'player/player4.png', 'player/player5.png'],
-    //   playerProp.action.left)
     Laya.Animation.createFrames(['character1/character1_run2_1.png', 'character1/character1_run2_2.png',
     'character1/character1_run2_3.png', 'character1/character1_run2_4.png', 'character1/character1_run2_5.png',
     'character1/character1_run2_6.png'], playerProp.action.left)
+    Laya.Animation.createFrames(['character1/character1_attack1_1.png', 'character1/character1_attack1_2.png',
+    'character1/character1_attack1_3.png', 'character1/character1_attack1_4.png', 'character1/character1_attack1_5.png',
+    'character1/character1_attack1_6.png', 'character1/character1_attack1_7.png', 'character1/character1_attack1_8.png',
+    'character1/character1_attack1_9.png', 'character1/character1_attack1_10.png'], playerProp.action.attackRight)
+    Laya.Animation.createFrames(['character1/character1_attack2_1.png', 'character1/character1_attack2_2.png',
+    'character1/character1_attack2_3.png', 'character1/character1_attack2_4.png', 'character1/character1_attack2_5.png',
+    'character1/character1_attack2_6.png', 'character1/character1_attack2_7.png', 'character1/character1_attack2_8.png',
+    'character1/character1_attack2_9.png', 'character1/character1_attack2_10.png'], playerProp.action.attackLeft)
     this.body = new Laya.Animation()
     this.body.interval = 70
     this.addChild(this.body)

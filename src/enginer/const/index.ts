@@ -25,7 +25,9 @@ export const playerProp = {
   acce: 2,
   action: {
     left: 'playerMoveLeft',
-    right: 'playerMoveRight'
+    right: 'playerMoveRight',
+    attackLeft: 'playerAttackLeft',
+    attackRight: 'playerAttackRight'
   }
 }
 
@@ -70,7 +72,8 @@ export const monsterProperty = {
 export const key = {
   left: Laya.Keyboard.LEFT,
   up: Laya.Keyboard.UP,
-  right: Laya.Keyboard.RIGHT
+  right: Laya.Keyboard.RIGHT,
+  space: Laya.Keyboard.SPACE
 }
 
 // 碰撞方向
