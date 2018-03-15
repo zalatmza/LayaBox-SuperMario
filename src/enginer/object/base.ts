@@ -4,14 +4,6 @@
 
 // https://layaair.ldc.layabox.com/api/?category=Core&class=laya.display.Sprite
 export abstract class Base extends Laya.Sprite {
-  public getMidX () {
-    return (this.x + this.width) / 2
-  }
-
-  public getMidY () {
-    return (this.y + this.height) / 2
-  }
-
   constructor (x, y, w, h) {
     super()
     this.x = x

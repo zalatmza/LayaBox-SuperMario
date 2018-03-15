@@ -168,7 +168,7 @@ export default class Player extends Base implements IAnimateBase {
     }
 
     // 左右移
-    if (left && right && !this.shooting || !left && !right && !this.shooting) {
+    if ((left && right || !left && !right) && !this.shooting && !this.jumping) {
       this.initAction()
     } else if (right) {
       this.x = Math.min(this.x + this.speedX, stageSize.width - this.width)
@@ -201,12 +201,14 @@ export default class Player extends Base implements IAnimateBase {
   // 初始化动效
   private initAnimation (): void {
     // 奔跑
-    Laya.Animation.createFrames(['character1/character1_run1_1.png', 'character1/character1_run1_2.png',
-    'character1/character1_run1_3.png', 'character1/character1_run1_4.png', 'character1/character1_run1_5.png',
-    'character1/character1_run1_6.png'], playerProp.action.right)
-    Laya.Animation.createFrames(['character1/character1_run2_1.png', 'character1/character1_run2_2.png',
-    'character1/character1_run2_3.png', 'character1/character1_run2_4.png', 'character1/character1_run2_5.png',
-    'character1/character1_run2_6.png'], playerProp.action.left)
+    Laya.Animation.createFrames([
+    'character1/character1_run1_1.png', 'character1/character1_run1_2.png',
+    'character1/character1_run1_3.png', 'character1/character1_run1_4.png',
+    'character1/character1_run1_5.png', 'character1/character1_run1_6.png'], playerProp.action.right)
+    Laya.Animation.createFrames([
+    'character1/character1_run2_1.png', 'character1/character1_run2_2.png',
+    'character1/character1_run2_3.png', 'character1/character1_run2_4.png',
+    'character1/character1_run2_5.png', 'character1/character1_run2_6.png'], playerProp.action.left)
     // 攻击
     Laya.Animation.createFrames([
     'character1_attack/character1_attack1_1.png', 'character1_attack/character1_attack1_2.png',
