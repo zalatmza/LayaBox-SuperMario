@@ -19,6 +19,8 @@ export default class Player extends Base implements IAnimateBase {
   // 跳跃中
   public jumping: boolean = false
 
+  public shooting: boolean = false
+
   // 空中速度
   public speedY: number = 0
 
@@ -38,7 +40,9 @@ export default class Player extends Base implements IAnimateBase {
     })
     document.addEventListener('keyup', e => {
       this.keyState[e.keyCode] = false
-      this.initAction()
+      if (!this.shooting) {
+        this.initAction()
+      }
     })
   }
 
@@ -116,8 +120,14 @@ export default class Player extends Base implements IAnimateBase {
     }
   }
 
+  // 动感光波射击
   private shoot () {
-    //
+    if (this.runDir === 1) {
+      this.playAnimation(playerProp.action.attackRight, false)
+    }
+    if (this.runDir === -1) {
+      this.playAnimation(playerProp.action.attackLeft, false)
+    }
   }
 
   // 玩家死亡
@@ -131,7 +141,7 @@ export default class Player extends Base implements IAnimateBase {
     const left: boolean = this.keyState[key.left]
     const right: boolean = this.keyState[key.right]
     const up: boolean = this.keyState[key.up]
-    const space: boolean = this.keyState[key.space]
+    const space: boolean = this.keyState[key.shoot]
 
     if (up && !this.jumping) {
       this.jumping = true
@@ -147,7 +157,12 @@ export default class Player extends Base implements IAnimateBase {
       this.jumping = true
     }
 
-    if (left && right || !left && !right) {
+    if (space && !this.shooting) {
+      this.shooting = true
+      this.shoot()
+    }
+
+    if (left && right && !this.shooting || !left && !right && !this.shooting) {
       this.initAction()
     } else if (right) {
       this.x = Math.min(this.x + this.speedX, stageSize.width - this.width)
@@ -185,24 +200,36 @@ export default class Player extends Base implements IAnimateBase {
     Laya.Animation.createFrames(['character1/character1_run2_1.png', 'character1/character1_run2_2.png',
     'character1/character1_run2_3.png', 'character1/character1_run2_4.png', 'character1/character1_run2_5.png',
     'character1/character1_run2_6.png'], playerProp.action.left)
-    Laya.Animation.createFrames(['character1/character1_attack1_1.png', 'character1/character1_attack1_2.png',
-    'character1/character1_attack1_3.png', 'character1/character1_attack1_4.png', 'character1/character1_attack1_5.png',
-    'character1/character1_attack1_6.png', 'character1/character1_attack1_7.png', 'character1/character1_attack1_8.png',
-    'character1/character1_attack1_9.png', 'character1/character1_attack1_10.png'], playerProp.action.attackRight)
-    Laya.Animation.createFrames(['character1/character1_attack2_1.png', 'character1/character1_attack2_2.png',
-    'character1/character1_attack2_3.png', 'character1/character1_attack2_4.png', 'character1/character1_attack2_5.png',
-    'character1/character1_attack2_6.png', 'character1/character1_attack2_7.png', 'character1/character1_attack2_8.png',
-    'character1/character1_attack2_9.png', 'character1/character1_attack2_10.png'], playerProp.action.attackLeft)
+    Laya.Animation.createFrames([
+    'character1_attack/character1_attack1_1.png', 'character1_attack/character1_attack1_2.png',
+    'character1_attack/character1_attack1_3.png', 'character1_attack/character1_attack1_4.png',
+    'character1_attack/character1_attack1_5.png', 'character1_attack/character1_attack1_6.png',
+    'character1_attack/character1_attack1_7.png', 'character1_attack/character1_attack1_8.png',
+    'character1_attack/character1_attack1_9.png', 'character1_attack/character1_attack1_10.png'],
+    playerProp.action.attackRight)
+    Laya.Animation.createFrames([
+    'character1_attack/character1_attack2_1.png', 'character1_attack/character1_attack2_2.png',
+    'character1_attack/character1_attack2_3.png', 'character1_attack/character1_attack2_4.png',
+    'character1_attack/character1_attack2_5.png', 'character1_attack/character1_attack2_6.png',
+    'character1_attack/character1_attack2_7.png', 'character1_attack/character1_attack2_8.png',
+    'character1_attack/character1_attack2_9.png', 'character1_attack/character1_attack2_10.png'],
+    playerProp.action.attackLeft)
     this.body = new Laya.Animation()
+    this.body.on(Laya.Event.COMPLETE, this, this.afterAnimation)
     this.body.interval = 70
     this.addChild(this.body)
   }
 
   // 播放动画
-  private playAnimation (actionName) {
+  private playAnimation (actionName, loop = true) {
     this.graphics.clear()
-    this.body.play(0, true, actionName)
+    this.body.play(0, loop, actionName)
     this.body.pos(0, 0)
+  }
+
+  // 动画播放完成处理
+  private afterAnimation (): void {
+    this.shooting = false
   }
 
   constructor (x, y) {
