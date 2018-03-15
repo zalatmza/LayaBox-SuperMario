@@ -28,6 +28,16 @@ export const playerProp = {
     right: 'playerMoveRight',
     attackLeft: 'playerAttackLeft',
     attackRight: 'playerAttackRight'
+  },
+  bulletSize: {
+    width: 138,
+    height: 50,
+    speedX: 12,
+    maxX: 300,
+    action: {
+      left: 'bulletMoveLeft',
+      right: 'bulletMoveRight'
+    }
   }
 }
 
@@ -73,7 +83,7 @@ export const key = {
   left: Laya.Keyboard.LEFT,
   up: Laya.Keyboard.UP,
   right: Laya.Keyboard.RIGHT,
-  shoot: Laya.Keyboard.SPACE
+  space: Laya.Keyboard.SPACE
 }
 
 // 碰撞方向
@@ -87,7 +97,11 @@ export const crashDir = {
 // 障碍物类型
 export const blockType = {
   animation: 'ANIMATION',
-  static: 'STATIC'
+  static: 'STATIC',
+  label: {
+    normal: 'NORMAL',
+    bullet: 'BULLET'
+  }
 }
 
 // 操作按钮

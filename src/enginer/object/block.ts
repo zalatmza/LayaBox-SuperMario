@@ -8,6 +8,7 @@ import { gameMain } from '../../index'
 // 障碍物基类
 export abstract class Block extends Base {
   public type: string
+  public label: string = blockType.label.normal
   constructor (x, y, w, h) {
     super(x, y, w, h)
     this.visible = false
@@ -123,8 +124,9 @@ export abstract class ABlock extends Block implements IAnimateBase {
   abstract crashUp (item)
   abstract crashRight (item)
   abstract crashDown (item)
+  abstract move ()
 
-  protected initBody (interval) {
+  protected initBody (interval = 120) {
     this.body = new Laya.Animation()
     this.body.interval = interval
     this.body.pos(0, 0)
@@ -147,15 +149,6 @@ export abstract class ABlock extends Block implements IAnimateBase {
       this.crashUp(item)
     }
   }
-
-  protected move () {
-    this.x += this.speedX * this.runDir
-    this.speedY += this.acce
-    this.y += this.speedY
-    // if (this.y >= stageSize.height) {
-    //   this.remove()
-    // }
-  }
 }
 
 // 怪物1
@@ -174,6 +167,11 @@ export class Monster1 extends ABlock {
     Laya.Animation.createFrames(['pp/pp004.png', 'pp/pp005.png', 'pp/pp006.png'],
       monsterProperty.monster1.action.left)
     this.initBody(120)
+  }
+  move () {
+    this.x += this.speedX * this.runDir
+    this.speedY += this.acce
+    this.y += this.speedY
   }
 
   crashLeft (item) {
@@ -209,19 +207,28 @@ export class Monster1 extends ABlock {
 
 // 子弹
 export class Bullet extends ABlock {
-  constructor (x, y) {
-    super (x, y, 1, 1)
-    this.speedX = 1
-    this.acce = 1
+  private runDistance = 0
+  constructor (x, y, dir) {
+    super (x, y, playerProp.bulletSize.width, playerProp.bulletSize.height)
+    this.speedX = playerProp.bulletSize.speedX
+    this.label = blockType.label.bullet
+    this.runDir = dir
     this.initAnimation()
-    this.playAnimation('')
+    this.playAnimation(playerProp.bulletSize.action.right)
   }
   protected initAnimation () {
-    Laya.Animation.createFrames(['pp/pp001.png', 'pp/pp002.png', 'pp/pp003.png'],
-      monsterProperty.monster1.action.right)
-    Laya.Animation.createFrames(['pp/pp004.png', 'pp/pp005.png', 'pp/pp006.png'],
-      monsterProperty.monster1.action.left)
+    Laya.Animation.createFrames(['bullet/bullet1.png', 'bullet/bullet2.png', 'bullet/bullet3.png'],
+      playerProp.bulletSize.action.right)
     this.initBody(120)
+  }
+
+  move () {
+    this.x += this.speedX * this.runDir
+    this.runDistance += this.speedX * this.runDir
+    if (this.runDistance > playerProp.bulletSize.maxX) {
+      this.body.clear()
+      this.visible = false
+    }
   }
 
   crashLeft (item) {

@@ -153,7 +153,7 @@ class GameMain {
     // 获取舞台相对于背景的x坐标
     this.player.move()
     this.blockRenderList.forEach(item => {
-        item.type === blockType.animation && item.visible === true && item.move()
+      item.type === blockType.animation && item.visible === true && item.move()
     })
     // 进行碰撞检测
     this.blockRenderList.forEach((item, index) => {
@@ -197,7 +197,7 @@ class GameMain {
               }
             }
           })
-          item.runDir *= isTurn ? -1 : 1
+          item.label === blockType.label.normal && (item.runDir *= isTurn ? -1 : 1)
         }
       }
     })

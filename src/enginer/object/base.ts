@@ -29,6 +29,7 @@ export interface IAnimateBase {
   speedY: number
   acce: number
 
+  move ()
   crashHandle (type, item)
   crashLeft (item)
   crashRight (item)

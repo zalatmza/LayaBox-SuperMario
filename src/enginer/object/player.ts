@@ -5,6 +5,7 @@ import { Base, IAnimateBase } from './base'
 import { playerProp, crashDir } from '../../enginer/const'
 import { blockType, gameSize, key, stageSize } from '../const'
 import { gameMain } from '../../index'
+import { Bullet } from './block'
 
 export default class Player extends Base implements IAnimateBase {
   // 身体动画
@@ -124,9 +125,11 @@ export default class Player extends Base implements IAnimateBase {
   private shoot () {
     if (this.runDir === 1) {
       this.playAnimation(playerProp.action.attackRight, false)
+      gameMain.add(new Bullet(this.x + this.width, this.y + this.height / 2, this.runDir))
     }
     if (this.runDir === -1) {
       this.playAnimation(playerProp.action.attackLeft, false)
+      gameMain.add(new Bullet(this.x - playerProp.bulletSize.width, this.y + this.height / 2, this.runDir))
     }
   }
 
@@ -141,8 +144,9 @@ export default class Player extends Base implements IAnimateBase {
     const left: boolean = this.keyState[key.left]
     const right: boolean = this.keyState[key.right]
     const up: boolean = this.keyState[key.up]
-    const space: boolean = this.keyState[key.shoot]
+    const space: boolean = this.keyState[key.space]
 
+    // 起跳
     if (up && !this.jumping) {
       this.jumping = true
       this.speedY = this.initSpeedY
@@ -153,15 +157,14 @@ export default class Player extends Base implements IAnimateBase {
     if (this.y >= stageSize.height) {
       this.die()
     }
-    if (this.speedY !== 0) {
-      this.jumping = true
-    }
 
+    // 射击
     if (space && !this.shooting) {
       this.shooting = true
       this.shoot()
     }
 
+    // 左右移
     if (left && right && !this.shooting || !left && !right && !this.shooting) {
       this.initAction()
     } else if (right) {
