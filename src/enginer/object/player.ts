@@ -125,12 +125,14 @@ export default class Player extends Base implements IAnimateBase {
   private shoot () {
     if (this.runDir === 1) {
       this.playAnimation(playerProp.action.attackRight, false)
-      gameMain.add(new Bullet(this.x + this.width, this.y + this.height / 2, this.runDir))
+      gameMain.add(new Bullet(this.x + this.width + this.speedX, this.y + this.height / 2, this.runDir))
     }
     if (this.runDir === -1) {
       this.playAnimation(playerProp.action.attackLeft, false)
-      gameMain.add(new Bullet(this.x - playerProp.bulletSize.width, this.y + this.height / 2, this.runDir))
+      gameMain.add(new Bullet(this.x - playerProp.bulletSize.width - this.speedX,
+        this.y + this.height / 2, this.runDir))
     }
+    this.body.interval = playerProp.animationInterval / 2
   }
 
   // 玩家死亡
@@ -228,7 +230,7 @@ export default class Player extends Base implements IAnimateBase {
     playerProp.action.jump)
     this.body = new Laya.Animation()
     this.body.on(Laya.Event.COMPLETE, this, this.afterAnimation)
-    this.body.interval = 70
+    this.body.interval = playerProp.animationInterval
     this.addChild(this.body)
   }
 
@@ -242,6 +244,7 @@ export default class Player extends Base implements IAnimateBase {
   // 动画播放完成处理
   private afterAnimation (): void {
     this.shooting = false
+    this.body.interval = playerProp.animationInterval
   }
 
   constructor (x, y) {

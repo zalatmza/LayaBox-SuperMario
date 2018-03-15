@@ -23,6 +23,7 @@ export const playerProp = {
   initSpeedY: -25,
   // （假）重力加速度
   acce: 1,
+  animationInterval: 70,
   action: {
     left: 'playerMoveLeft',
     right: 'playerMoveRight',
@@ -34,7 +35,7 @@ export const playerProp = {
     width: 138,
     height: 50,
     speedX: 12,
-    maxX: 300,
+    maxX: 500,
     action: {
       left: 'bulletMoveLeft',
       right: 'bulletMoveRight'
