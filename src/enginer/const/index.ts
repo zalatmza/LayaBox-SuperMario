@@ -29,9 +29,12 @@ export const playerProp = {
     'advanced'
   ],
   action: {
-    left: 'playerMoveLeft',
-    right: 'playerMoveRight',
-    jump: 'playerJump',
+    left1: 'playerRunLeft1',
+    right1: 'playerRunRight1',
+    left2: 'playerRunLeft2',
+    right2: 'playerRunRight2',
+    jump1: 'playerJump1',
+    jump2: 'playerJump2',
     attackLeft: 'playerAttackLeft',
     attackRight: 'playerAttackRight',
     toggleToNormal: 'playerToNormal',
@@ -90,6 +93,7 @@ export const monsterProperty = {
 export const key = {
   left: Laya.Keyboard.LEFT,
   up: Laya.Keyboard.UP,
+  down: Laya.Keyboard.DOWN,
   right: Laya.Keyboard.RIGHT,
   space: Laya.Keyboard.SPACE
 }
