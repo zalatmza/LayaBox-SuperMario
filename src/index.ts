@@ -1,55 +1,21 @@
 /**
  * Created by wconisan on 2018/2/1.
  */
+// 对象
 import Player from './enginer/object/player'
 import Background from './enginer/background'
-import { stageSize, gameSize, playerProp, key, crashDir, blockType } from './enginer/const'
-import generateGameBattle from './enginer/game-setting'
-import { collisionCheck, marginCheck } from './enginer/common/utils'
-import { render } from './enginer/render'
 import { Block, ABlock } from './enginer/object/block'
+import generateGameBattle from './enginer/game-setting'
+// 常量
+import { stageSize, gameSize, playerProp, key, crashDir, blockType } from './enginer/const'
+// 检测工具
+import { collisionCheck, marginCheck } from './enginer/common/utils'
+// 渲染逻辑
+import { render } from './enginer/render'
+// 操作健
 import OperateBtns from './enginer/handle'
-
-// 带加载的资源
-const Loader = Laya.Loader
-const assets = [
-  {
-    url: './static/res/pp.json',
-    type: Loader.ATLAS
-  },
-  {
-    url: './static/res/bullet.json',
-    type: Loader.ATLAS
-  },
-  {
-    url: './static/res/character1.json',
-    type: Loader.ATLAS
-  },
-  {
-    url: './static/res/character1_attack.json',
-    type: Loader.ATLAS
-  },
-  {
-    url: './static/res/character1_jump.json',
-    type: Loader.ATLAS
-  },
-  {
-    url: './static/res/character1_toggle.json',
-    type: Loader.ATLAS
-  },
-  {
-    url: './static/res/background1.png',
-    type: Loader.IMAGE
-  },
-  {
-    url: './static/res/block.json',
-    type: Loader.ATLAS
-  },
-  {
-    url: './static/music/mxd1.mp3',
-    type: Loader.SOUND
-  }
-]
+// 静态资源
+import { assets as Assets, createFrames } from './enginer/common/source'
 
 // 程序入口
 class GameMain {
@@ -79,10 +45,9 @@ class GameMain {
   * */
   // 工具条
   private operationBtnsSprite: OperateBtns
-
   /*
   * 关卡界面
-  *`
+  *
   */
   public battleSprite: Laya.Sprite
   // 选择关卡界面
@@ -98,7 +63,7 @@ class GameMain {
     this.initStage()
     this.initLoadingProgess()
     Laya.Stat.show(200, 0)
-    Laya.loader.load(assets, Laya.Handler.create(this, this.onLoaded),
+    Laya.loader.load(Assets, Laya.Handler.create(this, this.onLoaded),
                     Laya.Handler.create(this, this.onLoading, null, false),
                     Laya.Loader.TEXT)
   }
@@ -114,6 +79,7 @@ class GameMain {
 
   // 动画资源加载完成处理函数
   private onLoaded () {
+    createFrames()
     this.playMusic()
     this.battleList = generateGameBattle()
     this.initSelection()
