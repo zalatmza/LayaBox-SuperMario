@@ -10,7 +10,12 @@ import { Bullet } from './block'
 export default class Player extends Base implements IAnimateBase {
   // 身体动画
   private body: Laya.Animation
+
+  // 当前播放的动画名称
   private aniType: string
+
+  // 当前人物的身份
+  private status: string = playerProp.status[1]
 
   // 移动方向1 往右， -1 往左
   public runDir: 1 | -1 = 1
@@ -136,6 +141,16 @@ export default class Player extends Base implements IAnimateBase {
     this.body.interval = playerProp.animationInterval / 2
   }
 
+  // 切换主角身份
+  public toggleStatus (type) {
+    switch (type) {
+      case playerProp.status[0]:
+        console.log('normal')
+        this.playAnimation(playerProp.action.toggleToNormal, false)
+        break
+    }
+  }
+
   // 玩家死亡
   public die () {
     this.x = 0
@@ -229,8 +244,18 @@ export default class Player extends Base implements IAnimateBase {
     Laya.Animation.createFrames([
     'character1_jump/character1_jump1_1.png', 'character1_jump/character1_jump1_2.png',
     'character1_jump/character1_jump1_3.png', 'character1_jump/character1_jump1_4.png',
-    'character1_jump/character1_jump1_5.png', 'character1_jump/character1_jump1_6.png',],
+    'character1_jump/character1_jump1_5.png', 'character1_jump/character1_jump1_6.png'],
     playerProp.action.jump)
+    // 人物变身：advanced --> normal
+    Laya.Animation.createFrames([
+    'character1_toggle/character1_toggle1.png', 'character1_toggle/character1_toggle2.png',
+    'character1_toggle/character1_toggle3.png', 'character1_toggle/character1_toggle4.png',
+    'character1_toggle/character1_toggle5.png', 'character1_toggle/character1_toggle6.png',
+    'character1_toggle/character1_toggle7.png', 'character1_toggle/character1_toggle8.png',
+    'character1_toggle/character1_toggle9.png', 'character1_toggle/character1_toggle10.png',
+    'character1_toggle/character1_toggle11.png', 'character1_toggle/character1_toggle12.png',
+    'character1_toggle/character1_toggle13.png', 'character1_toggle/character1_toggle14.png'],
+    playerProp.action.toggleToNormal)
     this.body = new Laya.Animation()
     this.body.on(Laya.Event.COMPLETE, this, this.afterAnimation)
     this.body.interval = playerProp.animationInterval
@@ -247,7 +272,13 @@ export default class Player extends Base implements IAnimateBase {
 
   // 动画播放完成处理
   private afterAnimation (): void {
-    this.shooting = false
+    console.log(this.aniType)
+    switch (this.aniType) {
+      case 'playerAttackLeft':
+      case 'playerAttackRight':
+        this.shooting = false
+        break
+    }
     this.body.interval = playerProp.animationInterval
   }
 

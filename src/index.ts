@@ -34,6 +34,10 @@ const assets = [
     type: Loader.ATLAS
   },
   {
+    url: './static/res/character1_toggle.json',
+    type: Loader.ATLAS
+  },
+  {
     url: './static/res/background1.png',
     type: Loader.IMAGE
   },
@@ -162,7 +166,8 @@ class GameMain {
     // 进行碰撞检测
     this.blockRenderList.forEach((item, index) => {
       if (item.visible) {
-        switch (collisionCheck(this.player, item)) {
+        const hitType = collisionCheck(this.player, item)
+        switch (hitType) {
           case 3:
             this.player.crashHandle(crashDir.down, item)
             break

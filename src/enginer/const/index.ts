@@ -24,12 +24,18 @@ export const playerProp = {
   // （假）重力加速度
   acce: 1,
   animationInterval: 70,
+  status: [
+    'normal',
+    'advanced'
+  ],
   action: {
     left: 'playerMoveLeft',
     right: 'playerMoveRight',
     jump: 'playerJump',
     attackLeft: 'playerAttackLeft',
-    attackRight: 'playerAttackRight'
+    attackRight: 'playerAttackRight',
+    toggleToNormal: 'playerToNormal',
+    toggleToAdvanced: 'playerToAdvanced'
   },
   bulletSize: {
     width: 138,
