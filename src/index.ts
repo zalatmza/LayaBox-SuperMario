@@ -225,7 +225,7 @@ class GameMain {
     }
 
     // Y轴
-    if (this.player.y < this.player.height || this.player.y > stageSize.height * 0.75) {
+    if (this.player.y < this.player.height || this.player.y > stageSize.height * 0.65) {
       bgYOffset = this.player.y - prePlayerY
       this.player.y -= bgYOffset
       this.background.y -= bgYOffset

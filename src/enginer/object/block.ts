@@ -220,23 +220,30 @@ export class Bullet extends ABlock {
     Laya.Animation.createFrames(['bullet/bullet1.png', 'bullet/bullet2.png', 'bullet/bullet3.png'],
       playerProp.bulletSize.action.right)
     this.initBody(120)
+    if (this.runDir === -1) {
+      this.body.scaleX = -1
+      this.body.pivotX = this.width
+    }
   }
 
   move () {
     this.x += this.speedX * this.runDir
     this.runDistance += this.speedX * this.runDir
     if (this.runDistance > playerProp.bulletSize.maxX) {
-      this.body.clear()
-      this.visible = false
+      this.remove()
     }
   }
 
   crashLeft (item) {
-    //
+    if (item.constructor.__proto__.name !== 'ABlock') {
+      this.remove()
+    }
   }
 
   crashRight (item) {
-    //
+    if (item.constructor.__proto__.name !== 'ABlock') {
+      this.remove()
+    }
   }
 
   crashDown (item) {
