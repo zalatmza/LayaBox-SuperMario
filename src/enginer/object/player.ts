@@ -182,8 +182,8 @@ export default class Player extends Base implements IAnimateBase {
       down = false
     }
 
+    // 变身动作
     if (down && !this.togging) {
-      // 变身动作
       this.toggleStatus()
     }
 
@@ -191,11 +191,8 @@ export default class Player extends Base implements IAnimateBase {
     if (up && !this.jumping) {
       this.jumping = true
       this.speedY = this.initSpeedY
-      if (this.status === playerProp.status[0]) {
-        this.playAnimation(playerProp.action.jump1)
-      } else {
-        this.playAnimation(playerProp.action.jump2, false)
-      }
+      this.status === playerProp.status[0] ? this.playAnimation(playerProp.action.jump1) :
+                                            this.playAnimation(playerProp.action.jump2, false)
     }
 
     // y轴位移
@@ -215,25 +212,19 @@ export default class Player extends Base implements IAnimateBase {
       this.x = Math.min(this.x + this.speedX, stageSize.width - this.width)
       this.runDir = 1
       // 播放动画
-      if (!(this.body.isPlaying && (this.body._actionName === playerProp.action.right1
-      || this.body._actionName === playerProp.action.right2))) {
-        if (this.status === playerProp.status[0]) {
-          this.playAnimation(playerProp.action.right1)
-        } else {
-          this.playAnimation(playerProp.action.right2)
-        }
+      if (!(this.body.isPlaying && (this.aniType === playerProp.action.right1
+      || this.aniType === playerProp.action.right2))) {
+        this.status === playerProp.status[0] ? this.playAnimation(playerProp.action.right1) :
+                                              this.playAnimation(playerProp.action.right2)
       }
     } else if (left) {
       this.x = Math.max(this.x - this.speedX, 0)
       this.runDir = -1
       // 播放动画
-      if (!(this.body.isPlaying && (this.body._actionName === playerProp.action.left1
-      || this.body._actionName === playerProp.action.left2))) {
-        if (this.status === playerProp.status[0]) {
-          this.playAnimation(playerProp.action.left1)
-        } else {
-          this.playAnimation(playerProp.action.left2)
-        }
+      if (!(this.body.isPlaying && (this.aniType === playerProp.action.left1
+      || this.aniType === playerProp.action.left2))) {
+        this.status === playerProp.status[0] ? this.playAnimation(playerProp.action.left1) :
+                                              this.playAnimation(playerProp.action.left2)
       }
     }
   }
@@ -243,17 +234,11 @@ export default class Player extends Base implements IAnimateBase {
     this.body.clear()
     this.graphics.clear()
     if (this.runDir === 1) {
-      if (this.status === playerProp.status[0]) {
-        this.loadImage('character2/character2_run1_0.png')
-      } else {
-        this.loadImage('character1/character1_run1_0.png')
-      }
+      this.status === playerProp.status[0] ? this.loadImage('character2/character2_run1_0.png') :
+                                          this.loadImage('character1/character1_run1_0.png')
     } else if (this.runDir === -1) {
-      if (this.status === playerProp.status[0]) {
-        this.loadImage('character2/character2_run2_0.png')
-      } else {
-        this.loadImage('character1/character1_run2_0.png')
-      }
+      this.status === playerProp.status[0] ? this.loadImage('character2/character2_run2_0.png') :
+                                          this.loadImage('character1/character1_run2_0.png')
     }
   }
 
