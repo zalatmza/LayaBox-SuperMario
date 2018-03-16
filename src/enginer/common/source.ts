@@ -30,6 +30,22 @@ export const assets = [
     type: Loader.ATLAS
   },
   {
+    url: './static/res/character1_toggle.json',
+    type: Loader.ATLAS
+  },
+  {
+    url: './static/res/character2.json',
+    type: Loader.ATLAS
+  },
+  {
+    url: './static/res/character2_jump.json',
+    type: Loader.ATLAS
+  },
+  {
+    url: './static/res/character2_toggle.json',
+    type: Loader.ATLAS
+  },
+  {
     url: './static/res/background1.png',
     type: Loader.IMAGE
   },
@@ -46,13 +62,27 @@ export const assets = [
 export function createFrames () {
   // 奔跑
   Laya.Animation.createFrames([
+    'character2/character2_run1_1.png', 'character2/character2_run1_2.png',
+    'character2/character2_run1_3.png', 'character2/character2_run1_4.png',
+    'character2/character2_run1_5.png', 'character2/character2_run1_6.png',
+    'character2/character2_run1_7.png', 'character2/character2_run1_8.png',
+    'character2/character2_run1_9.png', 'character2/character2_run1_10.png',
+    'character2/character2_run1_11.png', 'character2/character2_run1_12.png'], playerProp.action.right1)
+  Laya.Animation.createFrames([
+    'character2/character2_run2_1.png', 'character2/character2_run2_2.png',
+    'character2/character2_run2_3.png', 'character2/character2_run2_4.png',
+    'character2/character2_run2_5.png', 'character2/character2_run2_6.png',
+    'character2/character2_run2_7.png', 'character2/character2_run2_8.png',
+    'character2/character2_run2_9.png', 'character2/character2_run2_10.png',
+    'character2/character2_run2_11.png', 'character2/character2_run2_12.png'], playerProp.action.left1)
+  Laya.Animation.createFrames([
     'character1/character1_run1_1.png', 'character1/character1_run1_2.png',
     'character1/character1_run1_3.png', 'character1/character1_run1_4.png',
-    'character1/character1_run1_5.png', 'character1/character1_run1_6.png'], playerProp.action.right)
+    'character1/character1_run1_5.png', 'character1/character1_run1_6.png'], playerProp.action.right2)
   Laya.Animation.createFrames([
     'character1/character1_run2_1.png', 'character1/character1_run2_2.png',
     'character1/character1_run2_3.png', 'character1/character1_run2_4.png',
-    'character1/character1_run2_5.png', 'character1/character1_run2_6.png'], playerProp.action.left)
+    'character1/character1_run2_5.png', 'character1/character1_run2_6.png'], playerProp.action.left2)
   // 攻击
   Laya.Animation.createFrames([
       'character1_attack/character1_attack1_1.png', 'character1_attack/character1_attack1_2.png',
@@ -70,10 +100,23 @@ export function createFrames () {
     playerProp.action.attackLeft)
   // 跳跃
   Laya.Animation.createFrames([
+    'character2_jump/character2_jump1_1.png', 'character2_jump/character2_jump1_2.png',
+    'character2_jump/character2_jump1_3.png'],
+    playerProp.action.jump1)
+  Laya.Animation.createFrames([
       'character1_jump/character1_jump1_1.png', 'character1_jump/character1_jump1_2.png',
       'character1_jump/character1_jump1_3.png', 'character1_jump/character1_jump1_4.png',
       'character1_jump/character1_jump1_5.png', 'character1_jump/character1_jump1_6.png',],
-    playerProp.action.jump)
+    playerProp.action.jump2)
+  // 人物变身：normal --> advanced
+  Laya.Animation.createFrames([
+    'character2_toggle/character2_toggle1.png', 'character2_toggle/character2_toggle2.png',
+    'character2_toggle/character2_toggle3.png', 'character2_toggle/character2_toggle4.png',
+    'character2_toggle/character2_toggle5.png', 'character2_toggle/character2_toggle6.png',
+    'character2_toggle/character2_toggle7.png', 'character2_toggle/character2_toggle8.png',
+    'character2_toggle/character2_toggle9.png', 'character2_toggle/character2_toggle10.png',
+    'character2_toggle/character2_toggle11.png'],
+  playerProp.action.toggleToAdvanced)
   // 人物变身：advanced --> normal
   Laya.Animation.createFrames([
       'character1_toggle/character1_toggle1.png', 'character1_toggle/character1_toggle2.png',
@@ -82,7 +125,9 @@ export function createFrames () {
       'character1_toggle/character1_toggle7.png', 'character1_toggle/character1_toggle8.png',
       'character1_toggle/character1_toggle9.png', 'character1_toggle/character1_toggle10.png',
       'character1_toggle/character1_toggle11.png', 'character1_toggle/character1_toggle12.png',
-      'character1_toggle/character1_toggle13.png', 'character1_toggle/character1_toggle14.png'],
+      'character1_toggle/character1_toggle13.png', 'character1_toggle/character1_toggle14.png',
+      'character1_toggle/character1_toggle15.png', 'character1_toggle/character1_toggle16.png',
+      'character1_toggle/character1_toggle17.png', 'character1_toggle/character1_toggle18.png'],
     playerProp.action.toggleToNormal)
   // 蘑菇移动
   Laya.Animation.createFrames(['pp/pp001.png', 'pp/pp002.png', 'pp/pp003.png'],
