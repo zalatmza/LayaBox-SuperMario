@@ -12,7 +12,9 @@ export default class Player extends Base implements IAnimateBase {
   private body: Laya.Animation
 
   // 当前播放的动画名称
-  private aniType: string
+  private get aniType (): string {
+    return this.body._actionName || ''
+  }
 
   // 当前人物的身份
   private togging: boolean = false
@@ -27,6 +29,7 @@ export default class Player extends Base implements IAnimateBase {
   // 跳跃中
   public jumping: boolean = false
 
+  // 射击
   public shooting: boolean = false
 
   // 空中速度
@@ -195,8 +198,10 @@ export default class Player extends Base implements IAnimateBase {
       }
     }
 
+    // y轴位移
     this.speedY += this.acce
     this.y += this.speedY
+
     // 狗带
     this.y >= stageSize.height && this.die()
 
@@ -262,7 +267,6 @@ export default class Player extends Base implements IAnimateBase {
 
   // 播放动画
   private playAnimation (actionName, loop = true) {
-    this.aniType = actionName
     this.graphics.clear()
     this.body.play(0, loop, actionName)
     this.body.pos(0, 0)
