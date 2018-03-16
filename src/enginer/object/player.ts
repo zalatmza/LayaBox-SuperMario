@@ -10,6 +10,7 @@ import { Bullet } from './block'
 export default class Player extends Base implements IAnimateBase {
   // 身体动画
   private body: Laya.Animation
+  private aniType: string
 
   // 移动方向1 往右， -1 往左
   public runDir: 1 | -1 = 1
@@ -238,6 +239,7 @@ export default class Player extends Base implements IAnimateBase {
 
   // 播放动画
   private playAnimation (actionName, loop = true) {
+    this.aniType = actionName
     this.graphics.clear()
     this.body.play(0, loop, actionName)
     this.body.pos(0, 0)
