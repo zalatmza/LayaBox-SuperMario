@@ -61,7 +61,7 @@ export default class Player extends Base implements IAnimateBase {
     }
   }
 
-  // 左边撞到障碍物
+  // 右边撞到障碍物
   public crashLeft (item) {
     if (item.constructor.name === 'Coin') {
       (this.x + this.width > item.x) && item.remove()
@@ -75,7 +75,7 @@ export default class Player extends Base implements IAnimateBase {
     }
   }
 
-  // 右边撞到障碍物
+  // 左边撞到障碍物
   public crashRight (item) {
     if (item.constructor.name === 'Coin') {
       (this.x < item.x + item.width) && item.remove()
