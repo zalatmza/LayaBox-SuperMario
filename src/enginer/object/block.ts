@@ -162,7 +162,7 @@ export class Monster1 extends ABlock {
   }
 
   protected initAnimation () {
-    this.initBody(120)
+    this.initBody()
   }
   move () {
     this.x += this.speedX * this.runDir
@@ -213,7 +213,7 @@ export class Bullet extends ABlock {
     this.playAnimation(playerProp.bulletSize.action.right)
   }
   protected initAnimation () {
-    this.initBody(120)
+    this.initBody()
     if (this.runDir === -1) {
       this.body.scaleX = -1
       this.body.pivotX = this.width
