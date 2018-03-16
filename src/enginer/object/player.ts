@@ -71,7 +71,7 @@ export default class Player extends Base implements IAnimateBase {
 
   // 右边撞到障碍物
   public crashLeft (item) {
-    if (item.constructor.name === 'Coin') {
+    if (item.constructorName === 'Coin') {
       (this.x + this.width > item.x) && item.remove()
     } else {
       // 和固定障碍物碰撞
@@ -85,7 +85,7 @@ export default class Player extends Base implements IAnimateBase {
 
   // 左边撞到障碍物
   public crashRight (item) {
-    if (item.constructor.name === 'Coin') {
+    if (item.constructorName === 'Coin') {
       (this.x < item.x + item.width) && item.remove()
     } else {
       // 和固定障碍物碰撞
@@ -99,7 +99,7 @@ export default class Player extends Base implements IAnimateBase {
 
   // 下边撞到障碍物
   public crashDown (item) {
-    if (item.constructor.name === 'Coin') {
+    if (item.constructorName === 'Coin') {
       item.remove()
     } else {
       const newHeight = item.y - this.height
@@ -119,12 +119,12 @@ export default class Player extends Base implements IAnimateBase {
 
   // 上面撞到障碍物
   public crashUp (item) {
-    if (item.constructor.name === 'Coin') {
+    if (item.constructorName === 'Coin') {
       (this.y > item.y + item.height) && item.remove()
     } else {
       this.y = item.y + item.height
       this.speedY = 0
-      if (item.constructor.name === 'Grass') {
+      if (item.constructorName === 'Grass') {
         item.popupCoin()
       }
     }

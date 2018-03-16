@@ -27,7 +27,6 @@ class GameMain {
   */
   // 加载进度
   private loadingText: Laya.Text
-
   /*
   * 游戏中
   *
