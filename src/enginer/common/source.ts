@@ -18,6 +18,10 @@ export const assets = [
     type: Loader.ATLAS
   },
   {
+    url: './static/res/character1_toggle.json',
+    type: Loader.ATLAS
+  },
+  {
     url: './static/res/character1_attack.json',
     type: Loader.ATLAS
   },

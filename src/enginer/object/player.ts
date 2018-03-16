@@ -12,7 +12,9 @@ export default class Player extends Base implements IAnimateBase {
   private body: Laya.Animation
 
   // 当前播放的动画名称
-  private aniType: string
+  private get aniType (): string {
+    return this.body._actionName || ''
+  }
 
   // 当前人物的身份
   private status: string = playerProp.status[1]
@@ -26,6 +28,7 @@ export default class Player extends Base implements IAnimateBase {
   // 跳跃中
   public jumping: boolean = false
 
+  // 射击
   public shooting: boolean = false
 
   // 空中速度
@@ -146,7 +149,6 @@ export default class Player extends Base implements IAnimateBase {
   public toggleStatus (type) {
     switch (type) {
       case playerProp.status[0]:
-        console.log('normal')
         this.playAnimation(playerProp.action.toggleToNormal, false)
         break
     }
@@ -172,8 +174,10 @@ export default class Player extends Base implements IAnimateBase {
       this.playAnimation(playerProp.action.jump, false)
     }
 
+    // y轴位移
     this.speedY += this.acce
     this.y += this.speedY
+
     // 狗带
     this.y >= stageSize.height && this.die()
 
@@ -187,14 +191,14 @@ export default class Player extends Base implements IAnimateBase {
       this.x = Math.min(this.x + this.speedX, stageSize.width - this.width)
       this.runDir = 1
       // 播放动画
-      if (!(this.body.isPlaying && this.body._actionName === playerProp.action.right)) {
+      if (!(this.body.isPlaying && this.aniType === playerProp.action.right)) {
         this.playAnimation(playerProp.action.right)
       }
     } else if (left) {
       this.x = Math.max(this.x - this.speedX, 0)
       this.runDir = -1
       // 播放动画
-      if (!(this.body.isPlaying && this.body._actionName === playerProp.action.left)) {
+      if (!(this.body.isPlaying && this.aniType === playerProp.action.left)) {
         this.playAnimation(playerProp.action.left)
       }
     }
@@ -221,7 +225,6 @@ export default class Player extends Base implements IAnimateBase {
 
   // 播放动画
   private playAnimation (actionName, loop = true) {
-    this.aniType = actionName
     this.graphics.clear()
     this.body.play(0, loop, actionName)
     this.body.pos(0, 0)
@@ -229,13 +232,7 @@ export default class Player extends Base implements IAnimateBase {
 
   // 动画播放完成处理
   private afterAnimation (): void {
-    console.log(this.aniType)
-    switch (this.aniType) {
-      case 'playerAttackLeft':
-      case 'playerAttackRight':
-        this.shooting = false
-        break
-    }
+    this.shooting = false
     this.body.interval = playerProp.animationInterval
   }
 
