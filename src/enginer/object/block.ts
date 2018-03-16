@@ -162,10 +162,6 @@ export class Monster1 extends ABlock {
   }
 
   protected initAnimation () {
-    Laya.Animation.createFrames(['pp/pp001.png', 'pp/pp002.png', 'pp/pp003.png'],
-      monsterProperty.monster1.action.right)
-    Laya.Animation.createFrames(['pp/pp004.png', 'pp/pp005.png', 'pp/pp006.png'],
-      monsterProperty.monster1.action.left)
     this.initBody(120)
   }
   move () {
@@ -217,8 +213,6 @@ export class Bullet extends ABlock {
     this.playAnimation(playerProp.bulletSize.action.right)
   }
   protected initAnimation () {
-    Laya.Animation.createFrames(['bullet/bullet1.png', 'bullet/bullet2.png', 'bullet/bullet3.png'],
-      playerProp.bulletSize.action.right)
     this.initBody(120)
     if (this.runDir === -1) {
       this.body.scaleX = -1

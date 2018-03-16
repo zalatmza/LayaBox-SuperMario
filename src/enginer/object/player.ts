@@ -123,6 +123,7 @@ export default class Player extends Base implements IAnimateBase {
 
   // 动感光波射击
   private shoot () {
+    this.shooting = true
     if (this.runDir === 1) {
       this.playAnimation(playerProp.action.attackRight, false)
       gameMain.add(new Bullet(this.x + this.width + this.speedX, this.y + this.height / 2, this.runDir))
@@ -157,15 +158,11 @@ export default class Player extends Base implements IAnimateBase {
 
     this.speedY += this.acce
     this.y += this.speedY
-    if (this.y >= stageSize.height) {
-      this.die()
-    }
+    // 狗带
+    this.y >= stageSize.height && this.die()
 
     // 射击
-    if (space && !this.shooting) {
-      this.shooting = true
-      this.shoot()
-    }
+    space && !this.shooting && this.shoot()
 
     // 左右移
     if ((left && right || !left && !right) && !this.shooting && !this.jumping) {
@@ -200,36 +197,6 @@ export default class Player extends Base implements IAnimateBase {
 
   // 初始化动效
   private initAnimation (): void {
-    // 奔跑
-    Laya.Animation.createFrames([
-    'character1/character1_run1_1.png', 'character1/character1_run1_2.png',
-    'character1/character1_run1_3.png', 'character1/character1_run1_4.png',
-    'character1/character1_run1_5.png', 'character1/character1_run1_6.png'], playerProp.action.right)
-    Laya.Animation.createFrames([
-    'character1/character1_run2_1.png', 'character1/character1_run2_2.png',
-    'character1/character1_run2_3.png', 'character1/character1_run2_4.png',
-    'character1/character1_run2_5.png', 'character1/character1_run2_6.png'], playerProp.action.left)
-    // 攻击
-    Laya.Animation.createFrames([
-    'character1_attack/character1_attack1_1.png', 'character1_attack/character1_attack1_2.png',
-    'character1_attack/character1_attack1_3.png', 'character1_attack/character1_attack1_4.png',
-    'character1_attack/character1_attack1_5.png', 'character1_attack/character1_attack1_6.png',
-    'character1_attack/character1_attack1_7.png', 'character1_attack/character1_attack1_8.png',
-    'character1_attack/character1_attack1_9.png', 'character1_attack/character1_attack1_10.png'],
-    playerProp.action.attackRight)
-    Laya.Animation.createFrames([
-    'character1_attack/character1_attack2_1.png', 'character1_attack/character1_attack2_2.png',
-    'character1_attack/character1_attack2_3.png', 'character1_attack/character1_attack2_4.png',
-    'character1_attack/character1_attack2_5.png', 'character1_attack/character1_attack2_6.png',
-    'character1_attack/character1_attack2_7.png', 'character1_attack/character1_attack2_8.png',
-    'character1_attack/character1_attack2_9.png', 'character1_attack/character1_attack2_10.png'],
-    playerProp.action.attackLeft)
-    // 跳跃
-    Laya.Animation.createFrames([
-    'character1_jump/character1_jump1_1.png', 'character1_jump/character1_jump1_2.png',
-    'character1_jump/character1_jump1_3.png', 'character1_jump/character1_jump1_4.png',
-    'character1_jump/character1_jump1_5.png', 'character1_jump/character1_jump1_6.png',],
-    playerProp.action.jump)
     this.body = new Laya.Animation()
     this.body.on(Laya.Event.COMPLETE, this, this.afterAnimation)
     this.body.interval = playerProp.animationInterval
