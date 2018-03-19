@@ -50,10 +50,6 @@ export const assets = [
     type: Loader.IMAGE
   },
   {
-    url: './static/res/block.json',
-    type: Loader.ATLAS
-  },
-  {
     url: './static/res/land1.json',
     type: Loader.ATLAS
   },

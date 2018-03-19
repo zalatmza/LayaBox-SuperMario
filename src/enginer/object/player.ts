@@ -125,11 +125,7 @@ export default class Player extends Base implements IAnimateBase {
     } else {
       this.y = item.y + item.height
       this.speedY = 0
-<<<<<<< HEAD
       if (item.constructor.name === 'GiftBrick') {
-=======
-      if (item.constructorName === 'Grass') {
->>>>>>> e3ea07c2200db133c626c51b77fd8df22d964841
         item.popupCoin()
       }
     }
@@ -187,7 +183,7 @@ export default class Player extends Base implements IAnimateBase {
     }
 
     // 变身动作
-    if (down && !this.togging) {
+    if (down && !left && !right && !this.togging) {
       this.toggleStatus()
     }
 
