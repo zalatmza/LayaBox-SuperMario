@@ -1,7 +1,7 @@
 /**
  * Created by Harry on 2018/2/9.
  */
-import { Floor, Brick, Pipe, ABlock, Block, Monster1, Grass } from '../object/block'
+import { Floor, Cliff, Pipe, ABlock, Block, Monster1, GiftBrick } from '../object/block'
 import { blockSize, gameSize } from '../const'
 
 function map1 () {
@@ -33,15 +33,15 @@ function map1 () {
 
   // 砖块
   const bArray = []
-  bArray.push(new Brick(600, 120, 300, 60))
-  bArray.push(new Brick(700, -100, 300, 60))
-  bArray.push(new Brick(800, -300, 300, 60))
-  bArray.push(new Brick(1500, 150, 700, 100))
+  bArray.push(new Cliff(600, 120, 300))
+  bArray.push(new Cliff(700, -100, 300))
+  bArray.push(new Cliff(800, -300, 300))
+  bArray.push(new Cliff(1500, 150, 700))
 
-  // 草地
+  // 金币砖块
   const gArray = []
-  gArray.push(new Grass(250, 280, 50, 50))
-  gArray.push(new Grass(200, 230, 50, 50))
+  gArray.push(new GiftBrick(275, 220, blockSize.giftBrick.width, blockSize.giftBrick.height))
+  gArray.push(new GiftBrick(200, 220, blockSize.giftBrick.width, blockSize.giftBrick.height))
 
   // 水管
   const pArray = []
@@ -52,7 +52,7 @@ function map1 () {
   // monsterArray.push(new Monster1(600, 100))
   monsterArray.push(new Monster1(1110, 100))
 
-  return [...fArray, ...bArray, ...pArray, ...gArray, ...monsterArray]
+  return [...pArray, ...fArray, ...bArray, ...gArray, ...monsterArray]
 }
 function map2 () {
   // 地板
@@ -74,13 +74,13 @@ function map2 () {
 
   // 砖块
   const bArray = []
-  bArray.push(new Brick(500, 200, 300, 60))
-  bArray.push(new Brick(1500, 150, 700, 100))
+  bArray.push(new Cliff(500, 200, 300))
+  bArray.push(new Cliff(1500, 150, 700))
 
   // 草地
   const gArray = []
-  gArray.push(new Grass(250, 280, 50, 50))
-  gArray.push(new Grass(200, 230, 50, 50))
+  gArray.push(new GiftBrick(250, 280, blockSize.giftBrick.width, blockSize.giftBrick.height))
+  gArray.push(new GiftBrick(200, 230, blockSize.giftBrick.width, blockSize.giftBrick.height))
 
   // 水管
   const pArray = []
@@ -99,7 +99,7 @@ function map3 () {
 
   // 砖块
   const bArray = []
-  bArray.push(new Brick(500, 200, 150, 150))
+  bArray.push(new Cliff(500, 200, 150))
 
   return [...fArray]
 }

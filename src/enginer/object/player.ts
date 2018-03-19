@@ -125,7 +125,7 @@ export default class Player extends Base implements IAnimateBase {
     } else {
       this.y = item.y + item.height
       this.speedY = 0
-      if (item.constructor.name === 'Grass') {
+      if (item.constructor.name === 'GiftBrick') {
         item.popupCoin()
       }
     }

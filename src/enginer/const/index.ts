@@ -55,20 +55,35 @@ export const playerProp = {
 // 障碍物尺寸
 export const blockSize = {
   // 地面基本图尺寸
+  floorTop: {
+    width: 70,
+    height: 40
+  },
   floorSize: {
-    width: 60,
-    height: 60
+    width: 70,
+    height: 70
+  },
+  // 金币砖块
+  giftBrick: {
+    width: 70,
+    height: 70
   },
   // 水管基本图尺寸
   pipeSize: {
-    width1: 113,
-    width2: 107,
-    height: 112
+    width1: 70,
+    width2: 70,
+    height: 70
   },
   // 金币基本图尺寸
   coinSize: {
-    width: 29,
-    height: 19
+    width: 36,
+    height: 36
+  },
+  // 悬崖
+  cliffSize: {
+    leftWidth: 70,
+    rightWidth: 70,
+    height: 70
   }
 }
 

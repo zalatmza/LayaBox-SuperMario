@@ -54,6 +54,10 @@ export const assets = [
     type: Loader.ATLAS
   },
   {
+    url: './static/res/land1.json',
+    type: Loader.ATLAS
+  },
+  {
     url: './static/music/mxd1.mp3',
     type: Loader.SOUND
   }

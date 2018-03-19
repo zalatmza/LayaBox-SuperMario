@@ -28,46 +28,64 @@ abstract class SBlock extends Block {
 
 // 金币
 export class Coin extends SBlock {
-  private src = 'block/coin.png'
-  private hasCoin = true
-  constructor (x, y,) {
+  private src = 'land1/coin1.png'
+  constructor (x, y) {
     super(x, y, blockSize.coinSize.width, blockSize.coinSize.height)
     this.loadImage(this.src, 0, 0, this.width, this.height)
   }
 }
 
-// 金币方块
-export class Grass extends SBlock {
-  private src = 'block/grass.png'
+// 金币砖块
+export class GiftBrick extends SBlock {
+  private src1 = 'land1/gift_brick1_1.png'
+  private src2 = 'land1/gift_brick1_2.png'
   private hasCoin = true
   constructor (x, y, w, h) {
     super(x, y, w, h)
-    this.loadImage(this.src, 0, 0, this.width, this.height)
+    this.loadImage(this.src1, 0, 0, w, h)
   }
 
   public popupCoin () {
     if (this.hasCoin) {
-      gameMain.add(new Coin(this.x, this.y - blockSize.coinSize.height))
+      this.loadImage(this.src2, 0, 0, this.width, this.height)
+      gameMain.add(new Coin(this.x + this.width / 2 - blockSize.coinSize.width / 2, this.y - blockSize.coinSize.height))
       this.hasCoin = false
     }
   }
 }
 
 // 砖块
-export class Brick extends SBlock {
-  private src = 'block/brick1.png'
-  constructor (x, y, w, h) {
-    super(x, y, w, h)
-    this.graphics.fillTexture(Laya.loader.getRes(this.src), 0, 0, this.width, this.height)
+export class Cliff extends SBlock {
+  private midsrc = 'land1/land1_3.png'
+  private leftsrc = 'land1/land1_4.png'
+  private rightsrc = 'land1/land1_5.png'
+  constructor (x, y, w) {
+    super(x, y, w, blockSize.cliffSize.height)
+    // 创建悬崖左侧
+    const leftpart= new Laya.Sprite()
+    leftpart.loadImage(this.leftsrc)
+    // 创建悬崖右侧
+    const rightpart = new Laya.Sprite()
+    rightpart.loadImage(this.rightsrc)
+    // 创建悬崖中
+    const midpart = new Laya.Sprite()
+    midpart.graphics.fillTexture(Laya.loader.getRes(this.midsrc), 0, 0,
+    this.width - blockSize.cliffSize.leftWidth - blockSize.cliffSize.rightWidth, blockSize.cliffSize.height)
+    this.addChild(leftpart)
+    leftpart.pos(0, 0)
+    this.addChild(midpart)
+    midpart.pos(blockSize.cliffSize.leftWidth, 0)
+    this.addChild(rightpart)
+    rightpart.pos(this.width - blockSize.cliffSize.rightWidth, 0)
   }
 }
 
 // 水管
 export class Pipe extends SBlock {
-  private ptsrc = 'block/pipe1.png'
-  private pbsrc = 'block/pipe2.png'
+  private ptsrc = 'land1/pillar1_1.png'
+  private pbsrc = 'land1/pillar1_2.png'
   constructor (x, y, h) {
-    super(x, y, blockSize.pipeSize.width1, h)
+    super(x, y, blockSize.pipeSize.width1, stageSize.height - y)
     // 创建水管顶部
     const ptop = new Laya.Sprite()
     // 创建水管底部
@@ -77,7 +95,7 @@ export class Pipe extends SBlock {
     ptop.pos(0, 0)
     // 把图显示在容器内
     this.addChild(ptop)
-    pbody.graphics.fillTexture(Laya.loader.getRes(this.pbsrc), 4,  0,
+    pbody.graphics.fillTexture(Laya.loader.getRes(this.pbsrc), 0,  0,
       blockSize.pipeSize.width2, this.height - blockSize.pipeSize.height)
     pbody.pos(0, blockSize.pipeSize.height)
     this.addChild(pbody)
@@ -86,8 +104,8 @@ export class Pipe extends SBlock {
 
 // 地板
 export class Floor extends SBlock {
-  private ftsrc: string = 'block/land2.png'
-  private fbsrc: string = 'block/land1.png'
+  private ftsrc: string = 'land1/land1_2.png'
+  private fbsrc: string = 'land1/land1_1.png'
   constructor (x, y) {
     super(x, y, blockSize.floorSize.width, stageSize.height - y)
     // 创建土地顶部
@@ -100,8 +118,8 @@ export class Floor extends SBlock {
     // 把图显示在容器内
     this.addChild(ftop)
     fbody.graphics.fillTexture(Laya.loader.getRes(this.fbsrc), 0, 0,
-      blockSize.floorSize.width, this.height - blockSize.floorSize.height)
-    fbody.pos(0, blockSize.floorSize.height)
+      blockSize.floorSize.width, this.height - blockSize.floorTop.height)
+    fbody.pos(0, blockSize.floorTop.height)
     this.addChild(fbody)
   }
 }
