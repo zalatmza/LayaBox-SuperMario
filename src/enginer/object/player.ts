@@ -12,7 +12,7 @@ export default class Player extends Base implements IAnimateBase {
   private body: Laya.Animation
 
   // 当前播放的动画名称
-  private get aniType (): string {
+  private get actionName (): string {
     return this.body._actionName || ''
   }
 
@@ -212,26 +212,22 @@ export default class Player extends Base implements IAnimateBase {
       this.x = Math.min(this.x + this.speedX, stageSize.width - this.width)
       this.runDir = 1
       // 播放动画
-      if (!(this.body.isPlaying && (this.aniType === playerProp.action.right1
-      || this.aniType === playerProp.action.right2))) {
-        this.status === playerProp.status[0] ? this.playAnimation(playerProp.action.right1) :
-                                              this.playAnimation(playerProp.action.right2)
-      }
+      this.status === playerProp.status[0] ? this.playAnimation(playerProp.action.right1) :
+                                            this.playAnimation(playerProp.action.right2)
     } else if (left) {
       this.x = Math.max(this.x - this.speedX, 0)
       this.runDir = -1
       // 播放动画
-      if (!(this.body.isPlaying && (this.aniType === playerProp.action.left1
-      || this.aniType === playerProp.action.left2))) {
-        this.status === playerProp.status[0] ? this.playAnimation(playerProp.action.left1) :
-                                              this.playAnimation(playerProp.action.left2)
+      this.status === playerProp.status[0] ? this.playAnimation(playerProp.action.left1) :
+                                            this.playAnimation(playerProp.action.left2)
       }
-    }
   }
 
   // 初始化角色动作
   public initAction (): void {
+    this.playAnimation('')
     this.body.clear()
+    this.togging = false
     this.graphics.clear()
     if (this.runDir === 1) {
       this.status === playerProp.status[0] ? this.loadImage('character2/character2_run1_0.png') :
@@ -252,14 +248,17 @@ export default class Player extends Base implements IAnimateBase {
 
   // 播放动画
   private playAnimation (actionName, loop = true) {
-    this.graphics.clear()
-    this.body.play(0, loop, actionName)
-    this.body.pos(0, 0)
+    if (this.actionName !== actionName) {
+      this.graphics.clear()
+      this.body.play(0, loop, actionName)
+      this.body.pos(0, 0)
+    }
   }
 
   // 动画播放完成处理
   private afterAnimation (): void {
-    if (this.aniType === playerProp.action.toggleToNormal || this.aniType === playerProp.action.toggleToAdvanced) {
+    if (this.actionName === playerProp.action.toggleToNormal ||
+        this.actionName === playerProp.action.toggleToAdvanced) {
       this.togging = false
       this.status = this.status === playerProp.status[0] ? playerProp.status[1] : playerProp.status[0]
     }
