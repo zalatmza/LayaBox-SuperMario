@@ -248,12 +248,18 @@ export class Bullet extends ABlock {
 
   crashLeft (item) {
     if (item.constructor.__proto__.name !== 'ABlock') {
+      // this.remove()
+    } else {
+      item.remove()
       this.remove()
     }
   }
 
   crashRight (item) {
     if (item.constructor.__proto__.name !== 'ABlock') {
+      // this.remove()
+    } else {
+      item.remove()
       this.remove()
     }
   }

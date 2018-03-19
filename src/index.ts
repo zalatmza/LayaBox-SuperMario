@@ -27,13 +27,13 @@ class GameMain {
   */
   // 加载进度
   private loadingText: Laya.Text
-
   /*
   * 游戏中
   *
   */
   // 背景偏移量
   public stageX: number = 0
+  public stageY: number = 0
   // 主角
   public player: Player
   // 背景
@@ -88,6 +88,7 @@ class GameMain {
   // 游戏开始
   private gameStart (index) {
     this.stageX = stageSize.width
+    this.stageY = 0
     this.currentSelectionIndex = index
     // 新建关卡实例
     this.battleSprite = new Laya.Sprite()
@@ -200,7 +201,12 @@ class GameMain {
       bgYOffset = this.player.y - prePlayerY
       this.player.y -= bgYOffset
       this.background.y -= bgYOffset
+      this.stageY += bgYOffset
     }
+
+    // 掉下去则暂停循环
+    this.stageY > stageSize.height && this.gamePause() && console.log('game over')
+
     // 处理其他碰撞体的渲染
     this.blockRenderList.forEach((item, index) => {
       render(item, bgXOffset, bgYOffset)

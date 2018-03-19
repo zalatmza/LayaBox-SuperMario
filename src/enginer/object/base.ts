@@ -12,6 +12,9 @@ export abstract class Base extends Laya.Sprite {
     this.height = h
     this.zOrder = 10
   }
+  get constructorName (): string {
+    return this.constructor.name || ''
+  }
 }
 
 // 会动的东西实现这个接口
