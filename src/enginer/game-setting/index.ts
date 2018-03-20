@@ -45,8 +45,8 @@ function map1 () {
 
   // 水管
   const pArray = []
-  pArray.push(new Pipe(930, 260, 200))
-  pArray.push(new Pipe(1230, 210, 150))
+  pArray.push(new Pipe(930, 260))
+  pArray.push(new Pipe(1230, 210))
 
   const monsterArray = []
   // monsterArray.push(new Monster1(600, 100))
@@ -84,22 +84,25 @@ function map2 () {
 
   // 水管
   const pArray = []
-  pArray.push(new Pipe(930, 260, 200))
-  pArray.push(new Pipe(1230, 210, 150))
+  pArray.push(new Pipe(930, 260))
+  pArray.push(new Pipe(1230, 210))
 
   return [...fArray, ...bArray, ...pArray, ...gArray]
 }
 function map3 () {
   // 地板
-  const fnum = Math.floor(gameSize.width / blockSize.floorSize.width) + 1
   const fArray = []
   for (let i = 0; i < 1; i++) {
-    fArray.push(new Floor(blockSize.floorSize.width * i, 460))
+    fArray.push(new Floor(blockSize.floorSize.width * i, 400))
   }
+
+  // 水管
+  const pArray = []
+  pArray.push(new Pipe(500, 0))
 
   // 砖块
   const bArray = []
-  bArray.push(new Cliff(500, 200, 150))
+  bArray.push(new Cliff(0, 0, 150))
 
   return [...fArray]
 }

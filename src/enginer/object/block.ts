@@ -9,8 +9,13 @@ import { gameMain } from '../../index'
 export abstract class Block extends Base {
   public type: string
   public label: string = blockType.label.normal
+  // 是否开启碰检
+  public isCarsh: boolean = true
+
   constructor (x, y, w, h) {
     super(x, y, w, h)
+    this.x = x + w * 0.5
+    this.y = y + h * 0.5
     this.visible = false
   }
   public remove () {
@@ -84,7 +89,7 @@ export class Cliff extends SBlock {
 export class Pipe extends SBlock {
   private ptsrc = 'land1/pillar1_1.png'
   private pbsrc = 'land1/pillar1_2.png'
-  constructor (x, y, h) {
+  constructor (x, y) {
     super(x, y, blockSize.pipeSize.width1, stageSize.height - y)
     // 创建水管顶部
     const ptop = new Laya.Sprite()
@@ -151,9 +156,9 @@ export abstract class ABlock extends Block implements IAnimateBase {
     this.addChild(this.body)
   }
 
-  protected playAnimation (actionName): void {
+  protected playAnimation (actionName, loop = true): void {
     this.graphics.clear()
-    this.body.play(0, true, actionName)
+    this.body.play(0, loop, actionName)
   }
 
   public crashHandle (type, item) {
@@ -221,7 +226,7 @@ export class Monster1 extends ABlock {
 
 // 子弹
 export class Bullet extends ABlock {
-  private runDistance = 0
+  private runDistance: number = 0
   constructor (x, y, dir) {
     super (x, y, playerProp.bulletSize.width, playerProp.bulletSize.height)
     this.speedX = playerProp.bulletSize.speedX
@@ -246,9 +251,20 @@ export class Bullet extends ABlock {
     }
   }
 
+  boom () {
+    this.isCarsh = false
+    this.width = playerProp.bulletSize.boomWidth
+    this.height = playerProp.bulletSize.boomHeight
+    this.speedX = 0
+    this.body.on(Laya.Event.COMPLETE, this, () => {
+      this.remove()
+    })
+    this.playAnimation(playerProp.bulletSize.action.boom, false)
+  }
+
   crashLeft (item) {
     if (item.constructor.__proto__.name !== 'ABlock') {
-      // this.remove()
+      this.boom()
     } else {
       item.remove()
       this.remove()
@@ -257,7 +273,7 @@ export class Bullet extends ABlock {
 
   crashRight (item) {
     if (item.constructor.__proto__.name !== 'ABlock') {
-      // this.remove()
+      this.boom()
     } else {
       item.remove()
       this.remove()

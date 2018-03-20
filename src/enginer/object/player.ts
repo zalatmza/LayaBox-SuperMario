@@ -73,13 +73,13 @@ export default class Player extends Base implements IAnimateBase {
   // 右边撞到障碍物
   public crashLeft (item) {
     if (item.constructorName === 'Coin') {
-      (this.x + this.width > item.x) && item.remove()
+      (this.x + this.halfW > item.x - item.halfW) && item.remove()
     } else {
       // 和固定障碍物碰撞
       if (item.constructor.__proto__.name === 'ABlock') {
         this.die()
       } else {
-        this.x = item.x - this.width
+        this.x = item.x - item.halfW - this.halfW
       }
     }
   }
@@ -87,13 +87,13 @@ export default class Player extends Base implements IAnimateBase {
   // 左边撞到障碍物
   public crashRight (item) {
     if (item.constructorName === 'Coin') {
-      (this.x < item.x + item.width) && item.remove()
+      (this.x - this.halfW < item.x + item.halfW) && item.remove()
     } else {
       // 和固定障碍物碰撞
       if (item.constructor.__proto__.name === 'ABlock') {
         this.die()
       } else {
-        this.x = item.x + item.width
+        this.x = item.x + item.halfW + this.halfW
       }
     }
   }
@@ -103,10 +103,10 @@ export default class Player extends Base implements IAnimateBase {
     if (item.constructorName === 'Coin') {
       item.remove()
     } else {
-      const newHeight = item.y - this.height
-      this.y = Math.max(0, Math.min(this.y, newHeight))
+      const newY = item.y - item.halfH - this.halfH
+      this.y = Math.max(0, Math.min(this.y , newY))
 
-      if (this.y === newHeight) {
+      if (this.y === newY) {
         this.jumping = false
         this.speedY = 0
       }
@@ -121,9 +121,9 @@ export default class Player extends Base implements IAnimateBase {
   // 上面撞到障碍物
   public crashUp (item) {
     if (item.constructorName === 'Coin') {
-      (this.y > item.y + item.height) && item.remove()
+      (this.y + this.halfH > item.y + item.halfH) && item.remove()
     } else {
-      this.y = item.y + item.height
+      this.y = item.y + item.halfH + this.halfH
       this.speedY = 0
       if (item.constructor.name === 'GiftBrick') {
         item.popupCoin()

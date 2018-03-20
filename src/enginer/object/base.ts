@@ -4,13 +4,21 @@
 
 // https://layaair.ldc.layabox.com/api/?category=Core&class=laya.display.Sprite
 export abstract class Base extends Laya.Sprite {
+  public halfH: number = 0
+  public halfW: number = 0
+
   constructor (x, y, w, h) {
     super()
     this.x = x
     this.y = y
+    // 宽高
     this.width = w
+    this.halfW = this.width /2
     this.height = h
+    this.halfH = this.height / 2
+    // other
     this.zOrder = 10
+    this.pivot(this.halfW, this.halfH)
   }
   get constructorName (): string {
     return this.constructor.name || ''
