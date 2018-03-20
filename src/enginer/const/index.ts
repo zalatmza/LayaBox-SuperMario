@@ -24,10 +24,10 @@ export const playerProp = {
   // （假）重力加速度
   acce: 1,
   animationInterval: 70,
-  status: [
-    'normal',
-    'advanced'
-  ],
+  status: {
+    'normal': 'NORMAL',
+    'advanced': 'ADVANCED'
+  },
   action: {
     left1: 'playerRunLeft1',
     right1: 'playerRunRight1',

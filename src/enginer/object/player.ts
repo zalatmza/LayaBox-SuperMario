@@ -18,7 +18,7 @@ export default class Player extends Base implements IAnimateBase {
 
   // 当前人物的身份
   private togging: boolean = false
-  private status: string = playerProp.status[0]
+  private status: string = playerProp.status.normal
 
   // 移动方向1 往右， -1 往左
   public runDir: 1 | -1 = 1
@@ -36,7 +36,7 @@ export default class Player extends Base implements IAnimateBase {
   public speedY: number = 0
 
   // 起跳初速度
-  private initSpeedY = playerProp.initSpeedY
+  private initSpeedY: number = playerProp.initSpeedY
 
   // 重力加速度
   public acce: number = playerProp.acce
@@ -150,10 +150,10 @@ export default class Player extends Base implements IAnimateBase {
   public toggleStatus () {
     this.togging = true
     switch (this.status) {
-      case playerProp.status[0]:
+      case playerProp.status.normal:
         this.playAnimation(playerProp.action.toggleToAdvanced, false)
         break
-      case playerProp.status[1]:
+      case playerProp.status.advanced:
         this.playAnimation(playerProp.action.toggleToNormal, false)
         break
     }
@@ -191,7 +191,7 @@ export default class Player extends Base implements IAnimateBase {
     if (up && !this.jumping) {
       this.jumping = true
       this.speedY = this.initSpeedY
-      this.status === playerProp.status[0] ? this.playAnimation(playerProp.action.jump1) :
+      this.status === playerProp.status.normal ? this.playAnimation(playerProp.action.jump1) :
                                             this.playAnimation(playerProp.action.jump2, false)
     }
 
@@ -203,7 +203,11 @@ export default class Player extends Base implements IAnimateBase {
     this.y >= stageSize.height && this.die()
 
     // 射击
-    space && !this.shooting && this.status === playerProp.status[1] && this.shoot()
+    if (space) {
+      !this.shooting && this.status === playerProp.status.advanced && this.shoot()
+    } else {
+      this.shooting = false
+    }
 
     // 左右移
     if ((left && right || !left && !right) && !this.shooting && !this.jumping && !this.togging) {
@@ -212,13 +216,13 @@ export default class Player extends Base implements IAnimateBase {
       this.x = Math.min(this.x + this.speedX, stageSize.width - this.width)
       this.runDir = 1
       // 播放动画
-      this.status === playerProp.status[0] ? this.playAnimation(playerProp.action.right1) :
+      this.status === playerProp.status.normal ? this.playAnimation(playerProp.action.right1) :
                                             this.playAnimation(playerProp.action.right2)
     } else if (left) {
       this.x = Math.max(this.x - this.speedX, 0)
       this.runDir = -1
       // 播放动画
-      this.status === playerProp.status[0] ? this.playAnimation(playerProp.action.left1) :
+      this.status === playerProp.status.normal ? this.playAnimation(playerProp.action.left1) :
                                             this.playAnimation(playerProp.action.left2)
       }
   }
@@ -230,10 +234,10 @@ export default class Player extends Base implements IAnimateBase {
     this.togging = false
     this.graphics.clear()
     if (this.runDir === 1) {
-      this.status === playerProp.status[0] ? this.loadImage('character2/character2_run1_0.png') :
+      this.status === playerProp.status.normal ? this.loadImage('character2/character2_run1_0.png') :
                                           this.loadImage('character1/character1_run1_0.png')
     } else if (this.runDir === -1) {
-      this.status === playerProp.status[0] ? this.loadImage('character2/character2_run2_0.png') :
+      this.status === playerProp.status.normal ? this.loadImage('character2/character2_run2_0.png') :
                                           this.loadImage('character1/character1_run2_0.png')
     }
   }
@@ -248,7 +252,8 @@ export default class Player extends Base implements IAnimateBase {
 
   // 播放动画
   private playAnimation (actionName, loop = true) {
-    if (this.actionName !== actionName) {
+    if (this.actionName !== actionName || this.actionName === playerProp.action.attackRight ||
+        this.actionName === playerProp.action.attackLeft) {
       this.graphics.clear()
       this.body.play(0, loop, actionName)
       this.body.pos(0, 0)
@@ -260,7 +265,7 @@ export default class Player extends Base implements IAnimateBase {
     if (this.actionName === playerProp.action.toggleToNormal ||
         this.actionName === playerProp.action.toggleToAdvanced) {
       this.togging = false
-      this.status = this.status === playerProp.status[0] ? playerProp.status[1] : playerProp.status[0]
+      this.status = this.status === playerProp.status.normal ? playerProp.status.advanced : playerProp.status.normal
     }
     this.shooting = false
     this.body.interval = playerProp.animationInterval
