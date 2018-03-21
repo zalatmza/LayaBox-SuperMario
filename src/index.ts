@@ -106,11 +106,7 @@ class GameMain {
 
   // 游戏开始
   private gameStart (index) {
-<<<<<<< HEAD
-    console.log('start')
-=======
     this.gameDestory()
->>>>>>> eb02d85b9b2e444d702e53a89bc494c4861c9f19
     this.stageX = stageSize.width
     this.stageY = 0
     this.currentSelectionIndex = index
@@ -296,7 +292,8 @@ class GameMain {
   // 资源加载
   private updateLoadingPanel () {
     if (this.curProgress >= 100) {
-      Laya.Tween.to(this.loadingSprite, {alpha: 0}, 100, null, Laya.Handler.create(this, this.clearLoadingPanel))
+      Laya.Tween.to(this.loadingSprite, {alpha: 0}, 100)
+      this.clearLoadingPanel()
     }
     this.loadingText.text = 'Loading ' + this.curProgress + '%'
     this.loadingText.pos(stageSize.width / 2 - this.loadingText.width / 2,
@@ -354,6 +351,7 @@ class GameMain {
         battle.color = '#00868B'
         this.gameStart(index)
         this.selectionSprite.visible = false
+        this.loadingIcon.visible = false
       })
       this.selectionSprite.addChild(battle)
       Laya.Tween.to(battle, {x: battle.x + 100, alpha: 1}, 900, Laya.Ease.elasticInOut, null, 200 + index * 100)
