@@ -4,6 +4,14 @@
 import { monsterProperty, playerProp } from '../const'
 
 const Loader = Laya.Loader
+
+export const preAsset = [
+  {
+    url: './static/res/character1.json',
+    type: Loader.ATLAS
+  }
+]
+
 export const assets = [
   {
     url: './static/res/pp.json',
@@ -11,10 +19,6 @@ export const assets = [
   },
   {
     url: './static/res/bullet.json',
-    type: Loader.ATLAS
-  },
-  {
-    url: './static/res/character1.json',
     type: Loader.ATLAS
   },
   {

@@ -15,7 +15,7 @@ import { render } from './enginer/render'
 // 操作健
 import OperateBtns from './enginer/handle'
 // 静态资源
-import { assets as Assets, createFrames } from './enginer/common/source'
+import { preAsset, assets as Assets, createFrames } from './enginer/common/source'
 
 // 程序入口
 class GameMain {
@@ -66,12 +66,9 @@ class GameMain {
   constructor () {
     Laya.init(stageSize.width, stageSize.height, Laya.WebGL)
     this.initStage()
-    // 初始化进度加载画面
-    this.initLoadingProgess()
     Laya.Stat.show(200, 0)
     // 更新资源加载进度
-    Laya.loader.load(Assets, null, Laya.Handler.create(this, this.onLoading, null, false),
-    Laya.Loader.TEXT)
+    Laya.loader.load(preAsset, Laya.Handler.create(this, this.loadAssets, null, true))
   }
 
   // 设置画布缩放对其
@@ -81,6 +78,13 @@ class GameMain {
     this.canvasWidth = stageSize.width
     // Math.max(Math.round(laya.utils.Browser.height * stageSize.height / laya.utils.Browser.width),
     // Math.round(laya.utils.Browser.width * stageSize.height / laya.utils.Browser.height))
+  }
+
+  private loadAssets () {
+    // 初始化进度加载画面
+    this.initLoadingProgess()
+    Laya.loader.load(Assets, null, Laya.Handler.create(this, this.onLoading, null, false),
+    Laya.Loader.TEXT)
   }
 
   // 动画资源加载完成处理函数
