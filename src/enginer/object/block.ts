@@ -195,7 +195,7 @@ export class Monster1 extends ABlock {
     this.y += this.speedY
   }
 
-  crashLeft (item) {
+  crashRight (item) {
     if (item.constructor.__proto__.name !== 'ABlock') {
       // 和固定障碍物碰撞
       this.x = item.x - item.halfW - this.halfW
@@ -203,7 +203,7 @@ export class Monster1 extends ABlock {
     }
   }
 
-  crashRight (item) {
+  crashLeft (item) {
     if (item.constructor.__proto__.name !== 'ABlock') {
       // 和固定障碍物碰撞
       this.x = item.x + item.halfW + this.halfW
@@ -246,7 +246,7 @@ export class Bullet extends ABlock {
 
   move () {
     this.x += this.speedX * this.runDir
-    this.runDistance += this.speedX * this.runDir
+    this.runDistance += this.speedX
     if (this.runDistance > playerProp.bulletSize.maxX) {
       this.remove()
     }
@@ -257,29 +257,30 @@ export class Bullet extends ABlock {
     this.width = playerProp.bulletSize.boomWidth
     this.height = playerProp.bulletSize.boomHeight
     this.speedX = 0
+    this.body.pos(this.halfW, - this.halfH)
     this.body.on(Laya.Event.COMPLETE, this, () => {
       this.remove()
     })
     this.playAnimation(playerProp.bulletSize.action.boom, false)
   }
 
-  crashLeft (item) {
+  crashRight (item) {
     if (item.constructor.__proto__.name !== 'ABlock') {
       this.x = item.x - item.halfW - this.halfW
       this.boom()
     } else {
       item.remove()
-      this.remove()
+      this.boom()
     }
   }
 
-  crashRight (item) {
+  crashLeft (item) {
     if (item.constructor.__proto__.name !== 'ABlock') {
       this.x = item.x + item.halfW + this.halfW
       this.boom()
     } else {
       item.remove()
-      this.remove()
+      this.boom()
     }
   }
 
