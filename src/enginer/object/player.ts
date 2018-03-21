@@ -136,12 +136,11 @@ export default class Player extends Base implements IAnimateBase {
     this.shooting = true
     if (this.runDir === 1) {
       this.playAnimation(playerProp.action.attackRight, false)
-      gameMain.add(new Bullet(this.x + this.width + this.speedX, this.y + this.height / 2, this.runDir))
+      gameMain.add(new Bullet(this.x + this.halfW + playerProp.bulletSize.width / 2 + this.speedX, this.y, this.runDir))
     }
     if (this.runDir === -1) {
       this.playAnimation(playerProp.action.attackLeft, false)
-      gameMain.add(new Bullet(this.x - playerProp.bulletSize.width - this.speedX,
-        this.y + this.height / 2, this.runDir))
+      gameMain.add(new Bullet(this.x - this.halfW - playerProp.bulletSize.width / 2 - this.speedX, this.y, this.runDir))
     }
     this.body.interval = playerProp.animationInterval / 2
   }

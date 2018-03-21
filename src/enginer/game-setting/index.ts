@@ -1,7 +1,7 @@
 /**
  * Created by Harry on 2018/2/9.
  */
-import { Floor, Cliff, Pipe, ABlock, Block, Monster1, GiftBrick } from '../object/block'
+import { Floor, Cliff, Pipe, ABlock, Block, Monster1, GiftBrick, Bullet } from '../object/block'
 import { blockSize, gameSize } from '../const'
 
 function map1 () {
@@ -9,25 +9,25 @@ function map1 () {
   const fnum = Math.floor(gameSize.width / blockSize.floorSize.width) + 1
   const fArray = []
   for (let i = 0; i < 6; i++) {
-    fArray.push(new Floor(blockSize.floorSize.width * i, 460))
+    fArray.push(new Floor(blockSize.floorSize.width * i, 550))
   }
   for (let i = 6; i < 8; i++) {
-    fArray.push(new Floor(blockSize.floorSize.width * i, 360))
+    fArray.push(new Floor(blockSize.floorSize.width * i, 500))
   }
   for (let i = 8; i < 20; i++) {
     if (i > 8 && i < 11) {
       continue
     }
-    fArray.push(new Floor(blockSize.floorSize.width * i, 460))
+    fArray.push(new Floor(blockSize.floorSize.width * i, 550))
   }
   for (let i = 20; i < fnum; i++) {
     if (i > 40 && i < 44) {
       continue
     }
     if (i > 60) {
-      fArray.push(new Floor(blockSize.floorSize.width * i, 460))
+      fArray.push(new Floor(blockSize.floorSize.width * i, 550))
     } else {
-      fArray.push(new Floor(blockSize.floorSize.width * i, 360))
+      fArray.push(new Floor(blockSize.floorSize.width * i, 500))
     }
   }
 
@@ -45,8 +45,8 @@ function map1 () {
 
   // 水管
   const pArray = []
-  pArray.push(new Pipe(930, 260))
-  pArray.push(new Pipe(1230, 210))
+  pArray.push(new Pipe(930, 450))
+  pArray.push(new Pipe(1230, 400))
 
   const monsterArray = []
   // monsterArray.push(new Monster1(600, 100))
@@ -87,24 +87,33 @@ function map2 () {
   pArray.push(new Pipe(930, 260))
   pArray.push(new Pipe(1230, 210))
 
+  // zidan
+  const bulletArray = []
+  bulletArray.push(new Bullet(400, 150, 1))
+  bulletArray.push(new Bullet(800, 450, -1))
+
   return [...fArray, ...bArray, ...pArray, ...gArray]
 }
 function map3 () {
   // 地板
   const fArray = []
   for (let i = 0; i < 1; i++) {
-    fArray.push(new Floor(blockSize.floorSize.width * i, 400))
+    fArray.push(new Floor(blockSize.floorSize.width * i, 500))
   }
 
   // 水管
   const pArray = []
   pArray.push(new Pipe(500, 0))
 
+  const monsterArray = []
+  // monsterArray.push(new Monster1(600, 100))
+  monsterArray.push(new Monster1(500, 100))
+
   // 砖块
   const bArray = []
   bArray.push(new Cliff(0, 0, 150))
 
-  return [...fArray]
+  return [...fArray, ...monsterArray]
 }
 
 class Battle {
