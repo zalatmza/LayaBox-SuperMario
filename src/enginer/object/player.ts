@@ -12,13 +12,13 @@ export default class Player extends Base implements IAnimateBase {
   private body: Laya.Animation
 
   // 当前播放的动画名称
-  private get aniType (): string {
+  private get actionName (): string {
     return this.body._actionName || ''
   }
 
   // 当前人物的身份
   private togging: boolean = false
-  private status: string = playerProp.status[0]
+  private status: string = playerProp.status.normal
 
   // 移动方向1 往右， -1 往左
   public runDir: 1 | -1 = 1
@@ -36,7 +36,7 @@ export default class Player extends Base implements IAnimateBase {
   public speedY: number = 0
 
   // 起跳初速度
-  private initSpeedY = playerProp.initSpeedY
+  private initSpeedY: number = playerProp.initSpeedY
 
   // 重力加速度
   public acce: number = playerProp.acce
@@ -73,13 +73,13 @@ export default class Player extends Base implements IAnimateBase {
   // 右边撞到障碍物
   public crashLeft (item) {
     if (item.constructorName === 'Coin') {
-      (this.x + this.width > item.x) && item.remove()
+      (this.x + this.halfW > item.x - item.halfW) && item.remove()
     } else {
       // 和固定障碍物碰撞
       if (item.constructor.__proto__.name === 'ABlock') {
         this.die()
       } else {
-        this.x = item.x - this.width
+        this.x = item.x - item.halfW - this.halfW
       }
     }
   }
@@ -87,13 +87,13 @@ export default class Player extends Base implements IAnimateBase {
   // 左边撞到障碍物
   public crashRight (item) {
     if (item.constructorName === 'Coin') {
-      (this.x < item.x + item.width) && item.remove()
+      (this.x - this.halfW < item.x + item.halfW) && item.remove()
     } else {
       // 和固定障碍物碰撞
       if (item.constructor.__proto__.name === 'ABlock') {
         this.die()
       } else {
-        this.x = item.x + item.width
+        this.x = item.x + item.halfW + this.halfW
       }
     }
   }
@@ -103,10 +103,10 @@ export default class Player extends Base implements IAnimateBase {
     if (item.constructorName === 'Coin') {
       item.remove()
     } else {
-      const newHeight = item.y - this.height
-      this.y = Math.max(0, Math.min(this.y, newHeight))
+      const newY = item.y - item.halfH - this.halfH
+      this.y = Math.max(0, Math.min(this.y , newY))
 
-      if (this.y === newHeight) {
+      if (this.y === newY) {
         this.jumping = false
         this.speedY = 0
       }
@@ -121,9 +121,9 @@ export default class Player extends Base implements IAnimateBase {
   // 上面撞到障碍物
   public crashUp (item) {
     if (item.constructorName === 'Coin') {
-      (this.y > item.y + item.height) && item.remove()
+      (this.y + this.halfH > item.y + item.halfH) && item.remove()
     } else {
-      this.y = item.y + item.height
+      this.y = item.y + item.halfH + this.halfH
       this.speedY = 0
       if (item.constructor.name === 'GiftBrick') {
         item.popupCoin()
@@ -136,12 +136,11 @@ export default class Player extends Base implements IAnimateBase {
     this.shooting = true
     if (this.runDir === 1) {
       this.playAnimation(playerProp.action.attackRight, false)
-      gameMain.add(new Bullet(this.x + this.width + this.speedX, this.y + this.height / 2, this.runDir))
+      gameMain.add(new Bullet(this.x + this.halfW + playerProp.bulletSize.width / 2 + this.speedX, this.y, this.runDir))
     }
     if (this.runDir === -1) {
       this.playAnimation(playerProp.action.attackLeft, false)
-      gameMain.add(new Bullet(this.x - playerProp.bulletSize.width - this.speedX,
-        this.y + this.height / 2, this.runDir))
+      gameMain.add(new Bullet(this.x - this.halfW - playerProp.bulletSize.width / 2 - this.speedX, this.y, this.runDir))
     }
     this.body.interval = playerProp.animationInterval / 2
   }
@@ -150,10 +149,10 @@ export default class Player extends Base implements IAnimateBase {
   public toggleStatus () {
     this.togging = true
     switch (this.status) {
-      case playerProp.status[0]:
+      case playerProp.status.normal:
         this.playAnimation(playerProp.action.toggleToAdvanced, false)
         break
-      case playerProp.status[1]:
+      case playerProp.status.advanced:
         this.playAnimation(playerProp.action.toggleToNormal, false)
         break
     }
@@ -191,7 +190,7 @@ export default class Player extends Base implements IAnimateBase {
     if (up && !this.jumping) {
       this.jumping = true
       this.speedY = this.initSpeedY
-      this.status === playerProp.status[0] ? this.playAnimation(playerProp.action.jump1) :
+      this.status === playerProp.status.normal ? this.playAnimation(playerProp.action.jump1) :
                                             this.playAnimation(playerProp.action.jump2, false)
     }
 
@@ -203,7 +202,11 @@ export default class Player extends Base implements IAnimateBase {
     this.y >= stageSize.height && this.die()
 
     // 射击
-    space && !this.shooting && this.status === playerProp.status[1] && this.shoot()
+    if (space) {
+      !this.shooting && this.status === playerProp.status.advanced && this.shoot()
+    } else {
+      this.shooting = false
+    }
 
     // 左右移
     if ((left && right || !left && !right) && !this.shooting && !this.jumping && !this.togging) {
@@ -212,32 +215,28 @@ export default class Player extends Base implements IAnimateBase {
       this.x = Math.min(this.x + this.speedX, stageSize.width - this.width)
       this.runDir = 1
       // 播放动画
-      if (!(this.body.isPlaying && (this.aniType === playerProp.action.right1
-      || this.aniType === playerProp.action.right2))) {
-        this.status === playerProp.status[0] ? this.playAnimation(playerProp.action.right1) :
-                                              this.playAnimation(playerProp.action.right2)
-      }
+      this.status === playerProp.status.normal ? this.playAnimation(playerProp.action.right1) :
+                                            this.playAnimation(playerProp.action.right2)
     } else if (left) {
       this.x = Math.max(this.x - this.speedX, 0)
       this.runDir = -1
       // 播放动画
-      if (!(this.body.isPlaying && (this.aniType === playerProp.action.left1
-      || this.aniType === playerProp.action.left2))) {
-        this.status === playerProp.status[0] ? this.playAnimation(playerProp.action.left1) :
-                                              this.playAnimation(playerProp.action.left2)
+      this.status === playerProp.status.normal ? this.playAnimation(playerProp.action.left1) :
+                                            this.playAnimation(playerProp.action.left2)
       }
-    }
   }
 
   // 初始化角色动作
   public initAction (): void {
+    this.playAnimation('')
     this.body.clear()
+    this.togging = false
     this.graphics.clear()
     if (this.runDir === 1) {
-      this.status === playerProp.status[0] ? this.loadImage('character2/character2_run1_0.png') :
+      this.status === playerProp.status.normal ? this.loadImage('character2/character2_run1_0.png') :
                                           this.loadImage('character1/character1_run1_0.png')
     } else if (this.runDir === -1) {
-      this.status === playerProp.status[0] ? this.loadImage('character2/character2_run2_0.png') :
+      this.status === playerProp.status.normal ? this.loadImage('character2/character2_run2_0.png') :
                                           this.loadImage('character1/character1_run2_0.png')
     }
   }
@@ -252,16 +251,20 @@ export default class Player extends Base implements IAnimateBase {
 
   // 播放动画
   private playAnimation (actionName, loop = true) {
-    this.graphics.clear()
-    this.body.play(0, loop, actionName)
-    this.body.pos(0, 0)
+    if (this.actionName !== actionName || this.actionName === playerProp.action.attackRight ||
+        this.actionName === playerProp.action.attackLeft) {
+      this.graphics.clear()
+      this.body.play(0, loop, actionName)
+      this.body.pos(0, 0)
+    }
   }
 
   // 动画播放完成处理
   private afterAnimation (): void {
-    if (this.aniType === playerProp.action.toggleToNormal || this.aniType === playerProp.action.toggleToAdvanced) {
+    if (this.actionName === playerProp.action.toggleToNormal ||
+        this.actionName === playerProp.action.toggleToAdvanced) {
       this.togging = false
-      this.status = this.status === playerProp.status[0] ? playerProp.status[1] : playerProp.status[0]
+      this.status = this.status === playerProp.status.normal ? playerProp.status.advanced : playerProp.status.normal
     }
     this.shooting = false
     this.body.interval = playerProp.animationInterval

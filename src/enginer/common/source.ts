@@ -137,4 +137,7 @@ export function createFrames () {
   // 子弹
   Laya.Animation.createFrames(['bullet/bullet1.png', 'bullet/bullet2.png', 'bullet/bullet3.png'],
     playerProp.bulletSize.action.right)
+  // 子弹boom
+  Laya.Animation.createFrames(['bullet/boom1.png', 'bullet/boom2.png', 'bullet/boom3.png', 'bullet/boom4.png'],
+    playerProp.bulletSize.action.boom)
 }

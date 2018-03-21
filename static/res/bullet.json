@@ -1,12 +1,80 @@
 {
     "frames": {
+        "boom1.png": {
+            "frame": {
+                "h": 109,
+                "idx": 0,
+                "w": 124,
+                "x": 0,
+                "y": 0
+            },
+            "sourceSize": {
+                "h": 109,
+                "w": 124
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "boom2.png": {
+            "frame": {
+                "h": 98,
+                "idx": 0,
+                "w": 96,
+                "x": 0,
+                "y": 110
+            },
+            "sourceSize": {
+                "h": 109,
+                "w": 124
+            },
+            "spriteSourceSize": {
+                "x": 15,
+                "y": 7
+            }
+        },
+        "boom3.png": {
+            "frame": {
+                "h": 92,
+                "idx": 0,
+                "w": 94,
+                "x": 125,
+                "y": 0
+            },
+            "sourceSize": {
+                "h": 109,
+                "w": 124
+            },
+            "spriteSourceSize": {
+                "x": 14,
+                "y": 11
+            }
+        },
+        "boom4.png": {
+            "frame": {
+                "h": 89,
+                "idx": 0,
+                "w": 106,
+                "x": 125,
+                "y": 93
+            },
+            "sourceSize": {
+                "h": 109,
+                "w": 124
+            },
+            "spriteSourceSize": {
+                "x": 2,
+                "y": 13
+            }
+        },
         "bullet1.png": {
             "frame": {
                 "h": 50,
                 "idx": 0,
                 "w": 129,
                 "x": 0,
-                "y": 0
+                "y": 209
             },
             "sourceSize": {
                 "h": 50,
@@ -22,8 +90,8 @@
                 "h": 43,
                 "idx": 0,
                 "w": 138,
-                "x": 0,
-                "y": 51
+                "x": 130,
+                "y": 183
             },
             "sourceSize": {
                 "h": 43,
@@ -39,8 +107,8 @@
                 "h": 41,
                 "idx": 0,
                 "w": 120,
-                "x": 0,
-                "y": 95
+                "x": 130,
+                "y": 227
             },
             "sourceSize": {
                 "h": 41,

@@ -9,6 +9,9 @@ import { gameMain } from '../../index'
 export abstract class Block extends Base {
   public type: string
   public label: string = blockType.label.normal
+  // 是否开启碰检
+  public isCarsh: boolean = true
+
   constructor (x, y, w, h) {
     super(x, y, w, h)
     this.visible = false
@@ -52,8 +55,7 @@ export class GiftBrick extends SBlock {
   public popupCoin () {
     if (this.hasCoin) {
       this.loadImage(this.src2, 0, 0, this.width, this.height)
-      gameMain.add(new Coin(this.x + this.width / 2 - blockSize.coinSize.width / 2,
-      this.y - blockSize.coinSize.height - 5))
+      gameMain.add(new Coin(this.x, this.y - this.halfH - blockSize.coinSize.height / 2))
       this.hasCoin = false
     }
   }
@@ -89,8 +91,8 @@ export class Cliff extends SBlock {
 export class Pipe extends SBlock {
   private ptsrc = 'land1/pillar1_1.png'
   private pbsrc = 'land1/pillar1_2.png'
-  constructor (x, y, h) {
-    super(x, y, blockSize.pipeSize.width1, stageSize.height - y)
+  constructor (x, y) {
+    super(x, y, blockSize.pipeSize.width1, (stageSize.height - y) * 2)
     // 创建水管顶部
     const ptop = new Laya.Sprite()
     // 创建水管底部
@@ -112,7 +114,7 @@ export class Floor extends SBlock {
   private ftsrc: string = 'land1/land1_2.png'
   private fbsrc: string = 'land1/land1_1.png'
   constructor (x, y) {
-    super(x, y, blockSize.floorSize.width, stageSize.height - y)
+    super(x, y, blockSize.floorSize.width, (stageSize.height - y) * 2)
     // 创建土地顶部
     const ftop = new Laya.Sprite()
     // 创建土地底部
@@ -156,9 +158,9 @@ export abstract class ABlock extends Block implements IAnimateBase {
     this.addChild(this.body)
   }
 
-  protected playAnimation (actionName): void {
+  protected playAnimation (actionName, loop = true): void {
     this.graphics.clear()
-    this.body.play(0, true, actionName)
+    this.body.play(0, loop, actionName)
   }
 
   public crashHandle (type, item) {
@@ -196,7 +198,7 @@ export class Monster1 extends ABlock {
   crashLeft (item) {
     if (item.constructor.__proto__.name !== 'ABlock') {
       // 和固定障碍物碰撞
-      this.x = item.x - this.width
+      this.x = item.x - item.halfW - this.halfW
       this.runDir = -1
     }
   }
@@ -204,16 +206,16 @@ export class Monster1 extends ABlock {
   crashRight (item) {
     if (item.constructor.__proto__.name !== 'ABlock') {
       // 和固定障碍物碰撞
-      this.x = item.x + item.width
+      this.x = item.x + item.halfW + this.halfW
       this.runDir = 1
     }
   }
 
   crashDown (item) {
     if (item.constructor.__proto__.name !== 'ABlock') {
-      const newHeight = item.y - this.height
-      this.y = Math.max(0, Math.min(this.y, newHeight))
-      if (this.y === newHeight) {
+      const newY = item.y - item.halfH - this.halfH
+      this.y = Math.max(0, Math.min(this.y, newY))
+      if (this.y === newY) {
         this.speedY = 0
       }
     }
@@ -226,7 +228,7 @@ export class Monster1 extends ABlock {
 
 // 子弹
 export class Bullet extends ABlock {
-  private runDistance = 0
+  private runDistance: number = 0
   constructor (x, y, dir) {
     super (x, y, playerProp.bulletSize.width, playerProp.bulletSize.height)
     this.speedX = playerProp.bulletSize.speedX
@@ -238,8 +240,7 @@ export class Bullet extends ABlock {
   protected initAnimation () {
     this.initBody()
     if (this.runDir === -1) {
-      this.body.scaleX = -1
-      this.body.pivotX = this.width
+      this.scaleX = this.runDir
     }
   }
 
@@ -251,9 +252,20 @@ export class Bullet extends ABlock {
     }
   }
 
+  boom () {
+    this.isCarsh = false
+    this.width = playerProp.bulletSize.boomWidth
+    this.height = playerProp.bulletSize.boomHeight
+    this.speedX = 0
+    this.body.on(Laya.Event.COMPLETE, this, () => {
+      this.remove()
+    })
+    this.playAnimation(playerProp.bulletSize.action.boom, false)
+  }
+
   crashLeft (item) {
     if (item.constructor.__proto__.name !== 'ABlock') {
-      // this.remove()
+      this.boom()
     } else {
       item.remove()
       this.remove()
@@ -262,7 +274,7 @@ export class Bullet extends ABlock {
 
   crashRight (item) {
     if (item.constructor.__proto__.name !== 'ABlock') {
-      // this.remove()
+      this.boom()
     } else {
       item.remove()
       this.remove()

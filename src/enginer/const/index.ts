@@ -24,10 +24,10 @@ export const playerProp = {
   // （假）重力加速度
   acce: 1,
   animationInterval: 70,
-  status: [
-    'normal',
-    'advanced'
-  ],
+  status: {
+    normal: 'NORMAL',
+    advanced: 'ADVANCED'
+  },
   action: {
     left1: 'playerRunLeft1',
     right1: 'playerRunRight1',
@@ -43,11 +43,14 @@ export const playerProp = {
   bulletSize: {
     width: 138,
     height: 50,
+    boomWidth: 124,
+    boomHeight: 109,
     speedX: 12,
     maxX: 500,
     action: {
       left: 'bulletMoveLeft',
-      right: 'bulletMoveRight'
+      right: 'bulletMoveRight',
+      boom: 'bulletBoom'
     }
   }
 }
@@ -60,8 +63,7 @@ export const blockSize = {
     height: 40
   },
   floorSize: {
-    width: 70,
-    height: 70
+    width: 70
   },
   // 金币砖块
   giftBrick: {

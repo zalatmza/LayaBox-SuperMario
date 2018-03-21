@@ -145,7 +145,7 @@ class GameMain {
     })
     // 进行碰撞检测
     this.blockRenderList.forEach((item, index) => {
-      if (item.visible) {
+      if (item.visible && item.isCarsh) {
         const hitType = collisionCheck(this.player, item)
         switch (hitType) {
           case 3:
@@ -163,12 +163,12 @@ class GameMain {
         }
         // 怪物碰撞检测
         if (item.type === blockType.animation) {
-          let isTurn = true
+          let isTurn = false
           this.blockRenderList.forEach((citem, cindex) => {
-            if (index !== cindex) {
+            if (index !== cindex && citem.isCarsh) {
               // 边缘检测，到边缘就扭头
               if (marginCheck(item, citem) === 3) {
-                isTurn = false
+                isTurn = true
               }
               switch (collisionCheck(item, citem)) {
                 case 3:
@@ -186,7 +186,9 @@ class GameMain {
               }
             }
           })
-          item.label === blockType.label.normal && (item.runDir *= isTurn ? -1 : 1)
+          if (item.label === blockType.label.normal) {
+            item.runDir *= isTurn ? -1 : 1
+          }
         }
       }
     })
@@ -210,7 +212,7 @@ class GameMain {
     }
 
     // Y轴
-    if (this.player.y < this.player.height || this.player.y > stageSize.height * 0.65) {
+    if (this.player.y < this.player.height || this.player.y > stageSize.height * 0.7) {
       bgYOffset = this.player.y - prePlayerY
       this.player.y -= bgYOffset
       this.background.y -= bgYOffset
