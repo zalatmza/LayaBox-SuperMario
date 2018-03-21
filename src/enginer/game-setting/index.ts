@@ -36,7 +36,7 @@ function map1 () {
   bArray.push(new Cliff(600, 120, 300))
   bArray.push(new Cliff(700, -100, 300))
   bArray.push(new Cliff(800, -300, 300))
-  bArray.push(new Cliff(1500, 150, 700))
+  bArray.push(new Cliff(2200, 150, 700))
 
   // 金币砖块
   const gArray = []

@@ -265,6 +265,7 @@ export class Bullet extends ABlock {
 
   crashLeft (item) {
     if (item.constructor.__proto__.name !== 'ABlock') {
+      this.x = item.x - item.halfW - this.halfW
       this.boom()
     } else {
       item.remove()
@@ -274,6 +275,7 @@ export class Bullet extends ABlock {
 
   crashRight (item) {
     if (item.constructor.__proto__.name !== 'ABlock') {
+      this.x = item.x + item.halfW + this.halfW
       this.boom()
     } else {
       item.remove()
