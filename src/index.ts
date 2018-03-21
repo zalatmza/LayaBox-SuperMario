@@ -67,7 +67,7 @@ class GameMain {
     Laya.init(stageSize.width, stageSize.height, Laya.WebGL)
     this.initStage()
     Laya.Stat.show(200, 0)
-    // 更新资源加载进度
+    // 预加载进度条所需资源
     Laya.loader.load(preAsset, Laya.Handler.create(this, this.loadAssets, null, true))
   }
 
@@ -76,10 +76,12 @@ class GameMain {
     // Laya.stage.scaleMode = Laya.Stage.SCALE_FIXED_HEIGHT
     // Laya.stage.screenMode = Laya.Stage.SCREEN_HORIZONTAL
     this.canvasWidth = stageSize.width
+    Laya.stage.bgColor = '#7FFFD4'
     // Math.max(Math.round(laya.utils.Browser.height * stageSize.height / laya.utils.Browser.width),
     // Math.round(laya.utils.Browser.width * stageSize.height / laya.utils.Browser.height))
   }
 
+  // 加载游戏资源
   private loadAssets () {
     // 初始化进度加载画面
     this.initLoadingProgess()
@@ -98,18 +100,19 @@ class GameMain {
     // this.playMusic()
     // 缓存图集动画
     createFrames()
-    this.battleList = generateGameBattle()
-    this.initSelection()
+    Laya.Tween.to(this.loadingIcon, {x: this.loadingIcon.x + 200, alpha: 0}, 400, null,
+    Laya.Handler.create(this, this.initSelection, null, true))
   }
 
   // 游戏开始
   private gameStart (index) {
+    console.log('start')
     this.stageX = stageSize.width
     this.stageY = 0
     this.currentSelectionIndex = index
     // 新建关卡实例
     this.battleSprite = new Laya.Sprite()
-    this.battleSprite.zOrder = 20
+    this.battleSprite.zOrder = 40
     // 按钮组
     this.operationBtnsSprite = new OperateBtns()
     this.battleSprite.addChild(this.operationBtnsSprite)
@@ -258,6 +261,7 @@ class GameMain {
     this.loadingIcon.play(0, true, 'loadingAnime')
     this.loadingIcon.x = stageSize.width / 2 - this.loadingIcon.width / 2 - 50
     this.loadingIcon.y = stageSize.height / 2 - this.loadingIcon.height / 2 - 130
+    this.loadingIcon.zOrder = 30
     // 初始化进度文字
     this.loadingText = new Laya.Text()
     this.loadingText.zOrder = 21
@@ -267,10 +271,10 @@ class GameMain {
     this.loadingBar = new Laya.Sprite()
     this.loadingBar.zOrder = 21
     // 加入舞台
-    this.loadingSprite.addChild(this.loadingIcon)
     this.loadingSprite.addChild(this.loadingText)
     this.loadingSprite.addChild(this.loadingBar)
     Laya.stage.addChild(this.loadingSprite)
+    Laya.stage.addChild(this.loadingIcon)
     // 进度文字渐入
     Laya.Tween.from(this.loadingSprite, {alpha: 0}, 750)
     // 启动进度循环帧
@@ -280,15 +284,13 @@ class GameMain {
   // 资源加载
   private updateLoadingPanel () {
     if (this.curProgress >= 100) {
-      this.loadingText.color = '#ffffff'
-      Laya.Tween.to(this.loadingSprite, {alpha: 0}, 300, null, Laya.Handler.create(this, this.clearLoadingPanel))
+      Laya.Tween.to(this.loadingSprite, {alpha: 0}, 100, null, Laya.Handler.create(this, this.clearLoadingPanel))
     }
     this.loadingText.text = 'Loading ' + this.curProgress + '%'
     this.loadingText.pos(stageSize.width / 2 - this.loadingText.width / 2,
     stageSize.height / 2 - this.loadingText.height / 2)
     this.loadingBar.graphics.clear()
-    const rectColor = this.curProgress < 100 ? '#00868B' : '#ffffff'
-    this.loadingBar.graphics.drawRect(300, 320, 400 * this.curProgress * 0.01, 20, rectColor)
+    this.loadingBar.graphics.drawRect(300, 320, 400 * this.curProgress * 0.01, 20, '#00868B')
     if (this.curProgress < this.temProgress) {
       this.curProgress++
     }
@@ -303,18 +305,23 @@ class GameMain {
 
   // 选择关卡界面
   private initSelection () {
+    this.battleList = generateGameBattle()
     this.selectionSprite = new Laya.Sprite()
+    this.selectionSprite.zOrder = 25
     this.selectionSprite.width = this.canvasWidth
     this.selectionSprite.height = stageSize.height
     this.selectionSprite.graphics.drawRect(0, 0, this.canvasWidth, stageSize.height, '#7FFFD4')
     const title = new Laya.Text()
-    title.text = '选择关卡'
+    title.text = '新之助 大冒险'
     title.y = 100
     title.width = stageSize.width
     title.align = 'center'
-    title.color = '#000'
-    title.fontSize = 36
+    title.color = '#00868B'
+    title.fontSize = 60
+    title.strokeColor = '#ffffff'
+    title.stroke = 10
     this.selectionSprite.addChild(title)
+    Laya.Tween.from(title, {x: title.x - 200, alpha: 0}, 900, Laya.Ease.elasticInOut)
     Laya.stage.addChild(this.selectionSprite)
 
     this.battleList.forEach((item, index) => {
@@ -322,21 +329,39 @@ class GameMain {
       battle.text = '第' + (index + 1) + '关'
       battle.height = 100
       battle.width = stageSize.width
-      battle.y = 100 + (index + 1) * 100
-      battle.align = 'center'
-      battle.valign = 'middle'
-      battle.color = '#000'
-      battle.fontSize = 30
+      battle.y = 250 + index * 60
+      battle.x = 250
+      battle.color = '#00868B'
+      battle.fontSize = 24
+      battle.zOrder = 35
+      battle.alpha = 0
       battle.on(Laya.Event.MOUSE_DOWN, this, () => {
         battle.color = '#DDD'
       })
       battle.on(Laya.Event.MOUSE_UP, this, () => {
-        battle.color = '#000'
+        battle.color = '#00868B'
         this.gameStart(index)
         this.selectionSprite.visible = false
       })
       this.selectionSprite.addChild(battle)
+      Laya.Tween.to(battle, {x: battle.x + 100, alpha: 1}, 900, Laya.Ease.elasticInOut, null, 200 + index * 100)
     })
+
+    // 小新移动出现
+    this.loadingIcon.clear()
+    this.loadingIcon = new Laya.Animation()
+    this.loadingIcon.interval = playerProp.animationInterval
+    this.loadingIcon.alpha = 0
+    this.loadingIcon.zOrder = 30
+    this.loadingIcon.play(0, true, playerProp.action.left1)
+    this.loadingIcon.x = stageSize.width / 2 + 300
+    this.loadingIcon.y = stageSize.height / 2 + 70
+    Laya.stage.addChild(this.loadingIcon)
+    Laya.Tween.to(this.loadingIcon, {x: this.loadingIcon.x - 300, alpha: 1}, 750, null,
+    Laya.Handler.create(this, () => {
+      this.loadingIcon.clear()
+      this.loadingIcon.loadImage('character2/character2_run2_0.png')
+    }))
   }
 }
 

@@ -55,7 +55,7 @@ export class GiftBrick extends SBlock {
   public popupCoin () {
     if (this.hasCoin) {
       this.loadImage(this.src2, 0, 0, this.width, this.height)
-      gameMain.add(new Coin(this.x, this.y - this.halfH - blockSize.coinSize.height / 2))
+      gameMain.add(new Coin(this.x, this.y - this.halfH - blockSize.coinSize.height / 2 - 5))
       this.hasCoin = false
     }
   }
