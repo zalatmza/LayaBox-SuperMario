@@ -71,7 +71,7 @@ export default class Player extends Base implements IAnimateBase {
   }
 
   // 右边撞到障碍物
-  public crashLeft (item) {
+  public crashRight (item) {
     if (item.constructorName === 'Coin') {
       (this.x + this.halfW > item.x - item.halfW) && item.remove()
     } else {
@@ -85,7 +85,7 @@ export default class Player extends Base implements IAnimateBase {
   }
 
   // 左边撞到障碍物
-  public crashRight (item) {
+  public crashLeft (item) {
     if (item.constructorName === 'Coin') {
       (this.x - this.halfW < item.x + item.halfW) && item.remove()
     } else {
@@ -109,6 +109,9 @@ export default class Player extends Base implements IAnimateBase {
       if (this.y === newY) {
         this.jumping = false
         this.speedY = 0
+        if (!this.keyState[key.left] && !this.keyState[key.right] && !this.togging && !this.shooting) {
+          this.initAction()
+        }
       }
 
       if (item.type === blockType.animation) {
@@ -198,6 +201,8 @@ export default class Player extends Base implements IAnimateBase {
     this.speedY += this.acce
     this.y += this.speedY
 
+    this.speedY !== 0 && (this.jumping = true)
+
     // 狗带
     this.y >= stageSize.height && this.die()
 
@@ -275,6 +280,6 @@ export default class Player extends Base implements IAnimateBase {
     this.zOrder = 11
     this.initAnimation()
     this.initEvent()
-    this.loadImage('character1/character1_run1_0.png')
+    this.loadImage('character2/character2_run1_0.png')
   }
 }

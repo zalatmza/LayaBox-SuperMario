@@ -49,7 +49,7 @@ function map1 () {
   pArray.push(new Pipe(1230, 400))
 
   const monsterArray = []
-  // monsterArray.push(new Monster1(600, 100))
+  monsterArray.push(new Monster1(3500, 100))
   monsterArray.push(new Monster1(1110, 100))
 
   return [...pArray, ...fArray, ...bArray, ...gArray, ...monsterArray]

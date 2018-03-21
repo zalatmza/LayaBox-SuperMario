@@ -170,10 +170,10 @@ class GameMain {
             this.player.crashHandle(crashDir.up, item)
             break
           case 1:
-            this.player.crashHandle(crashDir.left, item)
+            this.player.crashHandle(crashDir.right, item)
             break
           case 0:
-            this.player.crashHandle(crashDir.right, item)
+            this.player.crashHandle(crashDir.left, item)
             break
         }
         // 怪物碰撞检测
@@ -193,10 +193,10 @@ class GameMain {
                   item.crashHandle(crashDir.up, citem)
                   break
                 case 1:
-                  item.crashHandle(crashDir.left, citem)
+                  item.crashHandle(crashDir.right, citem)
                   break
                 case 0:
-                  item.crashHandle(crashDir.right, citem)
+                  item.crashHandle(crashDir.left, citem)
                   break
               }
             }
@@ -351,7 +351,11 @@ class GameMain {
         battle.color = '#00868B'
         this.gameStart(index)
         this.selectionSprite.visible = false
+<<<<<<< HEAD
         this.loadingIcon.visible = false
+=======
+        console.log(this.selectionSprite.visible)
+>>>>>>> c19dba6e6dad9e4132a90342b64d7ab5180c9b79
       })
       this.selectionSprite.addChild(battle)
       Laya.Tween.to(battle, {x: battle.x + 100, alpha: 1}, 900, Laya.Ease.elasticInOut, null, 200 + index * 100)

@@ -41,12 +41,12 @@ export const playerProp = {
     toggleToAdvanced: 'playerToAdvanced'
   },
   bulletSize: {
-    width: 138,
+    width: 10,
     height: 50,
     boomWidth: 124,
     boomHeight: 109,
     speedX: 12,
-    maxX: 500,
+    maxX: 200,
     action: {
       left: 'bulletMoveLeft',
       right: 'bulletMoveRight',
