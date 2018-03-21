@@ -67,9 +67,7 @@ class OperateBtns extends  Laya.Sprite {
     this.exitBtn = new ToolBtn()
     this.exitBtn.pos(0, 0)
     this.exitBtn.on(Laya.Event.MOUSE_UP, this, e => {
-      gameMain.gamePause()
-      gameMain.battleSprite.visible = false
-      gameMain.battleSprite.destroy()
+      gameMain.gameDestory()
       gameMain.selectionSprite.visible = true
     })
     this.addChild(this.exitBtn)

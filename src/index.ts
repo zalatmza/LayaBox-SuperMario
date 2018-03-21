@@ -100,6 +100,7 @@ class GameMain {
 
   // 游戏开始
   private gameStart (index) {
+    this.gameDestory()
     this.stageX = stageSize.width
     this.stageY = 0
     this.currentSelectionIndex = index
@@ -116,11 +117,19 @@ class GameMain {
     this.background = new Background()
     this.battleSprite.addChild(this.background)
     // 玩家
-    this.player = new Player(0, 200)
+    this.player = new Player(playerProp.width / 2, 200)
     this.battleSprite.addChild(this.player)
 
     Laya.stage.addChild(this.battleSprite)
     Laya.timer.frameLoop(1, this, this.gameLoop)
+  }
+
+  public gameDestory () {
+    this.gamePause()
+    if (this.battleSprite) {
+      this.battleSprite.visible = false
+      this.battleSprite.destroy()
+    }
   }
 
   // 添加新精灵
