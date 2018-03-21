@@ -22,11 +22,27 @@ class GameMain {
   // canvas宽度
   private canvasWidth = 0
   /*
-  * 资源加载
+  * 资源加载进度显示
   *
   */
-  // 加载进度
+  private curProgress: number = 0 // 已显示的加载进度
+  private temProgress: number = 0 // 暂存的加载进度
   private loadingText: Laya.Text
+  private loadingBar: Laya.Sprite
+  private loadingIcon: Laya.Animation
+  // 加载进度面板
+  public loadingSprite: Laya.Sprite
+  /*
+  * 关卡界面
+  *
+  */
+  public battleSprite: Laya.Sprite
+  // 选择关卡界面
+  public selectionSprite: Laya.Sprite
+  // 关卡信息
+  private battleList: any[]
+  // 当前关卡
+  private currentSelectionIndex: number = 0
   /*
   * 游戏中
   *
@@ -45,27 +61,17 @@ class GameMain {
   * */
   // 工具条
   private operationBtnsSprite: OperateBtns
-  /*
-  * 关卡界面
-  *
-  */
-  public battleSprite: Laya.Sprite
-  // 选择关卡界面
-  public selectionSprite: Laya.Sprite
-  // 关卡信息
-  private battleList: any[]
-  // 当前关卡
-  private currentSelectionIndex: number = 0
 
   // 游戏入口类构造函数
   constructor () {
     Laya.init(stageSize.width, stageSize.height, Laya.WebGL)
     this.initStage()
+    // 初始化进度加载画面
     this.initLoadingProgess()
     Laya.Stat.show(200, 0)
-    Laya.loader.load(Assets, Laya.Handler.create(this, this.onLoaded),
-                    Laya.Handler.create(this, this.onLoading, null, false),
-                    Laya.Loader.TEXT)
+    // 更新资源加载进度
+    Laya.loader.load(Assets, null, Laya.Handler.create(this, this.onLoading, null, false),
+    Laya.Loader.TEXT)
   }
 
   // 设置画布缩放对其
@@ -73,14 +79,21 @@ class GameMain {
     // Laya.stage.scaleMode = Laya.Stage.SCALE_FIXED_HEIGHT
     // Laya.stage.screenMode = Laya.Stage.SCREEN_HORIZONTAL
     this.canvasWidth = stageSize.width
-      // Math.max(Math.round(laya.utils.Browser.height * stageSize.height / laya.utils.Browser.width),
-      // Math.round(laya.utils.Browser.width * stageSize.height / laya.utils.Browser.height))
+    // Math.max(Math.round(laya.utils.Browser.height * stageSize.height / laya.utils.Browser.width),
+    // Math.round(laya.utils.Browser.width * stageSize.height / laya.utils.Browser.height))
   }
 
   // 动画资源加载完成处理函数
+  private onLoading (progress: number) {
+    if (this.curProgress >= this.temProgress) {
+      this.temProgress = Math.floor(progress * 100)
+    }
+  }
+
   private onLoaded () {
+    // this.playMusic()
+    // 缓存图集动画
     createFrames()
-    this.playMusic()
     this.battleList = generateGameBattle()
     this.initSelection()
   }
@@ -225,20 +238,61 @@ class GameMain {
 
   // 初始化加载进度条
   private initLoadingProgess () {
+    this.loadingSprite = new Laya.Sprite()
+    this.loadingSprite.width = this.canvasWidth
+    this.loadingSprite.height = stageSize.height
+    this.loadingSprite.graphics.drawRect(0, 0, this.canvasWidth, stageSize.height, '#7FFFD4')
+    // 初始化跑步人物
+    Laya.Animation.createFrames([
+      'character1/character1_run1_1.png', 'character1/character1_run1_2.png',
+      'character1/character1_run1_3.png', 'character1/character1_run1_4.png',
+      'character1/character1_run1_5.png', 'character1/character1_run1_6.png'], 'loadingAnime')
+    this.loadingIcon = new Laya.Animation()
+    this.loadingIcon.interval = playerProp.animationInterval
+    this.loadingIcon.play(0, true, 'loadingAnime')
+    this.loadingIcon.x = stageSize.width / 2 - this.loadingIcon.width / 2 - 50
+    this.loadingIcon.y = stageSize.height / 2 - this.loadingIcon.height / 2 - 130
+    // 初始化进度文字
     this.loadingText = new Laya.Text()
-    this.loadingText.pos(350, 100)
     this.loadingText.zOrder = 21
     this.loadingText.fontSize = 24
-    this.loadingText.color = '#FFF'
-    Laya.stage.addChild(this.loadingText)
+    this.loadingText.color = '#00868B'
+    // 初始化进度条
+    this.loadingBar = new Laya.Sprite()
+    this.loadingBar.zOrder = 21
+    // 加入舞台
+    this.loadingSprite.addChild(this.loadingIcon)
+    this.loadingSprite.addChild(this.loadingText)
+    this.loadingSprite.addChild(this.loadingBar)
+    Laya.stage.addChild(this.loadingSprite)
+    // 进度文字渐入
+    Laya.Tween.from(this.loadingSprite, {alpha: 0}, 750)
+    // 启动进度循环帧
+    Laya.timer.frameLoop(1, this, this.updateLoadingPanel)
   }
 
   // 资源加载
-  private onLoading (progress: number) {
-    this.loadingText.text = '资源已加载：' + Math.floor(progress * 100) + '%'
-    if (progress === 1) {
-      this.loadingText.visible = false
+  private updateLoadingPanel () {
+    if (this.curProgress >= 100) {
+      this.loadingText.color = '#ffffff'
+      Laya.Tween.to(this.loadingSprite, {alpha: 0}, 300, null, Laya.Handler.create(this, this.clearLoadingPanel))
     }
+    this.loadingText.text = 'Loading ' + this.curProgress + '%'
+    this.loadingText.pos(stageSize.width / 2 - this.loadingText.width / 2,
+    stageSize.height / 2 - this.loadingText.height / 2)
+    this.loadingBar.graphics.clear()
+    const rectColor = this.curProgress < 100 ? '#00868B' : '#ffffff'
+    this.loadingBar.graphics.drawRect(300, 320, 400 * this.curProgress * 0.01, 20, rectColor)
+    if (this.curProgress < this.temProgress) {
+      this.curProgress++
+    }
+  }
+
+  // 清除进度条，显示游戏关卡画面
+  private clearLoadingPanel () {
+    this.loadingSprite.visible = false
+    Laya.timer.clear(this, this.updateLoadingPanel)
+    this.onLoaded()
   }
 
   // 选择关卡界面
@@ -246,7 +300,7 @@ class GameMain {
     this.selectionSprite = new Laya.Sprite()
     this.selectionSprite.width = this.canvasWidth
     this.selectionSprite.height = stageSize.height
-    this.selectionSprite.graphics.drawRect(0, 0, this.canvasWidth, stageSize.height, '#FF0')
+    this.selectionSprite.graphics.drawRect(0, 0, this.canvasWidth, stageSize.height, '#7FFFD4')
     const title = new Laya.Text()
     title.text = '选择关卡'
     title.y = 100

@@ -32,6 +32,10 @@ export class Coin extends SBlock {
   constructor (x, y) {
     super(x, y, blockSize.coinSize.width, blockSize.coinSize.height)
     this.loadImage(this.src, 0, 0, this.width, this.height)
+    this.bounceOut()
+  }
+  private bounceOut () {
+    Laya.Tween.from(this, {y: this.y - 20}, 750, Laya.Ease.elasticOut, null, 0)
   }
 }
 
@@ -48,7 +52,8 @@ export class GiftBrick extends SBlock {
   public popupCoin () {
     if (this.hasCoin) {
       this.loadImage(this.src2, 0, 0, this.width, this.height)
-      gameMain.add(new Coin(this.x + this.width / 2 - blockSize.coinSize.width / 2, this.y - blockSize.coinSize.height))
+      gameMain.add(new Coin(this.x + this.width / 2 - blockSize.coinSize.width / 2,
+      this.y - blockSize.coinSize.height - 5))
       this.hasCoin = false
     }
   }
