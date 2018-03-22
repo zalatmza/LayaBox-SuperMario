@@ -14,6 +14,8 @@ import { collisionCheck, marginCheck } from './enginer/common/utils'
 import { render } from './enginer/render'
 // 操作健
 import OperateBtns from './enginer/handle'
+// 游戏加载进度
+import { GameLoader, LoadingIcon } from './enginer/game-loader'
 // 静态资源
 import { preAsset, assets as Assets, createFrames } from './enginer/common/source'
 
@@ -25,13 +27,8 @@ class GameMain {
   * 资源加载进度显示
   *
   */
-  private curProgress: number = 0 // 已显示的加载进度
-  private temProgress: number = 0 // 暂存的加载进度
-  private loadingText: Laya.Text
-  private loadingBar: Laya.Sprite
-  private loadingIcon: Laya.Animation
-  // 加载进度面板
-  public loadingSprite: Laya.Sprite
+  private gameLoader: GameLoader
+  private loadingIcon: LoadingIcon
   /*
   * 关卡界面
   *
@@ -68,7 +65,18 @@ class GameMain {
     this.initStage()
     Laya.Stat.show(200, 0)
     // 预加载进度条所需资源
-    Laya.loader.load(preAsset, Laya.Handler.create(this, this.loadAssets, null, true))
+    Laya.loader.load(preAsset, Laya.Handler.create(this, () => {
+      this.gameLoader = new GameLoader(this.canvasWidth, stageSize.height)
+      Laya.stage.addChild(this.gameLoader)
+      // 进度条渐入
+      Laya.Tween.from(this.gameLoader, {alpha: 0}, 750, null)
+      Laya.timer.frameLoop(1, this, this.updateLoadingPanel)
+      Laya.loader.load(Assets, null, Laya.Handler.create(this.gameLoader, this.gameLoader.onLoading, null, false),
+      Laya.Loader.TEXT)
+      this.loadingIcon = new LoadingIcon()
+      this.loadingIcon.character1()
+      Laya.stage.addChild(this.loadingIcon)
+    }, null, true))
   }
 
   // 设置画布缩放对其
@@ -81,19 +89,31 @@ class GameMain {
     // Math.round(laya.utils.Browser.width * stageSize.height / laya.utils.Browser.height))
   }
 
-  // 加载游戏资源
-  private loadAssets () {
-    // 初始化进度加载画面
-    this.initLoadingProgess()
-    Laya.loader.load(Assets, null, Laya.Handler.create(this, this.onLoading, null, false),
-    Laya.Loader.TEXT)
+  private loadingIconEnter () {
+    this.loadingIcon.character2()
+    Laya.Tween.to(this.loadingIcon, {x: this.loadingIcon.x - 300, alpha: 1}, 750, null,
+    Laya.Handler.create(this, () => {
+      this.loadingIcon.end()
+    }))
   }
 
-  // 动画资源加载完成处理函数
-  private onLoading (progress: number) {
-    if (this.curProgress >= this.temProgress) {
-      this.temProgress = Math.floor(progress * 100)
+  // 更新资源加载进度
+  private updateLoadingPanel () {
+    if (this.gameLoader.curProgress >= 100) {
+      Laya.Tween.to(this.gameLoader, {alpha: 0}, 100)
+      this.clearLoadingPanel()
     }
+    this.gameLoader.update()
+    if (this.gameLoader.curProgress < this.gameLoader.temProgress) {
+      this.gameLoader.curProgress++
+    }
+  }
+
+  // 清除进度条，显示游戏关卡画面
+  private clearLoadingPanel () {
+    this.gameLoader.visible = false
+    Laya.timer.clear(this, this.updateLoadingPanel)
+    this.onLoaded()
   }
 
   private onLoaded () {
@@ -101,7 +121,10 @@ class GameMain {
     // 缓存图集动画
     createFrames()
     Laya.Tween.to(this.loadingIcon, {x: this.loadingIcon.x + 200, alpha: 0}, 400, null,
-    Laya.Handler.create(this, this.initSelection, null, true))
+    Laya.Handler.create(this, () => {
+      this.initSelection()
+      this.loadingIconEnter()
+    }, null, true))
   }
 
   // 游戏开始
@@ -253,65 +276,6 @@ class GameMain {
     Laya.timer.frameLoop(1, this, this.gameLoop)
   }
 
-  // 初始化加载进度条
-  private initLoadingProgess () {
-    this.loadingSprite = new Laya.Sprite()
-    this.loadingSprite.width = this.canvasWidth
-    this.loadingSprite.height = stageSize.height
-    this.loadingSprite.graphics.drawRect(0, 0, this.canvasWidth, stageSize.height, '#7FFFD4')
-    // 初始化跑步人物
-    Laya.Animation.createFrames([
-      'character1/character1_run1_1.png', 'character1/character1_run1_2.png',
-      'character1/character1_run1_3.png', 'character1/character1_run1_4.png',
-      'character1/character1_run1_5.png', 'character1/character1_run1_6.png'], 'loadingAnime')
-    this.loadingIcon = new Laya.Animation()
-    this.loadingIcon.interval = playerProp.animationInterval
-    this.loadingIcon.play(0, true, 'loadingAnime')
-    this.loadingIcon.x = stageSize.width / 2 - this.loadingIcon.width / 2 - 50
-    this.loadingIcon.y = stageSize.height / 2 - this.loadingIcon.height / 2 - 130
-    this.loadingIcon.zOrder = 30
-    // 初始化进度文字
-    this.loadingText = new Laya.Text()
-    this.loadingText.zOrder = 21
-    this.loadingText.fontSize = 24
-    this.loadingText.color = '#00868B'
-    // 初始化进度条
-    this.loadingBar = new Laya.Sprite()
-    this.loadingBar.zOrder = 21
-    // 加入舞台
-    this.loadingSprite.addChild(this.loadingText)
-    this.loadingSprite.addChild(this.loadingBar)
-    Laya.stage.addChild(this.loadingSprite)
-    Laya.stage.addChild(this.loadingIcon)
-    // 进度文字渐入
-    Laya.Tween.from(this.loadingSprite, {alpha: 0}, 750)
-    // 启动进度循环帧
-    Laya.timer.frameLoop(1, this, this.updateLoadingPanel)
-  }
-
-  // 资源加载
-  private updateLoadingPanel () {
-    if (this.curProgress >= 100) {
-      Laya.Tween.to(this.loadingSprite, {alpha: 0}, 100)
-      this.clearLoadingPanel()
-    }
-    this.loadingText.text = 'Loading ' + this.curProgress + '%'
-    this.loadingText.pos(stageSize.width / 2 - this.loadingText.width / 2,
-    stageSize.height / 2 - this.loadingText.height / 2)
-    this.loadingBar.graphics.clear()
-    this.loadingBar.graphics.drawRect(300, 320, 400 * this.curProgress * 0.01, 20, '#00868B')
-    if (this.curProgress < this.temProgress) {
-      this.curProgress++
-    }
-  }
-
-  // 清除进度条，显示游戏关卡画面
-  private clearLoadingPanel () {
-    this.loadingSprite.visible = false
-    Laya.timer.clear(this, this.updateLoadingPanel)
-    this.onLoaded()
-  }
-
   // 选择关卡界面
   private initSelection () {
     this.battleList = generateGameBattle()
@@ -351,31 +315,11 @@ class GameMain {
         battle.color = '#00868B'
         this.gameStart(index)
         this.selectionSprite.visible = false
-<<<<<<< HEAD
         this.loadingIcon.visible = false
-=======
-        console.log(this.selectionSprite.visible)
->>>>>>> c19dba6e6dad9e4132a90342b64d7ab5180c9b79
       })
       this.selectionSprite.addChild(battle)
       Laya.Tween.to(battle, {x: battle.x + 100, alpha: 1}, 900, Laya.Ease.elasticInOut, null, 200 + index * 100)
     })
-
-    // 小新移动出现
-    this.loadingIcon.clear()
-    this.loadingIcon = new Laya.Animation()
-    this.loadingIcon.interval = playerProp.animationInterval
-    this.loadingIcon.alpha = 0
-    this.loadingIcon.zOrder = 30
-    this.loadingIcon.play(0, true, playerProp.action.left1)
-    this.loadingIcon.x = stageSize.width / 2 + 300
-    this.loadingIcon.y = stageSize.height / 2 + 70
-    Laya.stage.addChild(this.loadingIcon)
-    Laya.Tween.to(this.loadingIcon, {x: this.loadingIcon.x - 300, alpha: 1}, 750, null,
-    Laya.Handler.create(this, () => {
-      this.loadingIcon.clear()
-      this.loadingIcon.loadImage('character2/character2_run2_0.png')
-    }))
   }
 }
 
