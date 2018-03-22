@@ -7,6 +7,7 @@ import { gameMain } from '../../index'
 
 // 障碍物基类
 export abstract class Block extends Base {
+  // 物体的类型： 静态static 动态animation
   public type: string
   public label: string = blockType.label.normal
   // 是否开启碰检
@@ -16,6 +17,7 @@ export abstract class Block extends Base {
     super(x, y, w, h)
     this.visible = false
   }
+  // 物体销毁
   public remove () {
     this.x = -9999
   }
