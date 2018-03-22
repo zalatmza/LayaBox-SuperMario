@@ -1,3 +1,4 @@
+import { Base } from '../object/base'
 import { stageSize, playerProp } from '../const'
 
 export class GameLoader extends Laya.Sprite {
@@ -45,12 +46,12 @@ export class GameLoader extends Laya.Sprite {
   }
 }
 
-export class LoadingIcon extends Laya.Sprite {
+export class LoadingIcon extends Base {
 
   private icon: Laya.Animation
 
   constructor () {
-    super()
+    super(0, 0, playerProp.width, playerProp.height)
     this.zOrder = 30
     this.icon = new Laya.Animation()
     this.icon.interval = playerProp.animationInterval
@@ -63,24 +64,27 @@ export class LoadingIcon extends Laya.Sprite {
     Laya.Animation.createFrames([
       'character1/character1_run1_1.png', 'character1/character1_run1_2.png',
       'character1/character1_run1_3.png', 'character1/character1_run1_4.png',
-      'character1/character1_run1_5.png', 'character1/character1_run1_6.png'], 'loadingAnime')
-    this.icon.play(0, true, 'loadingAnime')
-    this.x = stageSize.width / 2 - this.width / 2 - 50
-    this.y = stageSize.height / 2 - this.height / 2 - 130
+      'character1/character1_run1_5.png', 'character1/character1_run1_6.png'], playerProp.action.right2)
+    this.icon.play(0, true, playerProp.action.right2)
+    this.x = stageSize.width / 2 - this.width / 2 + 55
+    this.y = stageSize.height / 2 - this.height / 2 - 30
+    this.scaleX = 1
   }
 
   // 显示人物动画2
   public character2 () {
     this.icon.clear()
     this.alpha = 0
-    this.icon.play(0, true, playerProp.action.left1)
     this.x = stageSize.width / 2 + 300
     this.y = stageSize.height / 2 + 70
+    this.scaleX = -1
+    this.icon.play(0, true, playerProp.action.right1)
   }
 
   // 人物动画结束
   public end () {
     this.icon.clear()
-    this.icon.loadImage('character2/character2_run2_0.png')
+    this.scaleX = -1
+    this.icon.loadImage('character2/character2_run1_0.png')
   }
 }

@@ -29,13 +29,10 @@ export const playerProp = {
     advanced: 'ADVANCED'
   },
   action: {
-    left1: 'playerRunLeft1',
     right1: 'playerRunRight1',
-    left2: 'playerRunLeft2',
     right2: 'playerRunRight2',
     jump1: 'playerJump1',
     jump2: 'playerJump2',
-    attackLeft: 'playerAttackLeft',
     attackRight: 'playerAttackRight',
     toggleToNormal: 'playerToNormal',
     toggleToAdvanced: 'playerToAdvanced'

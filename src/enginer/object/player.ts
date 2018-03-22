@@ -137,12 +137,13 @@ export default class Player extends Base implements IAnimateBase {
   // 动感光波射击
   private shoot () {
     this.shooting = true
+    this.playAnimation(playerProp.action.attackRight, false)
     if (this.runDir === 1) {
-      this.playAnimation(playerProp.action.attackRight, false)
+      this.scaleX = 1
       gameMain.add(new Bullet(this.x + this.halfW + playerProp.bulletSize.width / 2 + this.speedX, this.y, this.runDir))
     }
     if (this.runDir === -1) {
-      this.playAnimation(playerProp.action.attackLeft, false)
+      this.scaleX = -1
       gameMain.add(new Bullet(this.x - this.halfW - playerProp.bulletSize.width / 2 - this.speedX, this.y, this.runDir))
     }
     this.body.interval = playerProp.animationInterval / 2
@@ -216,19 +217,20 @@ export default class Player extends Base implements IAnimateBase {
     // 左右移
     if ((left && right || !left && !right) && !this.shooting && !this.jumping && !this.togging) {
       this.initAction()
-    } else if (right) {
-      this.x = Math.min(this.x + this.speedX, stageSize.width - this.width)
-      this.runDir = 1
+    } else if (right || left) {
       // 播放动画
       this.status === playerProp.status.normal ? this.playAnimation(playerProp.action.right1) :
-                                            this.playAnimation(playerProp.action.right2)
-    } else if (left) {
-      this.x = Math.max(this.x - this.speedX, 0)
-      this.runDir = -1
-      // 播放动画
-      this.status === playerProp.status.normal ? this.playAnimation(playerProp.action.left1) :
-                                            this.playAnimation(playerProp.action.left2)
+      this.playAnimation(playerProp.action.right2)
+      if (right) {
+        this.x = Math.min(this.x + this.speedX, stageSize.width - this.width)
+        this.runDir = 1
+        this.scaleX = 1
+      } else if (left) {
+        this.x = Math.max(this.x - this.speedX, 0)
+        this.runDir = -1
+        this.scaleX = -1
       }
+    }
   }
 
   // 初始化角色动作
@@ -237,12 +239,12 @@ export default class Player extends Base implements IAnimateBase {
     this.body.clear()
     this.togging = false
     this.graphics.clear()
-    if (this.runDir === 1) {
-      this.status === playerProp.status.normal ? this.loadImage('character2/character2_run1_0.png') :
+    this.status === playerProp.status.normal ? this.loadImage('character2/character2_run1_0.png') :
                                           this.loadImage('character1/character1_run1_0.png')
+    if (this.runDir === 1) {
+      this.scaleX = 1
     } else if (this.runDir === -1) {
-      this.status === playerProp.status.normal ? this.loadImage('character2/character2_run2_0.png') :
-                                          this.loadImage('character1/character1_run2_0.png')
+      this.scaleX = -1
     }
   }
 
@@ -256,8 +258,7 @@ export default class Player extends Base implements IAnimateBase {
 
   // 播放动画
   private playAnimation (actionName, loop = true) {
-    if (this.actionName !== actionName || this.actionName === playerProp.action.attackRight ||
-        this.actionName === playerProp.action.attackLeft) {
+    if (this.actionName !== actionName || this.actionName === playerProp.action.attackRight) {
       this.graphics.clear()
       this.body.play(0, loop, actionName)
       this.body.pos(0, 0)

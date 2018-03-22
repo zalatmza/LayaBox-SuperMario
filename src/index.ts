@@ -28,7 +28,7 @@ class GameMain {
   *
   */
   private gameLoader: GameLoader
-  private loadingIcon: LoadingIcon
+  public loadingIcon: LoadingIcon
   /*
   * 关卡界面
   *
@@ -89,7 +89,7 @@ class GameMain {
     // Math.round(laya.utils.Browser.width * stageSize.height / laya.utils.Browser.height))
   }
 
-  private loadingIconEnter () {
+  public loadingIconEnter () {
     this.loadingIcon.character2()
     Laya.Tween.to(this.loadingIcon, {x: this.loadingIcon.x - 300, alpha: 1}, 750, null,
     Laya.Handler.create(this, () => {
@@ -294,8 +294,8 @@ class GameMain {
     title.strokeColor = '#ffffff'
     title.stroke = 10
     this.selectionSprite.addChild(title)
-    Laya.Tween.from(title, {x: title.x - 200, alpha: 0}, 900, Laya.Ease.elasticInOut)
     Laya.stage.addChild(this.selectionSprite)
+    Laya.Tween.from(title, {x: title.x - 200, alpha: 0}, 900, Laya.Ease.elasticInOut)
 
     this.battleList.forEach((item, index) => {
       const battle = new Laya.Text()
