@@ -4,7 +4,9 @@
 
 // https://layaair.ldc.layabox.com/api/?category=Core&class=laya.display.Sprite
 export abstract class Base extends Laya.Sprite {
+  // 高一半
   public halfH: number = 0
+  // 宽一半
   public halfW: number = 0
 
   constructor (x, y, w, h) {
@@ -18,8 +20,11 @@ export abstract class Base extends Laya.Sprite {
     this.halfH = this.height / 2
     // other
     this.zOrder = 10
+    // 基准点维物体中心
     this.pivot(this.halfW, this.halfH)
   }
+
+  // 返回构造函数名字
   get constructorName (): string {
     return this.constructor.name || ''
   }
