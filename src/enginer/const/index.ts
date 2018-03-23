@@ -93,7 +93,7 @@ export const monsterProperty = {
   monster1: {
     height: 63,
     width: 63,
-    speedX: 0,
+    speedX: 1,
     // 跳跃初速度
     initSpeedY: -25,
     // （假）重力加速度

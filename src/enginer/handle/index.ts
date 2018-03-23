@@ -71,7 +71,6 @@ class OperateBtns extends  Laya.Sprite {
       gameMain.selectionSprite.visible = true
       gameMain.loadingIcon.visible = true
       gameMain.loadingIconEnter()
-      console.log(gameMain.selectionSprite.getChildAt(0))
     })
     this.addChild(this.exitBtn)
   }

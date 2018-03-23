@@ -139,25 +139,32 @@ export default class Player extends Base implements IAnimateBase {
   // 动感光波射击
   private shoot () {
     this.shooting = true
-    let boomMoving = true
-    let bitem = null
+    // 子弹会移动
+    let buttetMoving = true
+    let bitem = {
+      x: 0,
+      halfW: 0
+    }
+
     // 检测发射时会不会撞到墙
     const gblength = gameMain.blockRenderList.length
     for (let i = this.runDir === 1 ? 0 : gblength - 1; this.runDir === 1 ? (i < gblength): (i >= 0); this.runDir === 1 ? (i++) : (i--)) {
       const item = gameMain.blockRenderList[i]
-      let tBullet = new Bullet(this.x + this.runDir * (this.halfW + playerProp.bulletSize.width / 2 + this.speedX), this.y, this.runDir)
+      const tBullet = new Bullet(this.x + this.runDir * (this.halfW + playerProp.bulletSize.width / 2 + this.speedX), this.y, this.runDir)
       const hitTpye = collisionCheck(tBullet, item)
       if (hitTpye !== -1 && item.constructorName !== tBullet.constructorName && item.constructorName !== 'Boom') {
-        boomMoving = false
-        tBullet = null
-        bitem = item
+        buttetMoving = false
+        bitem.x = item.x
+        bitem.halfW = item.halfW
+        tBullet.destroy()
         break
       }
+      tBullet.destroy()
     }
 
     this.scaleX = this.runDir
     this.playAnimation(playerProp.action.attackRight, false)
-    if (boomMoving) {
+    if (buttetMoving) {
       gameMain.add(new Bullet(this.x + this.runDir * (this.halfW + playerProp.bulletSize.width / 2 + this.speedX), this.y, this.runDir))
     } else {
       gameMain.add(new Boom(bitem.x - bitem.halfW * this.runDir, this.y))
@@ -239,11 +246,11 @@ export default class Player extends Base implements IAnimateBase {
       this.status === playerProp.status.normal ? this.playAnimation(playerProp.action.right1) :
       this.playAnimation(playerProp.action.right2)
       if (right) {
-        this.x = Math.min(this.x + this.speedX, stageSize.width - this.width)
+        this.x = Math.min(this.x + this.speedX, stageSize.width - this.halfW)
         this.runDir = 1
         this.scaleX = this.runDir
       } else if (left) {
-        this.x = Math.max(this.x - this.speedX, 0)
+        this.x = Math.max(this.x - this.speedX, this.halfW)
         this.runDir = -1
         this.scaleX = this.runDir
       }

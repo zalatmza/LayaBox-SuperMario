@@ -23,7 +23,7 @@ export abstract class Block extends Base {
   }
   // 物体销毁
   public remove () {
-    this.x = -9999
+    this.graphics.clear()
     this.isUnUse = true
     this.visible = false
   }

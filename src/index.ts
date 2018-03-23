@@ -242,7 +242,7 @@ class GameMain {
     // X轴
     if (this.stageX >= gameSize.width) {
       this.stageX = gameSize.width
-      this.player.x = Math.min(this.player.x, stageSize.width - this.player.width)
+      this.player.x = Math.min(this.player.x, stageSize.width - this.player.halfW)
     } else {
       if (this.player.x > stageSize.width / 2) {
         bgXOffset = Math.min(this.player.x - prePlayerX, this.player.x - stageSize.width / 2)
