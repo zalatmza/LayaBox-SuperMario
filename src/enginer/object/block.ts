@@ -9,9 +9,13 @@ import { gameMain } from '../../index'
 export abstract class Block extends Base {
   // 物体的类型： 静态static 动态animation
   public type: string
-  public label: string = blockType.label.normal
+
   // 是否开启碰检
   public isCarsh: boolean = true
+  public isCarshWithPlayer = true
+
+  // 是否还有用
+  public isUnUse: boolean = false
 
   constructor (x, y, w, h) {
     super(x, y, w, h)
@@ -20,6 +24,8 @@ export abstract class Block extends Base {
   // 物体销毁
   public remove () {
     this.x = -9999
+    this.isUnUse = true
+    this.visible = false
   }
 }
 
@@ -137,9 +143,12 @@ export class Floor extends SBlock {
 export abstract class ABlock extends Block implements IAnimateBase {
   protected body: Laya.Animation
   public runDir: 1 | -1 = 1
-  public speedX: number
+  public speedX: number = 0
   public speedY: number = 0
-  public acce: number
+  public acce: number = 0
+
+  // 是否边缘检测
+  public marginCheck: boolean = true
 
   constructor (x, y, w, h) {
     super(x, y, w, h)
@@ -178,8 +187,16 @@ export abstract class ABlock extends Block implements IAnimateBase {
   }
 }
 
+// 怪物
+abstract class AMBlock extends ABlock {
+  public isMonster = true
+  constructor (x, y, w, h) {
+    super (x, y, w, h)
+  }
+}
+
 // 怪物1
-export class Monster1 extends ABlock {
+export class Monster1 extends AMBlock {
   constructor (x, y) {
     super (x, y, monsterProperty.monster1.width, monsterProperty.monster1.height)
     this.speedX = monsterProperty.monster1.speedX
@@ -198,7 +215,7 @@ export class Monster1 extends ABlock {
   }
 
   crashRight (item) {
-    if (item.constructor.__proto__.name !== 'ABlock') {
+    if (item.type === blockType.static) {
       // 和固定障碍物碰撞
       this.x = item.x - item.halfW - this.halfW
       this.runDir = -1
@@ -206,7 +223,7 @@ export class Monster1 extends ABlock {
   }
 
   crashLeft (item) {
-    if (item.constructor.__proto__.name !== 'ABlock') {
+    if (item.type === blockType.static) {
       // 和固定障碍物碰撞
       this.x = item.x + item.halfW + this.halfW
       this.runDir = 1
@@ -214,7 +231,7 @@ export class Monster1 extends ABlock {
   }
 
   crashDown (item) {
-    if (item.constructor.__proto__.name !== 'ABlock') {
+    if (item.type === blockType.static) {
       const newY = item.y - item.halfH - this.halfH
       this.y = Math.max(0, Math.min(this.y, newY))
       if (this.y === newY) {
@@ -234,7 +251,8 @@ export class Bullet extends ABlock {
   constructor (x, y, dir) {
     super (x, y, playerProp.bulletSize.width, playerProp.bulletSize.height)
     this.speedX = playerProp.bulletSize.speedX
-    this.label = blockType.label.bullet
+    this.marginCheck = false
+    this.isCarshWithPlayer = false
     this.runDir = dir
     this.initAnimation()
     this.playAnimation(playerProp.bulletSize.action.right)
@@ -255,42 +273,72 @@ export class Bullet extends ABlock {
   }
 
   boom () {
-    this.isCarsh = false
-    this.width = playerProp.bulletSize.boomWidth
-    this.height = playerProp.bulletSize.boomHeight
-    this.speedX = 0
-    this.body.pos(this.halfW, - this.halfH)
+    gameMain.add(new Boom(this.x + this.halfW * this.runDir, this.y))
+    this.remove()
+  }
+
+  crashRight (item) {
+    if (item.constructorName !== this.constructorName && item.constructorName !== 'Boom') {
+      this.x = item.x - item.halfW - this.halfW
+      this.boom()
+      this.remove()
+    }
+  }
+
+  crashLeft (item) {
+    if (item.constructorName !== this.constructorName && item.constructorName !== 'Boom') {
+      this.x = item.x + item.halfW + this.halfW
+      this.boom()
+      this.remove()
+    }
+  }
+
+  crashDown (item) {
+    //
+  }
+
+  crashUp (item) {
+    //
+  }
+}
+
+export class Boom extends ABlock {
+  constructor (x, y) {
+    super (x, y, playerProp.bulletSize.boomWidth,  playerProp.bulletSize.boomHeight)
+    this.marginCheck = false
+    this.isCarshWithPlayer = false
+    this.initAnimation()
+    this.body.pos((playerProp.bulletSize.boomWidth - playerProp.bulletSize.boomImgWidth) / 2, (playerProp.bulletSize.boomHeight - playerProp.bulletSize.boomImgHeight) / 2)
     this.body.on(Laya.Event.COMPLETE, this, () => {
       this.remove()
     })
     this.playAnimation(playerProp.bulletSize.action.boom, false)
   }
-
-  crashRight (item) {
-    if (item.constructor.__proto__.name !== 'ABlock') {
-      this.x = item.x - item.halfW - this.halfW
-      this.boom()
-    } else {
-      item.remove()
-      this.boom()
-    }
+  protected initAnimation () {
+    this.initBody()
+  }
+  move () {
+    //
   }
 
   crashLeft (item) {
-    if (item.constructor.__proto__.name !== 'ABlock') {
-      this.x = item.x + item.halfW + this.halfW
-      this.boom()
-    } else {
+    if (item.isMonster) {
       item.remove()
-      this.boom()
     }
   }
-
-  crashDown (item) {
-   //
+  crashRight (item) {
+    if (item.isMonster) {
+      item.remove()
+    }
   }
-
+  crashDown (item) {
+    if (item.isMonster) {
+      item.remove()
+    }
+  }
   crashUp (item) {
-    // console.log('MONSTER1 up')
+    if (item.isMonster) {
+      item.remove()
+    }
   }
 }

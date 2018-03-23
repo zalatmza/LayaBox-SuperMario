@@ -160,6 +160,9 @@ class GameMain {
     })
     // 进行碰撞检测
     this.blockRenderList.forEach((item, index) => {
+      if (item.isUnUse) {
+        this.blockRenderList.splice(index, 1)
+      }
       if (item.visible && item.isCarsh) {
         const hitType = collisionCheck(this.player, item)
         switch (hitType) {
@@ -201,7 +204,7 @@ class GameMain {
               }
             }
           })
-          if (item.label === blockType.label.normal) {
+          if (item.marginCheck) {
             item.runDir *= isTurn ? -1 : 1
           }
         }
@@ -351,11 +354,7 @@ class GameMain {
         battle.color = '#00868B'
         this.gameStart(index)
         this.selectionSprite.visible = false
-<<<<<<< HEAD
         this.loadingIcon.visible = false
-=======
-        console.log(this.selectionSprite.visible)
->>>>>>> c19dba6e6dad9e4132a90342b64d7ab5180c9b79
       })
       this.selectionSprite.addChild(battle)
       Laya.Tween.to(battle, {x: battle.x + 100, alpha: 1}, 900, Laya.Ease.elasticInOut, null, 200 + index * 100)

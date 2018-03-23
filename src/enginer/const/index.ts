@@ -41,10 +41,12 @@ export const playerProp = {
     toggleToAdvanced: 'playerToAdvanced'
   },
   bulletSize: {
-    width: 10,
+    width: 138,
     height: 50,
-    boomWidth: 124,
-    boomHeight: 109,
+    boomWidth: 50,
+    boomHeight: 50,
+    boomImgWidth: 124,
+    boomImgHeight: 109,
     speedX: 12,
     maxX: 200,
     action: {
@@ -94,7 +96,7 @@ export const monsterProperty = {
   monster1: {
     height: 63,
     width: 63,
-    speedX: 1,
+    speedX: 0,
     // 跳跃初速度
     initSpeedY: -25,
     // （假）重力加速度
@@ -126,11 +128,7 @@ export const crashDir = {
 // 障碍物类型
 export const blockType = {
   animation: 'ANIMATION',
-  static: 'STATIC',
-  label: {
-    normal: 'NORMAL',
-    bullet: 'BULLET'
-  }
+  static: 'STATIC'
 }
 
 // 操作按钮

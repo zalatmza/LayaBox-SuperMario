@@ -49,8 +49,9 @@ function map1 () {
   pArray.push(new Pipe(1230, 400))
 
   const monsterArray = []
-  monsterArray.push(new Monster1(3500, 100))
-  monsterArray.push(new Monster1(1110, 100))
+  monsterArray.push(new Monster1(2000, 100))
+  // monsterArray.push(new Monster1(3500, 100))
+  // monsterArray.push(new Monster1(1110, 100))
 
   return [...pArray, ...fArray, ...bArray, ...gArray, ...monsterArray]
 }
@@ -97,10 +98,10 @@ function map2 () {
 function map3 () {
   // 地板
   const fArray = []
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 3; i++) {
     fArray.push(new Floor(blockSize.floorSize.width * i, 500))
   }
-
+  fArray.push(new Floor(blockSize.floorSize.width * 3, 450))
   // 水管
   const pArray = []
   pArray.push(new Pipe(500, 0))

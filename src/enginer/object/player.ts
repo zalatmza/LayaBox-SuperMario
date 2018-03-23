@@ -5,7 +5,8 @@ import { Base, IAnimateBase } from './base'
 import { playerProp, crashDir } from '../../enginer/const'
 import { blockType, gameSize, key, stageSize } from '../const'
 import { gameMain } from '../../index'
-import { Bullet } from './block'
+import { Bullet, Boom } from './block'
+import { collisionCheck } from '../common/utils'
 
 export default class Player extends Base implements IAnimateBase {
   // 身体动画
@@ -59,6 +60,7 @@ export default class Player extends Base implements IAnimateBase {
 
   // 处理碰撞检测
   public crashHandle (type, item) {
+    if (!item.isCarshWithPlayer) { return }
     if (type === crashDir.left) {
       this.crashLeft(item)
     } else if (type === crashDir.right) {
@@ -76,7 +78,7 @@ export default class Player extends Base implements IAnimateBase {
       (this.x + this.halfW > item.x - item.halfW) && item.remove()
     } else {
       // 和固定障碍物碰撞
-      if (item.constructor.__proto__.name === 'ABlock') {
+      if (item.isMonster) {
         this.die()
       } else {
         this.x = item.x - item.halfW - this.halfW
@@ -90,7 +92,7 @@ export default class Player extends Base implements IAnimateBase {
       (this.x - this.halfW < item.x + item.halfW) && item.remove()
     } else {
       // 和固定障碍物碰撞
-      if (item.constructor.__proto__.name === 'ABlock') {
+      if (item.isMonster) {
         this.die()
       } else {
         this.x = item.x + item.halfW + this.halfW
@@ -114,7 +116,7 @@ export default class Player extends Base implements IAnimateBase {
         }
       }
 
-      if (item.type === blockType.animation) {
+      if (item.isMonster) {
         // 消灭怪物
         item.remove()
       }
@@ -128,7 +130,7 @@ export default class Player extends Base implements IAnimateBase {
     } else {
       this.y = item.y + item.halfH + this.halfH
       this.speedY = 0
-      if (item.constructor.name === 'GiftBrick') {
+      if (item.constructorName === 'GiftBrick') {
         item.popupCoin()
       }
     }
@@ -137,13 +139,33 @@ export default class Player extends Base implements IAnimateBase {
   // 动感光波射击
   private shoot () {
     this.shooting = true
+    let boomMoving = true
+    let bitem = null
+    // 检测发射时会不会撞到墙
+    const gblength = gameMain.blockRenderList.length
+    for (let i = this.runDir === 1 ? 0 : gblength - 1; this.runDir === 1 ? (i < gblength): (i >= 0); this.runDir === 1 ? (i++) : (i--)) {
+      const item = gameMain.blockRenderList[i]
+      let tBullet = new Bullet(this.x + this.runDir * (this.halfW + playerProp.bulletSize.width / 2 + this.speedX), this.y, this.runDir)
+      const hitTpye = collisionCheck(tBullet, item)
+      if (hitTpye !== -1 && item.constructorName !== tBullet.constructorName && item.constructorName !== 'Boom') {
+        boomMoving = false
+        tBullet = null
+        bitem = item
+        break
+      }
+    }
+
     if (this.runDir === 1) {
       this.playAnimation(playerProp.action.attackRight, false)
-      gameMain.add(new Bullet(this.x + this.halfW + playerProp.bulletSize.width / 2 + this.speedX, this.y, this.runDir))
     }
     if (this.runDir === -1) {
       this.playAnimation(playerProp.action.attackLeft, false)
-      gameMain.add(new Bullet(this.x - this.halfW - playerProp.bulletSize.width / 2 - this.speedX, this.y, this.runDir))
+    }
+    if (boomMoving) {
+      gameMain.add(new Bullet(this.x + this.runDir * (this.halfW + playerProp.bulletSize.width / 2 + this.speedX), this.y, this.runDir))
+    } else {
+      gameMain.add(new Boom(bitem.x - bitem.halfW * this.runDir, this.y))
+      bitem = null
     }
     this.body.interval = playerProp.animationInterval / 2
   }
