@@ -69,6 +69,9 @@ class OperateBtns extends  Laya.Sprite {
     this.exitBtn.on(Laya.Event.MOUSE_UP, this, e => {
       gameMain.gameDestory()
       gameMain.selectionSprite.visible = true
+      gameMain.loadingIcon.visible = true
+      gameMain.loadingIconEnter()
+      console.log(gameMain.selectionSprite.getChildAt(0))
     })
     this.addChild(this.exitBtn)
   }

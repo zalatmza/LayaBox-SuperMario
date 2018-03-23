@@ -72,21 +72,6 @@ export function createFrames () {
     'character2/character2_run1_7.png', 'character2/character2_run1_8.png',
     'character2/character2_run1_9.png', 'character2/character2_run1_10.png',
     'character2/character2_run1_11.png', 'character2/character2_run1_12.png'], playerProp.action.right1)
-  Laya.Animation.createFrames([
-    'character2/character2_run2_1.png', 'character2/character2_run2_2.png',
-    'character2/character2_run2_3.png', 'character2/character2_run2_4.png',
-    'character2/character2_run2_5.png', 'character2/character2_run2_6.png',
-    'character2/character2_run2_7.png', 'character2/character2_run2_8.png',
-    'character2/character2_run2_9.png', 'character2/character2_run2_10.png',
-    'character2/character2_run2_11.png', 'character2/character2_run2_12.png'], playerProp.action.left1)
-  Laya.Animation.createFrames([
-    'character1/character1_run1_1.png', 'character1/character1_run1_2.png',
-    'character1/character1_run1_3.png', 'character1/character1_run1_4.png',
-    'character1/character1_run1_5.png', 'character1/character1_run1_6.png'], playerProp.action.right2)
-  Laya.Animation.createFrames([
-    'character1/character1_run2_1.png', 'character1/character1_run2_2.png',
-    'character1/character1_run2_3.png', 'character1/character1_run2_4.png',
-    'character1/character1_run2_5.png', 'character1/character1_run2_6.png'], playerProp.action.left2)
   // 攻击
   Laya.Animation.createFrames([
       'character1_attack/character1_attack1_1.png', 'character1_attack/character1_attack1_2.png',
@@ -95,13 +80,6 @@ export function createFrames () {
       'character1_attack/character1_attack1_7.png', 'character1_attack/character1_attack1_8.png',
       'character1_attack/character1_attack1_9.png', 'character1_attack/character1_attack1_10.png'],
     playerProp.action.attackRight)
-  Laya.Animation.createFrames([
-      'character1_attack/character1_attack2_1.png', 'character1_attack/character1_attack2_2.png',
-      'character1_attack/character1_attack2_3.png', 'character1_attack/character1_attack2_4.png',
-      'character1_attack/character1_attack2_5.png', 'character1_attack/character1_attack2_6.png',
-      'character1_attack/character1_attack2_7.png', 'character1_attack/character1_attack2_8.png',
-      'character1_attack/character1_attack2_9.png', 'character1_attack/character1_attack2_10.png'],
-    playerProp.action.attackLeft)
   // 跳跃
   Laya.Animation.createFrames([
     'character2_jump/character2_jump1_1.png', 'character2_jump/character2_jump1_2.png',

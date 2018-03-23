@@ -39,8 +39,8 @@
                 "h": 110,
                 "idx": 0,
                 "w": 90,
-                "x": 0,
-                "y": 222
+                "x": 91,
+                "y": 0
             },
             "sourceSize": {
                 "h": 110,
@@ -57,7 +57,7 @@
                 "idx": 0,
                 "w": 90,
                 "x": 91,
-                "y": 0
+                "y": 111
             },
             "sourceSize": {
                 "h": 110,
@@ -73,8 +73,8 @@
                 "h": 110,
                 "idx": 0,
                 "w": 90,
-                "x": 91,
-                "y": 111
+                "x": 182,
+                "y": 0
             },
             "sourceSize": {
                 "h": 110,
@@ -90,8 +90,8 @@
                 "h": 110,
                 "idx": 0,
                 "w": 90,
-                "x": 91,
-                "y": 222
+                "x": 273,
+                "y": 0
             },
             "sourceSize": {
                 "h": 110,
@@ -108,125 +108,6 @@
                 "idx": 0,
                 "w": 90,
                 "x": 182,
-                "y": 0
-            },
-            "sourceSize": {
-                "h": 110,
-                "w": 90
-            },
-            "spriteSourceSize": {
-                "x": 0,
-                "y": 0
-            }
-        },
-        "character1_run2_0.png": {
-            "frame": {
-                "h": 110,
-                "idx": 0,
-                "w": 90,
-                "x": 182,
-                "y": 111
-            },
-            "sourceSize": {
-                "h": 110,
-                "w": 90
-            },
-            "spriteSourceSize": {
-                "x": 0,
-                "y": 0
-            }
-        },
-        "character1_run2_1.png": {
-            "frame": {
-                "h": 110,
-                "idx": 0,
-                "w": 90,
-                "x": 182,
-                "y": 222
-            },
-            "sourceSize": {
-                "h": 110,
-                "w": 90
-            },
-            "spriteSourceSize": {
-                "x": 0,
-                "y": 0
-            }
-        },
-        "character1_run2_2.png": {
-            "frame": {
-                "h": 110,
-                "idx": 0,
-                "w": 90,
-                "x": 273,
-                "y": 0
-            },
-            "sourceSize": {
-                "h": 110,
-                "w": 90
-            },
-            "spriteSourceSize": {
-                "x": 0,
-                "y": 0
-            }
-        },
-        "character1_run2_3.png": {
-            "frame": {
-                "h": 110,
-                "idx": 0,
-                "w": 90,
-                "x": 364,
-                "y": 0
-            },
-            "sourceSize": {
-                "h": 110,
-                "w": 90
-            },
-            "spriteSourceSize": {
-                "x": 0,
-                "y": 0
-            }
-        },
-        "character1_run2_4.png": {
-            "frame": {
-                "h": 110,
-                "idx": 0,
-                "w": 90,
-                "x": 273,
-                "y": 111
-            },
-            "sourceSize": {
-                "h": 110,
-                "w": 90
-            },
-            "spriteSourceSize": {
-                "x": 0,
-                "y": 0
-            }
-        },
-        "character1_run2_5.png": {
-            "frame": {
-                "h": 110,
-                "idx": 0,
-                "w": 90,
-                "x": 273,
-                "y": 222
-            },
-            "sourceSize": {
-                "h": 110,
-                "w": 90
-            },
-            "spriteSourceSize": {
-                "x": 0,
-                "y": 0
-            }
-        },
-        "character1_run2_6.png": {
-            "frame": {
-                "h": 110,
-                "idx": 0,
-                "w": 90,
-                "x": 364,
                 "y": 111
             },
             "sourceSize": {
