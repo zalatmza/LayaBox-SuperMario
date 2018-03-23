@@ -141,10 +141,7 @@ export default class Player extends Base implements IAnimateBase {
     this.shooting = true
     // 子弹会移动
     let buttetMoving = true
-    let bitem = {
-      x: 0,
-      halfW: 0
-    }
+    let bitem = null
 
     // 检测发射时会不会撞到墙
     const gblength = gameMain.blockRenderList.length
@@ -154,8 +151,7 @@ export default class Player extends Base implements IAnimateBase {
       const hitTpye = collisionCheck(tBullet, item)
       if (hitTpye !== -1 && item.constructorName !== tBullet.constructorName && item.constructorName !== 'Boom') {
         buttetMoving = false
-        bitem.x = item.x
-        bitem.halfW = item.halfW
+        bitem = item
         tBullet.destroy()
         break
       }
@@ -168,8 +164,8 @@ export default class Player extends Base implements IAnimateBase {
       gameMain.add(new Bullet(this.x + this.runDir * (this.halfW + playerProp.bulletSize.width / 2 + this.speedX), this.y, this.runDir))
     } else {
       gameMain.add(new Boom(bitem.x - bitem.halfW * this.runDir, this.y))
-      bitem = null
     }
+    bitem = null
     this.body.interval = playerProp.animationInterval / 2
   }
 
