@@ -1,0 +1,314 @@
+{
+    "frames": {
+        "character1_toggle1.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 160,
+                "x": 0,
+                "y": 0
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 160
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_toggle10.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 160,
+                "x": 161,
+                "y": 0
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 160
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_toggle11.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 160,
+                "x": 322,
+                "y": 0
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 160
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_toggle12.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 160,
+                "x": 483,
+                "y": 0
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 160
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_toggle13.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 160,
+                "x": 0,
+                "y": 111
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 160
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_toggle14.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 160,
+                "x": 161,
+                "y": 111
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 160
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_toggle15.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 160,
+                "x": 322,
+                "y": 111
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 160
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_toggle16.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 160,
+                "x": 483,
+                "y": 111
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 160
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_toggle17.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 160,
+                "x": 0,
+                "y": 222
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 160
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_toggle18.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 160,
+                "x": 0,
+                "y": 333
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 160
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_toggle2.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 160,
+                "x": 0,
+                "y": 444
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 160
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_toggle3.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 160,
+                "x": 161,
+                "y": 222
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 160
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_toggle4.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 160,
+                "x": 322,
+                "y": 222
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 160
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_toggle5.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 160,
+                "x": 483,
+                "y": 222
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 160
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_toggle6.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 160,
+                "x": 161,
+                "y": 333
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 160
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_toggle7.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 160,
+                "x": 161,
+                "y": 444
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 160
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_toggle8.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 160,
+                "x": 322,
+                "y": 333
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 160
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_toggle9.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 160,
+                "x": 483,
+                "y": 333
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 160
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        }
+    },
+    "meta": {
+        "image": "character1_toggle.png",
+        "prefix": "character1_toggle/"
+    }
+}

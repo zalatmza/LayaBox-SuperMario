@@ -1,0 +1,110 @@
+{
+    "frames": {
+        "character1_jump1_1.png": {
+            "frame": {
+                "h": 106,
+                "idx": 0,
+                "w": 73,
+                "x": 98,
+                "y": 0
+            },
+            "sourceSize": {
+                "h": 106,
+                "w": 73
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_jump1_2.png": {
+            "frame": {
+                "h": 110,
+                "idx": 0,
+                "w": 90,
+                "x": 92,
+                "y": 112
+            },
+            "sourceSize": {
+                "h": 110,
+                "w": 90
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_jump1_3.png": {
+            "frame": {
+                "h": 111,
+                "idx": 0,
+                "w": 91,
+                "x": 0,
+                "y": 112
+            },
+            "sourceSize": {
+                "h": 111,
+                "w": 91
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_jump1_4.png": {
+            "frame": {
+                "h": 111,
+                "idx": 0,
+                "w": 97,
+                "x": 0,
+                "y": 0
+            },
+            "sourceSize": {
+                "h": 111,
+                "w": 97
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_jump1_5.png": {
+            "frame": {
+                "h": 94,
+                "idx": 0,
+                "w": 80,
+                "x": 172,
+                "y": 0
+            },
+            "sourceSize": {
+                "h": 94,
+                "w": 80
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character1_jump1_6.png": {
+            "frame": {
+                "h": 94,
+                "idx": 0,
+                "w": 80,
+                "x": 183,
+                "y": 95
+            },
+            "sourceSize": {
+                "h": 94,
+                "w": 80
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        }
+    },
+    "meta": {
+        "image": "character1_jump.png",
+        "prefix": "character1_jump/"
+    }
+}

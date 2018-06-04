@@ -4,7 +4,7 @@ const config = require('./')
 // 这里的变量将被所有环境共享.
 const base = {
   // 程序名称.
-  APPNAME: JSON.stringify('Laya'),
+  APPNAME: JSON.stringify('SuperMario'),
 
   // 构建时间.
   BUILD_TIME: JSON.stringify(new Date().getTime()),

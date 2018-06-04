@@ -1,0 +1,59 @@
+{
+    "frames": {
+        "character2_jump1_1.png": {
+            "frame": {
+                "h": 86,
+                "idx": 0,
+                "w": 67,
+                "x": 0,
+                "y": 0
+            },
+            "sourceSize": {
+                "h": 86,
+                "w": 67
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character2_jump1_2.png": {
+            "frame": {
+                "h": 76,
+                "idx": 0,
+                "w": 74,
+                "x": 68,
+                "y": 0
+            },
+            "sourceSize": {
+                "h": 76,
+                "w": 74
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        },
+        "character2_jump1_3.png": {
+            "frame": {
+                "h": 85,
+                "idx": 0,
+                "w": 63,
+                "x": 143,
+                "y": 0
+            },
+            "sourceSize": {
+                "h": 85,
+                "w": 63
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0
+            }
+        }
+    },
+    "meta": {
+        "image": "character2_jump.png",
+        "prefix": "character2_jump/"
+    }
+}

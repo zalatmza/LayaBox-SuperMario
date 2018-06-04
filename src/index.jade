@@ -2,6 +2,7 @@ html
   head
     meta(charset="utf-8")
     title #{APPNAME}
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
     //- 当未开启注入模式时, 将在此引入 CSS 文件.
     if !INJECT
       each css in htmlWebpackPlugin.files.css
@@ -11,5 +12,7 @@ html
     //- 当未开启注入模式时，在此引入 JS 文件.
     if !INJECT
       div.script-requirement
+        script(src="/static/laya.core.js")
+        script(src="/static/laya.webgl.min.js")
         each chunk in htmlWebpackPlugin.files.chunks
           script(src=chunk.entry)
